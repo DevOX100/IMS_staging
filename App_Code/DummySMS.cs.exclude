@@ -1,0 +1,85 @@
+﻿using System;
+using System.Net;
+using System.Web;
+
+class SendUsingSMPP : System.Web.UI.Page
+{
+
+    protected void Page_Load(object sender, System.EventArgs e)
+    {
+        WebRequest WebRequest;
+        WebResponse WebResonse;
+        string Server = "";
+        string Port = "";
+        string UserName = "";
+        string Password = "";
+        int type = 0;
+        string Message = "Test Message";
+        Message = HttpUtility.UrlEncode(Message);
+        if (((Message == "2") || (Message == "6")))
+        {
+            Message = this.ConvertToUnicode(Message);
+        }
+
+        int DLR = 1;
+        string Source = "";
+        string Destination = "";
+        string WebResponseString = "";
+        string URL = ("http://"
+                    + (Server + (":"
+                    + (Port + ("/sendsms/bulksms?username="
+                    + (UserName + ("&password="
+                    + (Password + ("&type="
+                    + (type + ("&dlr="
+                    + (DLR + ("&destination="
+                    + (Destination + ("&source="
+                    + (Source + ("&message="
+                    + (Message + ""))))))))))))))))));
+        WebRequest = HttpWebRequest.Create(URL);
+        WebRequest.Timeout = 25000;
+        try
+        {
+            WebResonse = WebRequest.GetResponse();
+            System.IO.StreamReader reader = new System.IO.StreamReader(WebResonse.GetResponseStream());
+            WebResponseString = reader.ReadToEnd();
+            WebResonse.Close();
+            Response.Write(WebResponseString);
+        }
+        catch (Exception ex)
+        {
+            WebResponseString = "Request Timeout";
+            Response.Write(WebResponseString);
+        }
+
+    }
+
+    public string ConvertToUnicode(string str)
+    {
+        byte[] ArrayOFBytes = System.Text.Encoding.Unicode.GetBytes(str);
+        string UnicodeString = "";
+        int v;
+        for (v = 0; (v <= (ArrayOFBytes.Length - 1)); v++)
+        {
+            if (((v % 2) == 0))
+            {
+                int t = ArrayOFBytes[v];
+                ArrayOFBytes[v] = ArrayOFBytes[(v + 1)];
+                ArrayOFBytes[(v + 1)] = t;
+            }
+
+        }
+
+        for (v = 0; (v <= (ArrayOFBytes.Length - 1)); v++)
+        {
+            string c = Hex(ArrayOFBytes[v]);
+            if ((c.Length == 1))
+            {
+                c = ("0" + c);
+            }
+
+            UnicodeString = (UnicodeString + c);
+        }
+
+        return UnicodeString;
+    }
+}

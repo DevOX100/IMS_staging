@@ -1,0 +1,55 @@
+﻿using Spire.Pdf;
+using Spire.Pdf.Graphics;
+using System.Drawing;
+using Spire.Pdf.Utilities;
+
+namespace CompressFile
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Create a PdfDocument object
+            PdfDocument doc = new PdfDocument();
+
+            //Load a PDF file
+            doc.LoadFromFile(@"C:\Users\Administrator\Desktop\Document\PDF\sample.pdf");
+
+            //Disable incremental update
+            doc.FileInfo.IncrementalUpdate = false;
+
+            //Set the compression level to best
+            doc.CompressionLevel = PdfCompressionLevel.Best;
+
+            //Loop through the pages in the document
+            foreach (PdfPageBase page in doc.Pages)
+            {
+                //Create a PdfImageHelper object
+                PdfImageHelper helper = new PdfImageHelper();
+
+                //Get image information collection of a certain page
+                PdfImageInfo[] imagesInfo = helper.GetImagesInfo(page);
+
+                //Loop through the image information collection
+                foreach (PdfImageInfo imageInfo in imagesInfo)
+                {
+                    //Replace a certain image with the compressed image
+                    helper.ReplaceImage(imageInfo, CompressImage(imageInfo.Image));
+                }
+
+            }
+
+            //Save the document to a PDF file
+            doc.SaveToFile("output.pdf");
+            doc.Close();
+        }
+
+        //Compress an image by reducing the quality
+        private static PdfBitmap CompressImage(Image img)
+        {
+            PdfBitmap newImage = new PdfBitmap(img);
+            newImage.Quality = 10;
+            return newImage;
+        }
+    }
+}
