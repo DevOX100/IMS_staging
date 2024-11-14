@@ -1,0 +1,150 @@
+﻿using Org.BouncyCastle.Pqc.Crypto.Lms;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Inventory_PO_Form : System.Web.UI.Page
+{
+
+    Inventory_System ISS = new Inventory_System();
+    DataSet ds = new DataSet();
+    Encryption ec = new Encryption();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            string PoNumber = Request.QueryString["PONumber"];
+            lblPoNum.Text = ec.Decrypt(HttpUtility.UrlDecode(PoNumber));
+            BindGrid(lblPoNum.Text);
+
+
+
+            HoAddress.Text = "The Axis, BMC Chowk\r\nJalandhar, Punjab-144001\r\n";
+            lblTotalAmount.Text = GetTotalAmount() + " Rs/-";
+            PO_Amount.Text = GetTotalAmount() + " Rs/-";
+
+            txtTermsAndConditions.Text = "1. Material Delivery without relevant Test Certificates will not be accepted.\r\n" +
+                                         "2. XYZ\r\n" +
+                                         "3. ABC";
+        }
+    }
+
+    protected void BindGrid(string PoNumber)
+    {
+        string Pnumber = PoNumber;
+        ds = ISS.poDetails(Pnumber);
+
+        GridView1.DataSource = ds;
+        GridView1.DataBind();
+
+
+        var poDetails = ISS.poDetails(Pnumber);
+
+        if (poDetails != null)
+        {
+
+            PONumber.Text = poDetails.Tables[0].Rows[0]["PO_number"].ToString();
+            PO_Delivery_Date.Text = poDetails.Tables[0].Rows[0]["PO_Delivery_Date"].ToString();
+            poDateValue.Text = poDetails.Tables[0].Rows[0]["PO_Date"].ToString();
+        }
+
+        var PoAddresses = ISS.POAddresses(Pnumber);
+        if (PoAddresses != null)
+        {
+            VendorAddress.Text = PoAddresses.Tables[0].Rows[0]["vendorAddress"].ToString();
+            DelieveryAddress.Text = PoAddresses.Tables[0].Rows[0]["delieveryAddress"].ToString();
+        }
+    }
+
+    protected string ConvertNumberToWords(decimal number)
+    {
+        string[] units = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine" };
+        string[] teens = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+        string[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+
+        if (number == 0)
+            return "Zero";
+
+        string words = "";
+
+        if (number < 0)
+        {
+            words = "Minus ";
+            number = Math.Abs(number);
+        }
+
+        int integerPart = (int)number;
+        int decimalPart = (int)((number - integerPart) * 100);
+
+
+        if (integerPart > 0)
+        {
+            if (integerPart >= 1000000)
+            {
+                words += ConvertNumberToWords(integerPart / 1000000) + " Million ";
+                integerPart %= 1000000;
+            }
+
+            if (integerPart >= 1000)
+            {
+                words += ConvertNumberToWords(integerPart / 1000) + " Thousand ";
+                integerPart %= 1000;
+            }
+
+            if (integerPart >= 100)
+            {
+                words += ConvertNumberToWords(integerPart / 100) + " Hundred ";
+                integerPart %= 100;
+            }
+
+            if (integerPart > 0)
+            {
+                if (words != "")
+                    words += "And ";
+
+                if (integerPart < 10)
+                    words += units[integerPart];
+                else if (integerPart < 20)
+                    words += teens[integerPart - 10];
+                else
+                {
+                    words += tens[integerPart / 10];
+                    if ((integerPart % 10) > 0)
+                        words += "-" + units[integerPart % 10];
+                }
+            }
+        }
+
+
+        if (decimalPart > 0)
+        {
+            words += "And " + (decimalPart < 10 ? units[decimalPart] + " " : (decimalPart < 20 ? teens[decimalPart - 10] + " " : tens[decimalPart / 10] + (decimalPart % 10 > 0 ? "-" + units[decimalPart % 10] : ""))) + "Cents ";
+        }
+
+        return words.Trim();
+    }
+    protected string GetTotalAmount()
+    {
+        decimal totalAmount = 0;
+        foreach (GridViewRow row in GridView1.Rows)
+        {
+            decimal amount;
+            if (decimal.TryParse(row.Cells[4].Text, out amount))
+            {
+                totalAmount += amount;
+            }
+        }
+
+
+        string amountInWords = ConvertNumberToWords(totalAmount);
+
+
+        litPOAmount.Text = amountInWords + " Only/-";
+
+        return totalAmount.ToString();
+    }
+}

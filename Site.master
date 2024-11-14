@@ -1,0 +1,146 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title>Midland Microfin Ltd</title>
+    <%--<link rel="icon" type="image/png" href="logo.png" />--%>
+    <link rel="icon" type="image/png" href="images/invlogo.png" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+  <%--  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>--%>
+   <%-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>--%>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="Styles/Site.css" rel="stylesheet" type="text/css" />
+    <script src="../FusionCharts/FusionCharts.js" type="text/javascript"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.css" rel="stylesheet" type="text/css" />
+   
+
+    <style type="text/css">
+        .body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial;
+        }
+
+        .modal
+        {
+            position:fixed;
+            top:0;left:0;
+            z-index:1050;
+            display:none;
+            width:100%;
+            height:100%;
+            overflow:hidden;
+            outline:0;
+
+        }
+
+        .center {
+            z-index: 1000;
+            /*margin: 300px auto;*/
+            margin: 300px 400px 300px 380px;
+            padding: 10px;
+            width: 118px;
+            background-color: White;
+            border-radius: 10px;
+            filter: alpha(opacity=100);
+            opacity: 1;
+            -moz-opacity: 1;
+            text-align: center;
+            vertical-align: bottom;
+        }
+
+            .center img {
+                height: 120px;
+                width: 100px;
+            }
+
+        .header {
+            position: unset;
+            margin: 0px;
+            padding: 0px;
+            background: #4b6c9e;
+            width: 100%;
+            min-height: 85px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+    </style>
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+        <div class="limiter">
+            <div class="header">
+                <div class="title">
+                    <table>
+                        <tr>
+                            <td align="center">
+                                <asp:Image ID="ImgLogo" runat="server" ImageUrl="~/Styles/midlandmicrofin.jpg" />
+                            </td>
+                            <td valign="top">
+                                <h1>Inventory Management System &nbsp;</h1>
+                                <div style="vertical-align: text-top">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <asp:Label ID="Label2" runat="server" Text="" ForeColor="White"> </asp:Label>
+                                </div>
+
+
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="loginDisplay">
+                    <asp:Label ID="Label1" runat="server" Text="Label"> </asp:Label>
+
+                    [
+                <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click">LogIn</asp:LinkButton>
+                    ]
+               <br />
+              <asp:Label ID="Label3" runat="server" Text="Label"> </asp:Label>
+                </div>
+
+            </div>
+
+            <div class="clear hideSkiplink" style="font-size: 1.1em; font-variant: small-caps;">
+                <asp:Menu ID="menuBar" runat="server" CssClass="menu" IncludeStyleBlock="false" Orientation="Horizontal" PersistenceMode="Session">
+                </asp:Menu>
+            </div>
+            <div class="main">
+                <asp:UpdateProgress ID="UpdateProgress1"
+                    AssociatedUpdatePanelID="Update" runat="server">
+                    <ProgressTemplate>
+                        <div class="modal">
+                            <div class="center">
+                                <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/loading.gif" AlternateText="...Wait..." Width="80px" Height="80px" ViewStateMode="Disabled" />
+                            </div>
+
+
+                        </div>
+                    </ProgressTemplate>
+                </asp:UpdateProgress>
+                <asp:UpdatePanel ID="Update" runat="server">
+
+                    <ContentTemplate>
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+       <%-- <div class="footer">
+            <font color="Black" size="2">  Contact Mail Id :</font>itsupport@midlandmicrofin.com &nbsp;    <font color="Black" size="2">  Contact No : 0181-5091552 </font>
+        </div>--%>
+
+
+    </form>
+</body>
+</html>
