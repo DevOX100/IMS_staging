@@ -300,6 +300,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                             DropDownList ddlComplaintType = (DropDownList)gvDamageproduct.Rows[i].FindControl("ddlComplaintType");
                             DropDownList ddlProductType = (DropDownList)gvDamageproduct.Rows[i].FindControl("ddlProductType");
                             DropDownList ddlProductName = (DropDownList)gvDamageproduct.Rows[i].FindControl("ddlProductName");
+                            DropDownList ddlStockCheck = (DropDownList)gvDamageproduct.Rows[i].FindControl("ddlStockCheck");
                             Label product = (Label)gvDamageproduct.Rows[i].FindControl("lblProduct");
                             Label productID = (Label)gvDamageproduct.Rows[i].FindControl("lblProductID");
                             Label ProductType = (Label)gvDamageproduct.Rows[i].FindControl("lblproductType");
@@ -355,7 +356,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                                     return;
                                 }
                             }
-
+                            string brnachAvailable= ddlStockCheck.SelectedItem.Text;
                             bool isCreationDateValid = DateTime.TryParse(creationDateText, out creationDate);
                             bool isWarrantyDateValid = DateTime.TryParse(warrantyDateText, out warrantyDate);
                             string productType1 = ddlProductType.SelectedValue;
@@ -388,7 +389,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                                 {
 
                                     ISS.insertDamageStock(DamageApprovedBY, RequestQty, complaint, productType, productName, DamagedImage, LoanID
-                                    , name, branch, spouseName, mobile, CustID, ProdID);
+                                    , name, branch, spouseName, mobile, CustID, ProdID, brnachAvailable);
                                     ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Damaged product details have been saved!', 'success');", true);
                                     BindGrid();
                                 }
@@ -407,7 +408,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                             {
 
                                 ISS.insertDamageStock(DamageApprovedBY, RequestQty, complaint, productType, productName, DamagedImage, LoanID
-                                , name, branch, spouseName, mobile, CustID, ProdID);
+                                , name, branch, spouseName, mobile, CustID, ProdID, brnachAvailable);
                                 ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Damaged product details have been saved!', 'success');", true);
                                 BindGrid();
                             }

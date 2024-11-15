@@ -57,54 +57,54 @@
             .form label:hover {
                 background-color: #e0e0e0;
             }
-               /* Loading Screen Styling */
-   #loadingScreen {
-       position: fixed;
-       width: 100%;
-       height: 100%;
-       top: 0;
-       left: 0;
-       background: rgba(255, 255, 255, 0.8);
-       z-index: 1000;
-       display: none;
-       justify-content: center;
-       align-items: center;
-   }
+        /* Loading Screen Styling */
+        #loadingScreen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
 
-   .spinner {
-       border: 4px solid rgba(0, 0, 0, 0.1);
-       border-left-color: #3a4f63;
-       border-radius: 50%;
-       width: 40px;
-       height: 40px;
-       animation: spin 1s linear infinite;
-   }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #3a4f63;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
 
-   @keyframes spin {
-       to {
-           transform: rotate(360deg);
-       }
-   }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
-     <script type="text/javascript">
+    <script type="text/javascript">
 
-     function showLoading() {
-         document.getElementById("loadingScreen").style.display = "flex";
-     }
+        function showLoading() {
+            document.getElementById("loadingScreen").style.display = "flex";
+        }
 
-     function hideLoading() {
-         document.getElementById("loadingScreen").style.display = "none";
-         var checkboxes = document.querySelectorAll("#<%= gvDamageproduct.ClientID %> input[type='checkbox']");
-         checkboxes.forEach(function (checkbox) {
-             checkbox.checked = false;
-         });
-     }
-     </script>
+        function hideLoading() {
+            document.getElementById("loadingScreen").style.display = "none";
+            var checkboxes = document.querySelectorAll("#<%= gvDamageproduct.ClientID %> input[type='checkbox']");
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="content2" ContentPlaceHolderID="MainContent" runat="Server">
     <div id="loadingScreen">
-     <div class="spinner"></div>
- </div>
+        <div class="spinner"></div>
+    </div>
     <div class="card">
         <div class="card-header bold h4 text-white" style="background-color: #3a4f63">
             Customer CPP Escalation
@@ -117,7 +117,7 @@
                     <div class="input-group">
                         <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" AutoPostBack="true" placeholder="Search By Customer ID" ValidationGroup="ABC"></asp:TextBox>
                         <div class="input-group-append">
-                            <asp:Button ID="btnSearch" runat="server" Text="Submit" CssClass="btn btn-primary" ValidationGroup="ABC" OnClientClick="showLoading();"  OnClick="btnSearch_Click" />
+                            <asp:Button ID="btnSearch" runat="server" Text="Submit" CssClass="btn btn-primary" ValidationGroup="ABC" OnClientClick="showLoading();" OnClick="btnSearch_Click" />
                         </div>
                     </div>
                 </div>
@@ -232,7 +232,7 @@
                                 <asp:TemplateField HeaderText="Product Complaints">
                                     <ItemTemplate>
 
-                                        <asp:DropDownList ID="ddlComplaintType" AutoPostBack="true" CssClass="form-control border border-dark" runat="server" >
+                                        <asp:DropDownList ID="ddlComplaintType" AutoPostBack="true" CssClass="form-control border border-dark" runat="server">
                                         </asp:DropDownList>
                                         <asp:RequiredFieldValidator ID="rfvComplaintType" Enabled="false" runat="server" ControlToValidate="ddlComplaintType" ErrorMessage="Kindly select the Complaint" ForeColor="red"
                                             Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
@@ -240,10 +240,23 @@
                                     </ItemTemplate>
 
                                 </asp:TemplateField>
-         
+                                <asp:TemplateField HeaderText="Is Stock Available">
+                                    <ItemTemplate>
+
+                                        <asp:DropDownList ID="ddlStockCheck" AutoPostBack="true" CssClass="form-control border border-dark" runat="server">
+                                            <asp:ListItem Value="0" Text="Select Field"></asp:ListItem>
+                                            <asp:ListItem Value="1" Text="Yes"></asp:ListItem>
+                                            <asp:ListItem Value="2" Text="No"></asp:ListItem>
+
+                                        </asp:DropDownList>
+                                        
+                                    </ItemTemplate>
+
+                                </asp:TemplateField>
+
                                 <asp:TemplateField HeaderText="Action" HeaderStyle-Width="5px">
                                     <ItemTemplate>
-                                        <asp:CheckBox ID="chkAction" runat="server" AutoPostBack="true"  OnCheckedChanged="chkAction_CheckedChanged" />
+                                        <asp:CheckBox ID="chkAction" runat="server" AutoPostBack="true" OnCheckedChanged="chkAction_CheckedChanged" />
                                     </ItemTemplate>
                                     <FooterTemplate>
                                         <asp:UpdatePanel ID="UpdatePO" runat="server">

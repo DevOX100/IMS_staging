@@ -927,9 +927,10 @@ public DataSet BindOrderStatus(string Status , string BranchCode, string HOLogin
     }
 
     public DataSet insertDamageStock(string Is_DamageProduct_ReceivedBY, int IS_Damage_stock_Quantity, string IS_Damage_ProductComplaint, string IS_Damage_Product_Type,
- string IS_Damage_Product_Name, string IS_Damage_Image, string Loan_ID, string IS_Name, string IS_Branch, string IS_SpouseName, string IS_MobileNO, string Is_CustID, string IS_Product)
+ string IS_Damage_Product_Name, string IS_Damage_Image, string Loan_ID, string IS_Name, string IS_Branch, string IS_SpouseName,
+ string IS_MobileNO, string Is_CustID, string IS_Product, string IS_AvailableStockInBranch)
     {
-        param = new SqlParameter[13];
+        param = new SqlParameter[14];
         param[0] = new SqlParameter("@Is_DamageProduct_ReceivedBY", Is_DamageProduct_ReceivedBY);
         param[1] = new SqlParameter("@IS_Damage_stock_Quantity", IS_Damage_stock_Quantity);
         param[2] = new SqlParameter("@IS_Damage_ProductComplaint", IS_Damage_ProductComplaint);
@@ -943,6 +944,7 @@ public DataSet BindOrderStatus(string Status , string BranchCode, string HOLogin
         param[10] = new SqlParameter("@IS_MobileNO", IS_MobileNO);
         param[11] = new SqlParameter("@Is_CustID", Is_CustID);
         param[12] = new SqlParameter("@IS_ProductID", IS_Product);
+        param[13] = new SqlParameter("@IS_AvailableStockInBranch", IS_AvailableStockInBranch);
 
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_insertDamageStock", param);
     }
