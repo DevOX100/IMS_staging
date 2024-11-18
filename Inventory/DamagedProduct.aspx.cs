@@ -32,7 +32,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
     protected void BindGrid()
     {
         string IS_CustID = txtSearch.Text;
-
+        string userCode=Session["UserCode"].ToString();
 
         DataSet ds = ISS.GetDamagedStock(IS_CustID);
 

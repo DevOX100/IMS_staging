@@ -240,7 +240,7 @@
                                     </ItemTemplate>
 
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Is Stock Available">
+                                <asp:TemplateField HeaderText="Is Stock Available in Brnach">
                                     <ItemTemplate>
 
                                         <asp:DropDownList ID="ddlStockCheck" AutoPostBack="true" CssClass="form-control border border-dark" runat="server">
@@ -261,7 +261,7 @@
                                     <FooterTemplate>
                                         <asp:UpdatePanel ID="UpdatePO" runat="server">
                                             <ContentTemplate>
-                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" OnClientClick="showLoading();" CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Approved</asp:LinkButton>
+                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" OnClientClick="showLoading();" CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Submit</asp:LinkButton>
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:PostBackTrigger ControlID="lnkApprove" />

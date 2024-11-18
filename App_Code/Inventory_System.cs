@@ -1259,4 +1259,58 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
      con.Close();
      return dt;
  }
+    public DataSet INV_CPPEscalations(string UserCode , string RegionCode, string BranchID)
+    {
+        param = new SqlParameter[3];
+        param[0] = new SqlParameter("@UserCode", UserCode);
+        param[1] = new SqlParameter("@RegionCode", RegionCode);
+        param[2] = new SqlParameter("@branchID", BranchID);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_CPPEscalations", param);
+    }
+    public DataSet INV_InsertEscalations(string EM_CustID
+           , string EM_Name
+           , string EM_DamageProduct_ReceivedBY
+           , string EM_SpouseName
+           , string EM_MobileNO
+           , int EM_Damage_stock_Quantity
+           , string EM_Damage_Product_Type
+           , string EM_Damage_Product_Name
+           , string EM_Damage_ProductComplaint
+           , DateTime EM_Damage_ProductComplaint_date
+           , string EM_AvailableStockInBranch
+           , string EM_ProductComplaintbyHO
+           , string EM_Remarks
+           
+           , 
+        string EM_ActionTakenBY,
+         int EM_IssueID, string EM_LoanID)
+    {
+        param = new SqlParameter[16];
+        param[0] = new SqlParameter("@EM_CustID", EM_CustID);
+        param[1] = new SqlParameter("@EM_Name", EM_Name);
+        param[2] = new SqlParameter("@EM_DamageProduct_ReceivedBY", EM_DamageProduct_ReceivedBY);
+        param[3] = new SqlParameter("@EM_SpouseName", EM_SpouseName);
+        param[4] = new SqlParameter("@EM_MobileNO", EM_MobileNO);
+        param[5] = new SqlParameter("@EM_Damage_stock_Quantity", EM_Damage_stock_Quantity);
+        param[6] = new SqlParameter("@EM_Damage_Product_Type", EM_Damage_Product_Type);
+        param[7] = new SqlParameter("@EM_Damage_Product_Name", EM_Damage_Product_Name);
+        param[8] = new SqlParameter("@EM_Damage_ProductComplaint", EM_Damage_ProductComplaint);
+        param[9] = new SqlParameter("@EM_Damage_ProductComplaint_date", EM_Damage_ProductComplaint_date);
+        param[10] = new SqlParameter("@EM_AvailableStockInBranch", EM_AvailableStockInBranch);
+        param[11] = new SqlParameter("@EM_ProductComplaintbyHO", EM_ProductComplaintbyHO);
+        param[12] = new SqlParameter("@EM_Remarks", EM_Remarks);
+        param[13] = new SqlParameter("@EM_ActionTakenBY", EM_ActionTakenBY);
+        param[14] = new SqlParameter("@EM_IssueID", EM_IssueID);
+        param[15] = new SqlParameter("@EM_LoanID", EM_LoanID);
+
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_InsertEscalations", param);
+    }
+    public DataSet INV_Reject_Escalation(int IssueID, string ActionTakenBy, string EM_Remarks)
+    {
+        param = new SqlParameter[3];
+        param[0] = new SqlParameter("@EM_IssueID", IssueID);
+        param[1] = new SqlParameter("@EM_ActionTakenBY", ActionTakenBy);
+        param[2] = new SqlParameter("@EM_Remarks", EM_Remarks);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_Reject_Escalation", param);
+    }
 }
