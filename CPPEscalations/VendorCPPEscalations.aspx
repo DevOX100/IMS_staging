@@ -238,7 +238,7 @@
                                             Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                         <br />
                                         <asp:DropDownList ID="ddlCLosure" runat="server" AutoPostBack="true" CssClass="form-control border border-dark" ValidationGroup="ABC">
-                                            <asp:ListItem Value="0" Text="Select">
+                                            <asp:ListItem Value="0" Text="Select Closure Type">
                                             </asp:ListItem>
                                             <asp:ListItem Value="1" Text="Repaired">
                                             </asp:ListItem>

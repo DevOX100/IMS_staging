@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Cmp;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -275,17 +276,34 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                         string StatusRemarks = Status.SelectedItem.Text;
                         string ClosureRemarks = Closure.SelectedItem.Text;
 
-                        if (string.IsNullOrEmpty(ClosureRemarks))
+                        if (Closure.SelectedValue == "0")
                         {
                             ClosureRemarks = null;
                         }
-                        ISS.INV_CPPVendorActioned(ID, EM_ActionTakenBY, finalRemarks, TechVisitRemarks, ClosureRemarks, StatusRemarks , productID);
-
+                        if (Closure.SelectedValue != "1" && Closure.SelectedValue != "2")
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error', 'Please select Closure Type from the dropdown', 'error');", true);
+                            return;
+                        }
+                        
+                        else
+                        { 
+                            if(string.IsNullOrEmpty(finalRemarks))
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error', 'Please Enter Remarks', 'error');", true);
+                                return;
+                            }
+                            else
+                            {
+                                ISS.INV_CPPVendorActioned(ID, EM_ActionTakenBY, finalRemarks, TechVisitRemarks, ClosureRemarks, StatusRemarks, productID);
+                            }
+                            
+                        }
                     }
 
                 }
                 ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
-                BindGrid();
+                BindGrid2();
 
             }
 
@@ -296,44 +314,18 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
 
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        //if (e.Row.RowType == DataControlRowType.DataRow)
-        //{
-        //    DropDownList status = (DropDownList)e.Row.FindControl("ddlStatus");
-        //    DropDownList Closure = (DropDownList)e.Row.FindControl("ddlCLosure");
-         
-        //        Closure.Enabled = false;
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            DropDownList status = (DropDownList)e.Row.FindControl("ddlStatus");
+            DropDownList Closure = (DropDownList)e.Row.FindControl("ddlCLosure");
 
-        //    TextBox Remarks = (TextBox)e.Row.FindControl("txtRemarks");
-        //    Label ProductID = (Label)e.Row.FindControl("lblProduct");
-        //    DropDownList TechVisit = (DropDownList)e.Row.FindControl("ddlTechVisit");
-        //    DropDownList Status = (DropDownList)e.Row.FindControl("ddlStatus");
-  
+            Closure.Enabled = false;
 
-        //    // Retrieve last submitted values (replace with actual data source or ViewState)
-        //    var lastSubmitted = GVConfirmEscalation.DataKeys[e.Row.RowIndex].Values["LastSubmitted"] as dynamic;
 
-        //    if (lastSubmitted != null)
-        //    {
-        //        // Bind the last submitted values
-        //        Remarks.Text = lastSubmitted.Remarks;
-        //        ProductID.Text = lastSubmitted.ProductID;
-        //        if (TechVisit != null && TechVisit.Items.FindByText(lastSubmitted.TechVisit) != null)
-        //            TechVisit.SelectedValue = TechVisit.Items.FindByText(lastSubmitted.TechVisit).Value;
 
-        //        if (Status != null && Status.Items.FindByText(lastSubmitted.Status) != null)
-        //            Status.SelectedValue = Status.Items.FindByText(lastSubmitted.Status).Value;
+            // Retrieve last submitted values (replace with actual data source or ViewState)
 
-        //        if (Closure != null && Closure.Items.FindByText(lastSubmitted.Closure) != null)
-        //            Closure.SelectedValue = Closure.Items.FindByText(lastSubmitted.Closure).Value;
-
-        //        // Set controls to read-only
-        //        Remarks.ReadOnly = true;
-        //        if (TechVisit != null) TechVisit.Enabled = false;
-        //        if (Status != null) Status.Enabled = false;
-        //        if (Closure != null) Closure.Enabled = false;
-        //    }
-        //}
-    
+        }
     }
 
     protected void ddlStatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -362,7 +354,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         CheckBox chkAction = sender as CheckBox;
         GridViewRow currentRow = chkAction.NamingContainer as GridViewRow;
         RequiredFieldValidator remarks = currentRow.FindControl("rfvRemarks") as RequiredFieldValidator;
-
+        
 
         RequiredFieldValidator TechVisit = currentRow.FindControl("rfvTechVisit") as RequiredFieldValidator;
         RequiredFieldValidator Status = currentRow.FindControl("rfvStatus") as RequiredFieldValidator;
@@ -372,8 +364,8 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         {
             remarks.Enabled = true;
             TechVisit.Enabled = true;
-            Status.Enabled = true; 
-      
+            Status.Enabled = true;
+          
 
         }
         else
