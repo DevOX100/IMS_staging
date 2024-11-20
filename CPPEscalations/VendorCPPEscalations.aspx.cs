@@ -68,11 +68,13 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
     {
         BindBranch();
         BindGrid();
+        BindGrid2();
     }
 
     protected void ddlBranch_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindGrid();
+        BindGrid2();
     }
 
 
