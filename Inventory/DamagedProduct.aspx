@@ -249,7 +249,8 @@
                                             <asp:ListItem Value="2" Text="No"></asp:ListItem>
 
                                         </asp:DropDownList>
-                                        
+                                         <asp:RequiredFieldValidator ID="rfvCheckStatus" Enabled="false" runat="server" ControlToValidate="ddlStockCheck" ErrorMessage="Kindly select" ForeColor="red"
+     Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                     </ItemTemplate>
 
                                 </asp:TemplateField>
@@ -261,7 +262,7 @@
                                     <FooterTemplate>
                                         <asp:UpdatePanel ID="UpdatePO" runat="server">
                                             <ContentTemplate>
-                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" OnClientClick="showLoading();" CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Submit</asp:LinkButton>
+                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server"  CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Submit</asp:LinkButton>
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:PostBackTrigger ControlID="lnkApprove" />

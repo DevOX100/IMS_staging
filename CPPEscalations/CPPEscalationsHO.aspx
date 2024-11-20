@@ -99,7 +99,7 @@
                     <asp:TemplateField HeaderText="Branch">
                         <ItemTemplate>
                             <asp:Label ID="lblBranchID" runat="server" Text='<%#Eval("Is_DamageProduct_ReceivedBY")%>'></asp:Label>
-
+                            <asp:Label ID="lblBrnach" Visible="false" runat="server" Text='<%#Eval("IS_Branch") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
 
@@ -120,7 +120,7 @@
                     <asp:TemplateField HeaderText="Product">
                         <ItemTemplate>
                             <asp:Label ID="lblProductName" runat="server" Text='<%#Eval("IS_Damage_Product_Name")%>'></asp:Label>
-
+                            <asp:Label ID="lblProduct" Visible="false" runat="server" Text='<%#Eval("IS_Product")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Product Complaint">

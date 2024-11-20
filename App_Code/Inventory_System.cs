@@ -1280,12 +1280,10 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
            , string EM_AvailableStockInBranch
            , string EM_ProductComplaintbyHO
            , string EM_Remarks
-           
-           , 
-        string EM_ActionTakenBY,
-         int EM_IssueID, string EM_LoanID)
+           ,string EM_ActionTakenBY,
+         int EM_IssueID, string EM_LoanID, string  Em_ProductID)
     {
-        param = new SqlParameter[16];
+        param = new SqlParameter[17];
         param[0] = new SqlParameter("@EM_CustID", EM_CustID);
         param[1] = new SqlParameter("@EM_Name", EM_Name);
         param[2] = new SqlParameter("@EM_DamageProduct_ReceivedBY", EM_DamageProduct_ReceivedBY);
@@ -1302,6 +1300,7 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[13] = new SqlParameter("@EM_ActionTakenBY", EM_ActionTakenBY);
         param[14] = new SqlParameter("@EM_IssueID", EM_IssueID);
         param[15] = new SqlParameter("@EM_LoanID", EM_LoanID);
+        param[16] = new SqlParameter("@Em_ProductID", Em_ProductID);
 
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_InsertEscalations", param);
     }
@@ -1312,5 +1311,34 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[1] = new SqlParameter("@EM_ActionTakenBY", ActionTakenBy);
         param[2] = new SqlParameter("@EM_Remarks", EM_Remarks);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_Reject_Escalation", param);
+    }  
+    public DataSet INV_CPPVendorConfirmation(int IssueID, string ActionTakenBy, string EM_Remarks)
+    {
+        param = new SqlParameter[3];
+        param[0] = new SqlParameter("@EM_IssueID", IssueID);
+        param[1] = new SqlParameter("@EM_ActionTakenBY", ActionTakenBy);
+        param[2] = new SqlParameter("@EM_Remarks", EM_Remarks);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_CPPVendorConfirmation", param);
+    }  
+    public DataSet INV_CPPVendorConfirmEscalations(string UserCode, string RegionCode, string BranchID)
+    {
+        param = new SqlParameter[3];
+        param[0] = new SqlParameter("@UserCode", UserCode);
+        param[1] = new SqlParameter("@RegionCode", RegionCode);
+        param[2] = new SqlParameter("@branchID", BranchID);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_CPPVendorConfirmEscalations", param);
     }
+    public DataSet INV_CPPVendorActioned(int IssueID, string ActionTakenBy, string EM_Remarks,string TechVisit,string closure,string Status,string productID)
+    {
+        param = new SqlParameter[7];
+        param[0] = new SqlParameter("@EM_IssueID", IssueID);
+        param[1] = new SqlParameter("@EM_ActionTakenBY", ActionTakenBy);
+        param[2] = new SqlParameter("@EM_Remarks", EM_Remarks);
+        param[3] = new SqlParameter("@TechVisit", TechVisit);
+        param[4] = new SqlParameter("@closure", closure);
+        param[5] = new SqlParameter("@Status", Status);
+        param[6] = new SqlParameter("@productID", productID);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_CPPVendorActioned", param);
+    }
+
 }

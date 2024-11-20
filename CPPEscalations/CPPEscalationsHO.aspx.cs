@@ -115,7 +115,7 @@ public partial class CPPEscalations_CPPEscalationsHO : System.Web.UI.Page
                         Label IS_Name = ((Label)GVEscalations.Rows[i].FindControl("lblCustomerName"));
                         Label IS_SpouseName = ((Label)GVEscalations.Rows[i].FindControl("lblSpouseName"));
                         Label IS_MobileNO = ((Label)GVEscalations.Rows[i].FindControl("lblMobileNo"));
-                        Label Is_DamageProduct_ReceivedBY = ((Label)GVEscalations.Rows[i].FindControl("lblBranchID"));
+                        Label Is_DamageProduct_ReceivedBY = ((Label)GVEscalations.Rows[i].FindControl("lblBrnach"));
                         Label IS_Damage_stock_Quantity = ((Label)GVEscalations.Rows[i].FindControl("lblQuantity"));
                         Label productType = ((Label)GVEscalations.Rows[i].FindControl("lblProductType"));
                         Label IS_Damage_Product_Name = ((Label)GVEscalations.Rows[i].FindControl("lblProductName"));
@@ -123,6 +123,7 @@ public partial class CPPEscalations_CPPEscalationsHO : System.Web.UI.Page
                         Label IS_Damage_ProductComplaint_date = ((Label)GVEscalations.Rows[i].FindControl("lblComplaintDate"));
                         Label IS_AvailableStockInBranch = ((Label)GVEscalations.Rows[i].FindControl("AvailabilityInBranch"));
                         Label LoandID = ((Label)GVEscalations.Rows[i].FindControl("lblLoandID"));
+                        Label ProductID = ((Label)GVEscalations.Rows[i].FindControl("lblProduct"));
                         // SumPOAmount += Convert.ToInt32(TotalPO.Text);
                         DropDownList ddlComplaintsby = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyHO"));
                         string loanID = LoandID.Text;
@@ -143,14 +144,18 @@ public partial class CPPEscalations_CPPEscalationsHO : System.Web.UI.Page
                         string finalRemarks = Remarks.Text;
 
                         string EM_ActionTakenBY = Session["UserCode"].ToString();
-                        //DateTime PO_Delivery_Date  = Convert.ToDateTime(txtpoDelDate.Text);
+                        string productID = ProductID.Text;
+                    
 
                         ISS.INV_InsertEscalations(CustID, Name, DamageProduct_ReceivedBY, SpouseName, MobileNO, Quantity, ProductType, Damage_Product_Name,
-                            Damage_ProductComplaint, Damage_ProductComplaint_date, AvailableStockInBranch, ComplaintsbyHO, finalRemarks, EM_ActionTakenBY, ID, loanID);
+                            Damage_ProductComplaint, Damage_ProductComplaint_date, AvailableStockInBranch, ComplaintsbyHO, finalRemarks,
+                            EM_ActionTakenBY, ID, loanID, productID);
+                       
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
                         BindGrid();
+                    
                     }
-
+                 
                 }
             }
 

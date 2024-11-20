@@ -422,7 +422,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                     }
                 }
             }
-            ScriptManager.RegisterStartupScript(this, GetType(), "hideLoading", "hideLoading();", true);
+           
         }
     }
 
@@ -435,6 +435,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
         RequiredFieldValidator rfvFileupload = currentRow.FindControl("rfvFileupload") as RequiredFieldValidator;
         RequiredFieldValidator ProductName = currentRow.FindControl("rfvProductName") as RequiredFieldValidator;
         RequiredFieldValidator ComplaintType = currentRow.FindControl("rfvComplaintType") as RequiredFieldValidator;
+        RequiredFieldValidator CheckStatus = currentRow.FindControl("rfvCheckStatus") as RequiredFieldValidator;
 
         if (chkAction.Checked && chkAction.Checked == true)
         {
@@ -443,6 +444,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
             rfvFileupload.Enabled = true;
             ProductName.Enabled = true;
             ComplaintType.Enabled = true;
+            CheckStatus.Enabled = true;
         }
         else
         {
@@ -451,6 +453,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
             rfvFileupload.Enabled = false;
             ProductName.Enabled = false;
             ComplaintType.Enabled = false;
+            CheckStatus.Enabled = false;
         }
     }
 }
