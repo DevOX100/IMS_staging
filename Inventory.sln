@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35323.107
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Inventory_Live(4)", ".", "{D4B6A4E5-BEAC-4871-80D7-A86D874C1909}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "IMS", ".", "{D4B6A4E5-BEAC-4871-80D7-A86D874C1909}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_54134"
-		Debug.AspNetCompiler.PhysicalPath = "..\Inventory_Live\"
+		Debug.AspNetCompiler.PhysicalPath = "..\IMS\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54134\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_54134"
-		Release.AspNetCompiler.PhysicalPath = "..\Inventory_Live\"
+		Release.AspNetCompiler.PhysicalPath = "..\IMS\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54134\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "54134"
-		SlnRelativePath = "..\Inventory_Live\"
+		SlnRelativePath = "..\IMS\"
 	EndProjectSection
 EndProject
 Global
