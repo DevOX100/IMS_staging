@@ -1340,5 +1340,16 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[6] = new SqlParameter("@productID", productID);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_CPPVendorActioned", param);
     }
-
+    public DataSet SelectStatus()
+    {
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.Text, "select distinct(IS_Esclation_status) from IssueStock");
+    }  
+    public DataSet ViewEscalation(string Region, string Branch, string Status)
+    {
+        param = new SqlParameter[3];
+        param[0] = new SqlParameter("@Region", Region);
+        param[1] = new SqlParameter("@Branch", Branch);
+        param[2] = new SqlParameter("@Status", Status);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "ViewEscalation", param);
+    }
 }

@@ -152,10 +152,9 @@ public partial class CPPEscalations_CPPEscalationsHO : System.Web.UI.Page
                             EM_ActionTakenBY, ID, loanID, productID);
                        
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
-                        BindGrid();
-                    
+                      
                     }
-                 
+                    BindGrid();
                 }
             }
 
