@@ -16,7 +16,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    # Step 1: Checkout code from repository
+    # Step 1: Checkout code
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -32,6 +32,10 @@ jobs:
     - name: Restore NuGet packages
       run: nuget restore ./IMS_staging.sln
 
-    # Step 5: Build the project
+    # Step 5: Build the solution
     - name: Build Solution
-      run: msbuild ./IMS_staging.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8
+      run: |
+        msbuild ./IMS_staging.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8 /verbosity:minimal
+
+    # Step 6: Test if needed
+    # Add testing steps if applicable

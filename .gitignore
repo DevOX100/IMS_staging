@@ -362,7 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 Packages/
-Web.config
+env.config
 Bin/
 
 
