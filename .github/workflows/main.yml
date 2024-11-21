@@ -30,8 +30,8 @@ jobs:
 
     # Step 4: Restore NuGet packages
     - name: Restore NuGet packages
-      run: nuget restore Inventory.sln
+      run: nuget restore IMS_staging.sln
 
     # Step 5: Build the project
     - name: Build Solution
-      run: msbuild Inventory.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8
+      run: msbuild IMS_staging.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8
