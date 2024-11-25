@@ -1,7 +1,4 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: CI for .NET Framework 4.8 with Build Artifacts
+name: CI for .NET Framework 4.8
 
 on:
   push:
@@ -13,34 +10,28 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    # Step 1: Checkout code
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Setup MSBuild
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.3
 
-    # Step 3: Setup NuGet
     - name: Setup NuGet
       uses: nuget/setup-nuget@v1.0.6
 
-    # Step 4: Restore NuGet packages
     - name: Restore NuGet packages
       run: nuget restore ./IMS_staging.sln
 
-    # Step 5: Build the solution
     - name: Build Solution
-      run: |
-        msbuild ./IMS_staging.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8 /verbosity:minimal
+      run: msbuild ./IMS_staging.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8
 
-    # Step 6: Archive the bin folder
-    - name: Archive Build Artifacts
-      run: |
-        Compress-Archive -Path ./IMS_staging/Bin/* -DestinationPath ./build-artifacts.zip
+    - name: List files in IMS_staging directory (for debugging)
+      run: dir ./IMS_staging
 
-    # Step 7: Upload the archived bin folder
-    - name: Upload Build Artifacts
+    - name: Create Artifact ZIP
+      run: Compress-Archive -Path ./IMS_staging/bin/* -DestinationPath ./build-artifacts.zip
+
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: build-artifacts
