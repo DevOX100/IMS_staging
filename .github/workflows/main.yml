@@ -1,13 +1,10 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: CI for .NET Framework 4.8
+name: CI for .NET Framework 4.8 with Build Artifacts
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
@@ -37,5 +34,14 @@ jobs:
       run: |
         msbuild ./IMS_staging.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8 /verbosity:minimal
 
-    # Step 6: Test if needed
-    # Add testing steps if applicable
+    # Step 6: Archive the bin folder
+    - name: Archive Build Artifacts
+      run: |
+        Compress-Archive -Path ./IMS_staging/bin/* -DestinationPath ./build-artifacts.zip
+
+    # Step 7: Upload the archived bin folder
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: ./build-artifacts.zip
