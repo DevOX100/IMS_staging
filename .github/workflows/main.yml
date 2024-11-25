@@ -25,11 +25,14 @@ jobs:
     - name: Build Solution
       run: msbuild ./IMS_staging.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.8
 
+    - name: List files in root directory (for debugging)
+      run: dir ${{ github.workspace }}
+
     - name: List files in IMS_staging directory (for debugging)
-      run: dir ./IMS_staging
+      run: dir ${{ github.workspace }}/IMS_staging
 
     - name: Create Artifact ZIP
-      run: Compress-Archive -Path ./IMS_staging/bin/* -DestinationPath ./build-artifacts.zip
+      run: Compress-Archive -Path ${{ github.workspace }}/IMS_staging/bin/* -DestinationPath ./build-artifacts.zip
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
