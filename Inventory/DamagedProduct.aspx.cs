@@ -270,7 +270,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                     chkCount++;
 
                   
-                    string validationGroup = "RowValidation" + i; 
+                    string validationGroup = "ABC" + i; 
                     Page.Validate(validationGroup);
 
                    

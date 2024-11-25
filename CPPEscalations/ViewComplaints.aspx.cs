@@ -45,6 +45,10 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
         { 
         status = "0";
         }
+        if(Session["LoginType"].ToString() == "B")
+        {
+            branch = Session["UserCOde"].ToString();
+        }
         ds =ISS.ViewEscalation(region, branch,status);
         GVViewEscalationns.DataSource = ds;
         GVViewEscalationns.DataBind();
@@ -75,8 +79,8 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
     {
         ds = ISS.SelectStatus();
         ddlStatus.DataSource = ds;
-        ddlStatus.DataTextField = "IS_Esclation_status";
-        ddlStatus.DataValueField = "IS_Esclation_status";
+        ddlStatus.DataTextField = "EM_Status";
+        ddlStatus.DataValueField = "EM_Status";
         ddlStatus.DataBind();
         ddlStatus.Items.Insert(0, new ListItem("Select", "0"));
     }
@@ -99,4 +103,47 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
 
     }
 
+
+    protected void GVViewEscalationns_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "View")
+        {
+            string issueID = e.CommandArgument.ToString();
+
+            // Fetch data from the database
+            DataSet ds = ISS.ViewEscalationDetails(issueID);
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow issueDetails = ds.Tables[0].Rows[0];
+
+                // Assign fetched values to modal labels, replacing null-propagating operator with explicit null check
+                lblProductType.Text = (issueDetails["EM_Damage_Product_Type"] != DBNull.Value) ? issueDetails["EM_Damage_Product_Type"].ToString() : "N/A";
+                lblAvailableStock.Text = (issueDetails["EM_AvailableStockInBranch"] != DBNull.Value) ? issueDetails["EM_AvailableStockInBranch"].ToString() : "N/A";
+                lblRemarks.Text = (issueDetails["EM_Remarks"] != DBNull.Value) ? issueDetails["EM_Remarks"].ToString() : "N/A";
+                lblComplaint.Text = (issueDetails["EM_Damage_ProductComplaint_date"] != DBNull.Value) ? issueDetails["EM_Damage_ProductComplaint_date"].ToString() : "N/A";
+                lblEscalation.Text = (issueDetails["EM_EscalationDate"] != DBNull.Value) ? issueDetails["EM_EscalationDate"].ToString() : "N/A";
+                lblVendorConfirmDate.Text = (issueDetails["EM_VendorConfirmDate"] != DBNull.Value) ? issueDetails["EM_VendorConfirmDate"].ToString() : "N/A";
+                lblEM_VendorRejectDate.Text = (issueDetails["EM_VendorRejectDate"] != DBNull.Value) ? issueDetails["EM_VendorRejectDate"].ToString() : "N/A";
+                lblEM_VendorStatusDate.Text = (issueDetails["EM_VendorStatusDate"] != DBNull.Value) ? issueDetails["EM_VendorStatusDate"].ToString() : "N/A";
+
+                // Trigger the modal using ScriptManager
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowModal", "$('#divModel_InvoiceDetails').modal('show');", true);
+            }
+            else
+            {
+                // Handle no data scenario
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "NoData", "alert('No details found for the selected issue.');", true);
+            }
+        }
+    }
+
+
+
+    //protected void btnClose_Click(object sender, EventArgs e)
+    //{
+    //    divModel_InvoiceDetails.Visible = false;
+    //    ScriptManager.RegisterStartupScript(this, this.GetType(), "open_Invoice", "setTimeout(function () {OpenNewPopUp('0','divModel_InvoiceDetails')}, 300);", true);
+
+    //}
 }

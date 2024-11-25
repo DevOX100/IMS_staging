@@ -111,10 +111,10 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                     {
                         CheckBox Approve = ((CheckBox)GVEscalations.Rows[i].FindControl("chkAction"));
                         int ID = Convert.ToInt32(GVEscalations.DataKeys[i]["Em_IssueID"].ToString());
-                       
+
                         TextBox Remarks = ((TextBox)GVEscalations.Rows[i].FindControl("txtUpperRemarks"));
                         string finalRemarks = Remarks.Text;
-                 
+
                         string EM_ActionTakenBY = Session["UserCode"].ToString();
 
 
@@ -168,7 +168,9 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
 
 
 
-                        ISS.INV_Reject_Escalation(ID, RejectedBY, VendorRemarks);
+                        ISS.INV_Reject_Escalation("", "Name", "DamageProduct_ReceivedBY", "SpouseName", "MobileNO", 1, "ProductType", "Damage_Product_Name",
+   "Damage_ProductComplaint", Convert.ToDateTime("01/01/1900"), "AvailableStockInBranch", "ComplaintsbyHO", VendorRemarks,
+   RejectedBY, ID, "loanID", "productID");
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'Rejected');", true);
                         BindGrid();
 
@@ -185,7 +187,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
 
     protected void GVEscalations_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-     
+
 
 
     }
@@ -199,17 +201,17 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         RequiredFieldValidator Remarks = currentRow.FindControl("rfvUpperRemarks") as RequiredFieldValidator;
 
 
-   
+
         if (chkAction.Checked && chkAction.Checked == true)
         {
             Remarks.Enabled = true;
-            
+
 
         }
         else
         {
             Remarks.Enabled = false;
-  
+
         }
 
     }
@@ -287,10 +289,10 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                             ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error', 'Please select Closure Type from the dropdown', 'error');", true);
                             return;
                         }
-                        
+
                         else
-                        { 
-                            if(string.IsNullOrEmpty(finalRemarks))
+                        {
+                            if (string.IsNullOrEmpty(finalRemarks))
                             {
                                 ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error', 'Please Enter Remarks', 'error');", true);
                                 return;
@@ -299,7 +301,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                             {
                                 ISS.INV_CPPVendorActioned(ID, EM_ActionTakenBY, finalRemarks, TechVisitRemarks, ClosureRemarks, StatusRemarks, productID);
                             }
-                            
+
                         }
                     }
 
@@ -333,7 +335,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
     protected void ddlStatus_SelectedIndexChanged(object sender, EventArgs e)
     {
 
-      
+
         DropDownList ddlStatus = (DropDownList)sender;
         GridViewRow row = (GridViewRow)ddlStatus.NamingContainer;
         DropDownList ddlClosure = (DropDownList)row.FindControl("ddlCLosure");
@@ -345,7 +347,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         else
         {
             ddlClosure.Enabled = false;
-            ddlClosure.SelectedValue = "0"; 
+            ddlClosure.SelectedValue = "0";
         }
 
 
@@ -356,7 +358,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         CheckBox chkAction = sender as CheckBox;
         GridViewRow currentRow = chkAction.NamingContainer as GridViewRow;
         RequiredFieldValidator remarks = currentRow.FindControl("rfvRemarks") as RequiredFieldValidator;
-        
+
 
         RequiredFieldValidator TechVisit = currentRow.FindControl("rfvTechVisit") as RequiredFieldValidator;
         RequiredFieldValidator Status = currentRow.FindControl("rfvStatus") as RequiredFieldValidator;
@@ -367,7 +369,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
             remarks.Enabled = true;
             TechVisit.Enabled = true;
             Status.Enabled = true;
-          
+
 
         }
         else
@@ -375,7 +377,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
             remarks.Enabled = false;
             TechVisit.Enabled = false;
             Status.Enabled = false;
-           
+
         }
     }
 }

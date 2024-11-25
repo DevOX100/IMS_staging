@@ -189,22 +189,51 @@ public partial class CPPEscalations_CPPEscalationsHO : System.Web.UI.Page
                     
                     if (((CheckBox)GVEscalations.Rows[i].FindControl("chkAction")).Checked)
                     {
-                        DropDownList ddlComplaintsby = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyHO"));
-                        int ID = Convert.ToInt32(GVEscalations.DataKeys[i]["Issued_ID"]);
-                        string ComplaintsbyHO = ddlComplaintsby.SelectedItem.Text;
-                        string RejectedBY = Session["UserCode"].ToString();
-                        if (ComplaintsbyHO == "Select Complaints")
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No One Selected!', 'Please select at least one!', 'error');", true);
-                            return;
-                        }
+                        int ID = Convert.ToInt32(GVEscalations.DataKeys[i]["Issued_ID"].ToString());
 
-                        else
-                        {
-                            ISS.INV_Reject_Escalation(ID, RejectedBY, ComplaintsbyHO);
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'Rejected');", true);
-                            BindGrid();
-                        }
+                        TextBox Remarks = ((TextBox)GVEscalations.Rows[i].FindControl("txtRemarks"));
+                        Label IS_CustID = ((Label)GVEscalations.Rows[i].FindControl("lblCustID"));
+                        Label IS_Name = ((Label)GVEscalations.Rows[i].FindControl("lblCustomerName"));
+                        Label IS_SpouseName = ((Label)GVEscalations.Rows[i].FindControl("lblSpouseName"));
+                        Label IS_MobileNO = ((Label)GVEscalations.Rows[i].FindControl("lblMobileNo"));
+                        Label Is_DamageProduct_ReceivedBY = ((Label)GVEscalations.Rows[i].FindControl("lblBrnach"));
+                        Label IS_Damage_stock_Quantity = ((Label)GVEscalations.Rows[i].FindControl("lblQuantity"));
+                        Label productType = ((Label)GVEscalations.Rows[i].FindControl("lblProductType"));
+                        Label IS_Damage_Product_Name = ((Label)GVEscalations.Rows[i].FindControl("lblProductName"));
+                        Label IS_Damage_ProductComplaint = ((Label)GVEscalations.Rows[i].FindControl("lblProductComplaint"));
+                        Label IS_Damage_ProductComplaint_date = ((Label)GVEscalations.Rows[i].FindControl("lblComplaintDate"));
+                        Label IS_AvailableStockInBranch = ((Label)GVEscalations.Rows[i].FindControl("AvailabilityInBranch"));
+                        Label LoandID = ((Label)GVEscalations.Rows[i].FindControl("lblLoandID"));
+                        Label ProductID = ((Label)GVEscalations.Rows[i].FindControl("lblProduct"));
+                        // SumPOAmount += Convert.ToInt32(TotalPO.Text);
+                        DropDownList ddlComplaintsby = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyHO"));
+                        string loanID = LoandID.Text;
+
+                        string CustID = IS_CustID.Text;
+
+                        string Name = IS_Name.Text;
+                        string SpouseName = IS_SpouseName.Text;
+                        string MobileNO = IS_MobileNO.Text;
+                        string DamageProduct_ReceivedBY = Is_DamageProduct_ReceivedBY.Text;
+                        int Quantity = Convert.ToInt32(IS_Damage_stock_Quantity.Text);
+                        string ProductType = productType.Text;
+                        string Damage_Product_Name = IS_Damage_Product_Name.Text;
+                        string Damage_ProductComplaint = IS_Damage_ProductComplaint.Text;
+                        DateTime Damage_ProductComplaint_date = Convert.ToDateTime(IS_Damage_ProductComplaint_date.Text);
+                        string AvailableStockInBranch = IS_AvailableStockInBranch.Text;
+                        string ComplaintsbyHO = ddlComplaintsby.SelectedItem.Text;
+                        string finalRemarks = Remarks.Text;
+
+                        string EM_ActionTakenBY = Session["UserCode"].ToString();
+                        string productID = ProductID.Text;
+
+
+                        ISS.INV_Reject_Escalation(CustID, Name, DamageProduct_ReceivedBY, SpouseName, MobileNO, Quantity, ProductType, Damage_Product_Name,
+                            Damage_ProductComplaint, Damage_ProductComplaint_date, AvailableStockInBranch, ComplaintsbyHO, finalRemarks,
+                            EM_ActionTakenBY, ID, loanID, productID);
+
+                        ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
+
                     }
                 }
 
