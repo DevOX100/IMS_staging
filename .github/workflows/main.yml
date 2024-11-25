@@ -37,7 +37,7 @@ jobs:
     # Step 6: Archive the bin folder
     - name: Archive Build Artifacts
       run: |
-        Compress-Archive -Path ./IMS_staging/bin/* -DestinationPath ./build-artifacts.zip
+        Compress-Archive -Path ./IMS_staging/Bin/* -DestinationPath ./build-artifacts.zip
 
     # Step 7: Upload the archived bin folder
     - name: Upload Build Artifacts
