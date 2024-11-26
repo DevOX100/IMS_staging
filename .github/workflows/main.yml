@@ -43,7 +43,7 @@ jobs:
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.IMSKEY }}
 
     - name: Deploy to IIS Server
       run: |
