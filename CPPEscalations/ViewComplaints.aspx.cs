@@ -6,6 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Controls;
+using CheckBox = System.Web.UI.WebControls.CheckBox;
+using Label = System.Web.UI.WebControls.Label;
 
 
 public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
@@ -23,7 +26,17 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                 lblBranch.Visible = false;
                 Region.Visible = false;
             }
-         
+            else
+            {
+                GVViewEscalationns.Columns[12].Visible = false;
+                GVViewEscalationns.Columns[13].Visible = false;
+              
+                ddlBranch.Visible = true;
+                ddlRegion.Visible = true;
+                lblBranch.Visible = true;
+                Region.Visible = true;
+            }
+            
             BindStatus();
             BindRegion();
             BindGrid();
@@ -45,15 +58,21 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
         { 
         status = "0";
         }
-        if(Session["LoginType"].ToString() == "B")
-        {
-            branch = Session["UserCOde"].ToString();
-        }
-        ds =ISS.ViewEscalation(region, branch,status);
+        string userCode= Session["UserCode"].ToString();
+        ds =ISS.ViewEscalation(region, branch,status, userCode);
         GVViewEscalationns.DataSource = ds;
         GVViewEscalationns.DataBind();
+        
 
     }
+    //private void RemoveLastGridColumn()
+    //{
+    //    int lastIndex = GVViewEscalationns.Columns.Count - 1; 
+    //    if (lastIndex >= 0)
+    //    {
+    //        GVViewEscalationns.Columns.RemoveAt(lastIndex); 
+    //    }
+    //}
     protected void BindRegion()
     {
         ds = ISS.RegionDetail();
@@ -126,6 +145,12 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                 lblVendorConfirmDate.Text = (issueDetails["EM_VendorConfirmDate"] != DBNull.Value) ? issueDetails["EM_VendorConfirmDate"].ToString() : "N/A";
                 lblEM_VendorRejectDate.Text = (issueDetails["EM_VendorRejectDate"] != DBNull.Value) ? issueDetails["EM_VendorRejectDate"].ToString() : "N/A";
                 lblEM_VendorStatusDate.Text = (issueDetails["EM_VendorStatusDate"] != DBNull.Value) ? issueDetails["EM_VendorStatusDate"].ToString() : "N/A";
+                lblEM_VendorTechVisit.Text = (issueDetails["EM_TechnicianVisit"] != DBNull.Value) ? issueDetails["EM_TechnicianVisit"].ToString() : "N/A";
+                lblEM_VendorClosure.Text = (issueDetails["EM_VendorclosureType"] != DBNull.Value) ? issueDetails["EM_VendorclosureType"].ToString() : "N/A";
+                lblEM_Confirmation.Text = (issueDetails["EM_BranchComplaint_Confirmation"] != DBNull.Value) ? issueDetails["EM_BranchComplaint_Confirmation"].ToString() : "N/A";
+                lblEM_ProductDelivery.Text = (issueDetails["EM_BranchProduct_delivery"] != DBNull.Value) ? issueDetails["EM_BranchProduct_delivery"].ToString() : "N/A";
+                lblEM_ConfirmationDate.Text = (issueDetails["EM_BranchConfirmation_Date"] != DBNull.Value) ? issueDetails["EM_BranchConfirmation_Date"].ToString() : "N/A";
+                lblEM_ProductDeliveryDate.Text = (issueDetails["EM_BranchProduct_DeliveryDate"] != DBNull.Value) ? issueDetails["EM_BranchProduct_DeliveryDate"].ToString() : "N/A";
 
                 // Trigger the modal using ScriptManager
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowModal", "$('#divModel_InvoiceDetails').modal('show');", true);
@@ -136,7 +161,75 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "NoData", "alert('No details found for the selected issue.');", true);
             }
         }
-    }
+        else
+        {
+            int chkCount = 0;
+            for (int i = 0; i < GVViewEscalationns.Rows.Count; i++)
+            {
+                if (((CheckBox)GVViewEscalationns.Rows[i].FindControl("chkAction")).Checked)
+                {
+                    chkCount++;
+                }
+            }
+            if (chkCount == 0)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No One Checked!', 'Please choose at least one!', 'error');", true);
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < GVViewEscalationns.Rows.Count; i++)
+                {
+                    if (((CheckBox)GVViewEscalationns.Rows[i].FindControl("chkAction")).Checked)
+                    {
+                        Label lblEM_IssueID = ((Label)GVViewEscalationns.Rows[i].FindControl("lblEMIssueID"));
+                        int ID = Convert.ToInt32(lblEM_IssueID.Text);
+                        DropDownList ddlclosure = ((DropDownList)GVViewEscalationns.Rows[i].FindControl("ddlCLosure"));
+                        DropDownList ddlstatus = ((DropDownList)GVViewEscalationns.Rows[i].FindControl("ddlStatus"));
+                        string closure = ddlclosure.SelectedItem.Text;
+                        string status = ddlstatus.SelectedItem.Text;
+                        if (ddlclosure.Enabled == true)
+                        { 
+                            if(ddlclosure.SelectedValue == "0")
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No Closure Selected!', 'Please Provide your confirmation!', 'error');", true);
+                                return;
+                            }
+                            else
+                            {
+                                //if(ddlstatus.SelectedValue =="1" && ddlclosure.SelectedValue == "0")
+                                //{
+                                //    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No Closure Selected!', 'Please choose a Status of delivery!', 'error');", true);
+                                //    return;
+
+                                //}
+                                //else
+                                //{
+                                if (ddlstatus.SelectedValue == "0")
+                                {
+                                    status = "No Value Provided";
+                                }
+                                   
+                                    ISS.insertBranchfeedback(closure, status, ID);
+                                   ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Success!', 'Status Updated Successfully!', 'success');", true);
+                                    BindGrid();
+                                //}
+                            }
+
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Vendor Has not closed this complaint!', 'error');", true);
+                            return;
+
+                        }
+                       
+                       
+                    }
+                }
+            }
+        }
+    }           
 
 
 
@@ -146,4 +239,53 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
     //    ScriptManager.RegisterStartupScript(this, this.GetType(), "open_Invoice", "setTimeout(function () {OpenNewPopUp('0','divModel_InvoiceDetails')}, 300);", true);
 
     //}
+
+    protected void chkAction_CheckedChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void GVViewEscalationns_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            DropDownList status = (DropDownList)e.Row.FindControl("ddlStatus");
+            DropDownList Closure = (DropDownList)e.Row.FindControl("ddlCLosure");
+            Label Status= (Label)e.Row.FindControl("lblStatus");
+
+            
+
+            if(Status.Text == "Closed")
+            {
+                status.Enabled = true;
+                Closure.Enabled = true;
+            }
+            else
+            {
+                status.Enabled = false;
+                Closure.Enabled = false;
+            }
+            status.Enabled = false;
+            // Retrieve last submitted values (replace with actual data source or ViewState)
+
+        }
+    }
+    protected void ddlCLosure_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DropDownList ddlClosure = (DropDownList)sender;
+        GridViewRow row = (GridViewRow)ddlClosure.NamingContainer;
+        DropDownList ddlStatus = (DropDownList)row.FindControl("ddlStatus");
+
+        if (ddlClosure.SelectedValue == "1")
+        {
+            ddlStatus.Enabled = true;
+        }
+        else
+        {
+            ddlStatus.Enabled = false;
+            ddlStatus.SelectedValue = "0";
+        }
+    }
+
+ 
 }

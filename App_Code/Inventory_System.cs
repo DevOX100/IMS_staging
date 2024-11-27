@@ -1372,12 +1372,13 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
     {
         return ds = SqlHelper.ExecuteDataset(con, CommandType.Text, "select distinct(EM_Status) from EscalationMaster");
     }  
-    public DataSet ViewEscalation(string Region, string Branch, string Status)
+    public DataSet ViewEscalation(string Region, string Branch, string Status, string userCode)
     {
-        param = new SqlParameter[3];
+        param = new SqlParameter[4];
         param[0] = new SqlParameter("@Region", Region);
         param[1] = new SqlParameter("@Branch", Branch);
         param[2] = new SqlParameter("@Status", Status);
+        param[3] = new SqlParameter("@userCode", userCode);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "ViewEscalation", param);
     }
     public DataSet ViewEscalationDetails(string IssueID)
@@ -1385,5 +1386,13 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param = new SqlParameter[1];
         param[0] = new SqlParameter("@IssuedID", IssueID);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "ViewEscalationDetails", param);
+    }  
+    public DataSet insertBranchfeedback(string Closure, string status ,int IssueID)
+    {
+        param = new SqlParameter[3];
+        param[0] = new SqlParameter("@Closure", Closure);
+        param[1] = new SqlParameter("@status", status);
+        param[2] = new SqlParameter("@IssuedID", IssueID);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "insertBranchfeedback", param);
     }
 }

@@ -2,57 +2,72 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
 
-     <style type="text/css">
-     .successColor {
-         background-color: #1fa756;
-         border: medium none;
-         color: White;
-     }
+    <style type="text/css">
+        .successColor {
+            background-color: #1fa756;
+            border: medium none;
+            color: White;
+        }
 
-     .defaultColor {
-         background-color: white;
-         color: black;
-     }
+        .defaultColor {
+            background-color: white;
+            color: black;
+        }
+         .my-gridview th, .my-gridview td {
+     padding: 10px;
 
- </style>
+ }
+
+ .my-gridview th {
+     font-size: 16px;
+ }
+
+ .my-gridview td {
+     font-size: 15px;
+ }
+
+ .my-gridview .label {
+     font-size: 14px;
+ }
+    </style>
     <!-- Add jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Add Bootstrap JS -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Add Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-      <script type="text/javascript">
-          function OpenNewPopUp(val, id) {
-              // alert('Entered as a ' + val);
-              if (val == '1') {
-                  $('#' + id).show();
-                  setTimeout(function () {
-                      $('#' + id).show();
-                      $('#' + id).addClass('show');
-                      $('body').css('overflow', 'hidden');
-                      var elem = document.createElement('div');
-                      elem.className = "modal-backdrop show";
-                      //elem.style.cssText = "z-index:9999;";
-                      document.body.appendChild(elem);
-                  }, 300);
-              }
-              else {
-                  $('#' + id).removeClass('show');
-                  $('div[class*="modal-backdrop"]').remove();
-                  setTimeout(function () {
-                      $('#' + id).hide();
-                      $('body').css('overflow', 'auto');
-                  }, 100);
-              }
-          }
-      </script>
+    <script type="text/javascript">
+        function OpenNewPopUp(val, id) {
+            // alert('Entered as a ' + val);
+            if (val == '1') {
+                $('#' + id).show();
+                setTimeout(function () {
+                    $('#' + id).show();
+                    $('#' + id).addClass('show');
+                    $('body').css('overflow', 'hidden');
+                    var elem = document.createElement('div');
+                    elem.className = "modal-backdrop show";
+                    //elem.style.cssText = "z-index:9999;";
+                    document.body.appendChild(elem);
+                }, 300);
+            }
+            else {
+                $('#' + id).removeClass('show');
+                $('div[class*="modal-backdrop"]').remove();
+                setTimeout(function () {
+                    $('#' + id).hide();
+                    $('body').css('overflow', 'auto');
+                }, 100);
+            }
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
-  
+
     <div class="card">
         <div class="card-header bold h4 text-white" style="background-color: #3a4f63">
             View Complaints
@@ -80,7 +95,7 @@
                     </div>
 
                     <br />
-        
+
                     <br />
 
                     <br />
@@ -89,20 +104,20 @@
                         <div class="col">
                             <asp:Panel runat="server" frameborder="0" ScrollBars="Both" Align="Center">
 
-                                <asp:GridView ID="GVViewEscalationns" runat="server" CssClass="table table-bordered table-hover"
-                                     AutoGenerateColumns="False" GridLines="None" Font-Size="Medium" ForeColor="#333333"
-                                    ShowFooter="true" Width="100%" OnRowCommand="GVViewEscalationns_RowCommand">
+                                <asp:GridView ID="GVViewEscalationns" runat="server" CssClass="table table-bordered table-hover my-gridview"
+                                    AutoGenerateColumns="False" GridLines="None" Font-Size="Medium" ForeColor="#333333"
+                                    ShowFooter="true" Width="100%"   OnRowCommand="GVViewEscalationns_RowCommand" OnRowDataBound="GVViewEscalationns_RowDataBound" >
 
                                     <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                                     <Columns>
 
-                                        <asp:TemplateField HeaderText="Custome ID">
+                                        <asp:TemplateField HeaderText="Branch">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblBranch" runat="server" Text='<%#Eval("Branch")%>'></asp:Label>
-
+                                                <asp:Label ID="lblEMIssueID" Visible="false" runat="server" Text='<%#Eval("Em_IssueID")%>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Custome ID">
+                                        <asp:TemplateField HeaderText="Customer ID">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblCustID" runat="server" Text='<%#Eval("EM_CustID")%>'></asp:Label>
 
@@ -134,7 +149,7 @@
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                        
+
 
 
                                         <asp:TemplateField HeaderText="Product">
@@ -149,18 +164,18 @@
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                       
-                                       
-                                       
+
+
+
                                         <asp:TemplateField HeaderText="Status">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblStatus" runat="server" Text='<%#Eval("EM_Status")%>'></asp:Label>
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        
 
-                                        <asp:TemplateField HeaderText="Technician Visit">
+
+                                       <%-- <asp:TemplateField HeaderText="Technician Visit">
                                             <ItemTemplate>
                                                 <asp:Label ID="lbltechnicianVisit" runat="server" Text='<%#Eval("EM_TechnicianVisit")%>'></asp:Label>
 
@@ -171,9 +186,9 @@
                                                 <asp:Label ID="lblVendorCLosureType" runat="server" Text='<%#Eval("EM_VendorclosureType")%>'></asp:Label>
 
                                             </ItemTemplate>
-                                        </asp:TemplateField>
-                                       
-                                        
+                                        </asp:TemplateField>--%>
+
+
                                         <asp:TemplateField HeaderText="Vendor Remarks">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblVendorRemarks" runat="server" Text='<%#Eval("EM_VendorRemarks")%>'></asp:Label>
@@ -189,8 +204,50 @@
 
                                         <asp:TemplateField HeaderText="View Details" HeaderStyle-Width="5px">
                                             <ItemTemplate>
-                                                <asp:LinkButton ID="linkView"  runat="server" CommandName="View" CommandArgument='<%# Eval("Em_IssueID") %>'>Details</asp:LinkButton>
+                                                <asp:LinkButton ID="linkView" runat="server" CommandName="View" CommandArgument='<%# Eval("Em_IssueID") %>'>Details</asp:LinkButton>
                                             </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Branch Action" HeaderStyle-Width="5px">
+                                            <ItemTemplate>
+                                            
+                                                <asp:DropDownList ID="ddlCLosure" Width="150px" runat="server" AutoPostBack="true" CssClass="form-control border border-dark" OnSelectedIndexChanged="ddlCLosure_SelectedIndexChanged" ValidationGroup="ABC">
+                                                    <asp:ListItem Value="0" Text="Select Closure Type">
+                                                    </asp:ListItem>
+                                                    <asp:ListItem Value="1" Text="Complaint resolved ">
+                                                    </asp:ListItem>
+                                                    <asp:ListItem Value="2" Text="Complaint Not resolved ">
+                                                    </asp:ListItem>
+
+                                                </asp:DropDownList>
+                                                <asp:RequiredFieldValidator ID="rfvCLosure" Enabled="false" runat="server" ControlToValidate="ddlCLosure" ErrorMessage="Kindly select" ForeColor="red"
+                                                    Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
+                                                <br />
+                                                <asp:DropDownList ID="ddlStatus"  Width="150px" runat="server" AutoPostBack="true" CssClass="form-control border border-dark"  ValidationGroup="ABC">
+                                                    <asp:ListItem Value="0" Text="Select Delivery">
+                                                    </asp:ListItem>
+                                                    <asp:ListItem Value="1" Text="Product Delivered ">
+                                                    </asp:ListItem>
+                                                    <asp:ListItem Value="2" Text="Product Not Delivered">
+                                                    </asp:ListItem>
+                                                   
+
+                                                </asp:DropDownList>
+                                                <asp:RequiredFieldValidator ID="rfvStatus" Enabled="false" runat="server" ControlToValidate="ddlStatus" ErrorMessage="Kindly select" ForeColor="red"
+                                                    Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
+
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="Action" >
+
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkAction" runat="server" AutoPostBack="true" OnCheckedChanged="chkAction_CheckedChanged" />
+                                            </ItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" AutoPostBack="true" runat="server" CssClass="btn btn-sm btn-success"
+                                                    ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("Em_IssueID") %>'>Submit</asp:LinkButton>
+
+                                            </FooterTemplate>
                                         </asp:TemplateField>
                                     </Columns>
 
@@ -213,30 +270,78 @@
             </blockquote>
         </div>
     </div>
-  
-     <!-- Modal -->
-<div class="modal fade" id="divModel_InvoiceDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Details</h5>
-              
-            </div>
-            <div class="modal-body">
-                <p><strong>Product Type:</strong> <asp:Label ID="lblProductType" runat="server"></asp:Label></p>
-                <p><strong>Is stock available in branch:</strong> <asp:Label ID="lblAvailableStock" runat="server"></asp:Label></p>
-                <p><strong>HO Remarks:</strong> <asp:Label ID="lblRemarks" runat="server"></asp:Label></p>
-                <p><strong>Product Complaint Date:</strong> <asp:Label ID="lblComplaint" runat="server"></asp:Label></p>
-                <p><strong>HO Escalation Date:</strong> <asp:Label ID="lblEscalation" runat="server"></asp:Label></p>
-                <p><strong>Vendor confirm Date:</strong> <asp:Label ID="lblVendorConfirmDate" runat="server"></asp:Label></p>
-                <p><strong>vendor reject Date:</strong> <asp:Label ID="lblEM_VendorRejectDate" runat="server"></asp:Label></p>
-                <p><strong>vendor Status Wise Date:</strong> <asp:Label ID="lblEM_VendorStatusDate" runat="server"></asp:Label></p>
-            </div>
-            <div class="modal-footer">
-                <p>Click anywhere on the screen to close this</p>
+
+    <!-- Modal -->
+    <div class="modal fade" id="divModel_InvoiceDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Details</h5>
+
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <strong>Product Type:</strong>
+                        <asp:Label ID="lblProductType" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>Is stock available in branch:</strong>
+                        <asp:Label ID="lblAvailableStock" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>HO Remarks:</strong>
+                        <asp:Label ID="lblRemarks" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>Product Complaint Date:</strong>
+                        <asp:Label ID="lblComplaint" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>HO Escalation Date:</strong>
+                        <asp:Label ID="lblEscalation" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>Vendor confirm Date:</strong>
+                        <asp:Label ID="lblVendorConfirmDate" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>vendor reject Date:</strong>
+                        <asp:Label ID="lblEM_VendorRejectDate" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>vendor Status Wise Date:</strong>
+                        <asp:Label ID="lblEM_VendorStatusDate" runat="server"></asp:Label>
+                    </p> 
+                    <p>
+                        <strong>Technician Visit:</strong>
+                        <asp:Label ID="lblEM_VendorTechVisit" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>Vendor Closure Type:</strong>
+                        <asp:Label ID="lblEM_VendorClosure" runat="server"></asp:Label>
+                    </p> 
+                    <p>
+                        <strong>Branch Confiramtion:</strong>
+                        <asp:Label ID="lblEM_Confirmation" runat="server"></asp:Label>
+                    </p>
+                    <p>
+                        <strong>Stock Handover:</strong>
+                        <asp:Label ID="lblEM_ProductDelivery" runat="server"></asp:Label>
+                    </p> 
+                    <p>
+                        <strong>Confirmation Date:</strong>
+                        <asp:Label ID="lblEM_ConfirmationDate" runat="server"></asp:Label>
+                    </p>  
+                    <p>
+                        <strong>Delivery Date:</strong>
+                        <asp:Label ID="lblEM_ProductDeliveryDate" runat="server"></asp:Label>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <p>Click anywhere on the screen to close this</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 </asp:Content>
