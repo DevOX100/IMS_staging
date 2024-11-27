@@ -62,7 +62,8 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
         ds =ISS.ViewEscalation(region, branch,status, userCode);
         GVViewEscalationns.DataSource = ds;
         GVViewEscalationns.DataBind();
-        
+
+       
 
     }
     //private void RemoveLastGridColumn()
@@ -245,31 +246,95 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
 
     }
 
+    //protected void GVViewEscalationns_RowDataBound(object sender, GridViewRowEventArgs e)
+    //{
+    //    if (e.Row.RowType == DataControlRowType.DataRow)
+    //    {
+    //        DropDownList status = (DropDownList)e.Row.FindControl("ddlStatus");
+    //        DropDownList Closure = (DropDownList)e.Row.FindControl("ddlCLosure");
+    //        Label Status= (Label)e.Row.FindControl("lblStatus");
+    //        Label lblComplaintConf = (Label)e.Row.FindControl("lblComplaintconf");
+    //        Label lblProductDelivery = (Label)e.Row.FindControl("lblproductDelivery");
+
+
+    //        if(Status.Text == "Closed")
+    //        {
+    //            status.Enabled = true;
+    //            Closure.Enabled = true;
+    //        }
+    //        else
+    //        {
+    //            status.Enabled = false;
+    //            Closure.Enabled = false;
+    //        }
+    //        status.Enabled = false;
+    //        // Retrieve last submitted values (replace with actual data source or ViewState)
+    //        if (lblComplaintConf.Text != null)
+    //        {
+    //            Closure.SelectedItem.Text = lblComplaintConf.Text;
+    //           Closure.Enabled = false;
+
+    //        }
+    //        if (lblProductDelivery.Text != null)
+    //        {
+    //            status.Text = lblProductDelivery.Text;
+    //        }
+
+    //    }
+    //}
     protected void GVViewEscalationns_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+            // Find controls within the current row
             DropDownList status = (DropDownList)e.Row.FindControl("ddlStatus");
-            DropDownList Closure = (DropDownList)e.Row.FindControl("ddlCLosure");
-            Label Status= (Label)e.Row.FindControl("lblStatus");
+            DropDownList closure = (DropDownList)e.Row.FindControl("ddlCLosure");
+            Label lblStatus = (Label)e.Row.FindControl("lblStatus");
+            Label lblComplaintConf = (Label)e.Row.FindControl("lblComplaintconf");
+            Label lblProductDelivery = (Label)e.Row.FindControl("lblproductDelivery");
 
-            
-
-            if(Status.Text == "Closed")
+            // Check if the "lblStatus" label exists and has a value
+            if (lblStatus != null && lblStatus.Text == "Closed")
             {
-                status.Enabled = true;
-                Closure.Enabled = true;
+                // Enable DropDownLists if the status is "Closed"
+                if (status != null) status.Enabled = true;
+                if (closure != null) closure.Enabled = true;
             }
             else
             {
-                status.Enabled = false;
-                Closure.Enabled = false;
+                // Disable DropDownLists for other statuses
+                if (status != null) status.Enabled = false;
+                if (closure != null) closure.Enabled = false;
             }
-            status.Enabled = false;
-            // Retrieve last submitted values (replace with actual data source or ViewState)
 
+            // Set selected values for DropDownLists based on labels
+            if (lblComplaintConf != null && !string.IsNullOrEmpty(lblComplaintConf.Text))
+            {
+                if (closure != null)
+                {
+                    // Select the item in ddlClosure matching lblComplaintConf.Text
+                    if (closure.Items.FindByText(lblComplaintConf.Text) != null)
+                    {
+                        closure.SelectedValue = closure.Items.FindByText(lblComplaintConf.Text).Value;
+                        closure.Enabled = false;
+                    }
+                }
+            }
+
+            if (lblProductDelivery != null && !string.IsNullOrEmpty(lblProductDelivery.Text))
+            {
+                if (status != null)
+                {
+                    // Select the item in ddlStatus matching lblProductDelivery.Text
+                    if (status.Items.FindByText(lblProductDelivery.Text) != null)
+                    {
+                        status.SelectedValue = status.Items.FindByText(lblProductDelivery.Text).Value;
+                    }
+                }
+            }
         }
     }
+
     protected void ddlCLosure_SelectedIndexChanged(object sender, EventArgs e)
     {
         DropDownList ddlClosure = (DropDownList)sender;
