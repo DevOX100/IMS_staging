@@ -34,6 +34,10 @@ jobs:
     - name: Create Artifact ZIP
       run: Compress-Archive -Path ${{ github.workspace }}/bin/* -DestinationPath ./build-artifacts.zip
 
+    - name: Verify Artifact ZIP (Checksum)
+      run: |
+        certutil -hashfile ./build-artifacts.zip SHA256
+
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -61,6 +65,9 @@ jobs:
       run: |
         # Ensure the destination folder on the server exists (optional)
         ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "mkdir -p C:/inetpub/wwwroot/IMS_staging"
+
+        # Check that the file is transferred correctly (optional)
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "dir C:/inetpub/wwwroot/IMS_staging/"
 
         # Copy the build artifacts to the IIS server
         scp -r ./build-artifacts.zip ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:/C:/inetpub/wwwroot/IMS_staging/
