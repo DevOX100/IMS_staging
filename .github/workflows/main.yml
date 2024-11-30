@@ -40,18 +40,21 @@ jobs:
         name: build-artifacts
         path: ./build-artifacts.zip
 
-    # Setup Pritunl VPN Connection
-    - name: Pritunl Client GitHub Action
+    # Set up the Pritunl VPN client
+    - name: Setup Pritunl Client VPN
       uses: nathanielvarona/pritunl-client-github-action@v1.6.8
       with:
-        profile-file: ${{ secrets.PRITUNL_PROFILE }}
-        vpn-mode: ovpn
-        start-connection: true
+        profile-file: ${{ secrets.PRITUNL_PROFILE }}  # Base64 encoded .ovpn profile file from GitHub Secrets
+        vpn-mode: ovpn  # Use OpenVPN mode, change to 'wg' for WireGuard if needed
+        start-connection: true  # Automatically start the VPN connection
+        ready-profile-timeout: 10  # Timeout for the profile readiness (seconds)
+        established-connection-timeout: 60  # Timeout for the connection establishment (seconds)
+        concealed-outputs: true  # Conceal the profile outputs for security
 
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{ secrets.IMSKEY }}
+        ssh-private-key: ${{ secrets.IMSKEY }}  # Your SSH private key in GitHub Secrets
 
     - name: Deploy to IIS Server
       run: |
@@ -61,7 +64,7 @@ jobs:
         # Copy the build artifacts to the IIS server
         scp -r ./build-artifacts.zip ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:/C:/inetpub/wwwroot/IMS_staging/
 
-        # Unzip the build artifacts on the IIS server (Ensure PowerShell or cmd can unzip it)
+        # Unzip the build artifacts on the IIS server
         ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "powershell -Command Expand-Archive -Path 'C:/inetpub/wwwroot/IMS_staging/build-artifacts.zip' -DestinationPath 'C:/inetpub/wwwroot/IMS_staging/'"
 
         # Optionally, restart IIS application pool to refresh the deployment
