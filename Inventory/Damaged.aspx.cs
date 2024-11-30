@@ -104,7 +104,10 @@ public partial class Inventory_Damaged : System.Web.UI.Page
         string DamagedImage = " ";
         string productID = ddlProductName.SelectedValue;
         int product_ID = Convert.ToInt32(productID);
-
+        if (Session["loginType"].ToString() == "B")
+        {
+            DP_Branch = Session["UserCode"].ToString();
+        }
         if (fupImage.HasFile)
         {
             if (ff.GetFileSizeWithExtention(fupImage.FileName, Convert.ToDouble(fupImage.FileBytes.LongLength), 1048576, "jpg"))

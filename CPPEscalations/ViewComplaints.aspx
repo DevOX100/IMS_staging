@@ -115,7 +115,7 @@
                                             <ItemTemplate>
                                                 <asp:Label ID="lblBranch" runat="server" Text='<%#Eval("Branch")%>'></asp:Label>
                                                 <asp:Label ID="lblEMIssueID" Visible="false" runat="server" Text='<%#Eval("Em_IssueID")%>'></asp:Label>
-                                                <asp:Label ID="lblComplaintconf"  runat="server" Text='<%#Eval("EM_BranchComplaint_Confirmation")%>'></asp:Label>
+                                                <asp:Label ID="lblComplaintconf" Visible="false"   runat="server" Text='<%#Eval("EM_BranchComplaint_Confirmation")%>'></asp:Label>
                                                 <asp:Label ID="lblproductDelivery" Visible="false" runat="server" Text='<%#Eval("EM_BranchProduct_delivery")%>'></asp:Label>
 
                                             </ItemTemplate>

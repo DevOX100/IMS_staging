@@ -189,8 +189,7 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                         DropDownList ddlstatus = ((DropDownList)GVViewEscalationns.Rows[i].FindControl("ddlStatus"));
                         string closure = ddlclosure.SelectedItem.Text;
                         string status = ddlstatus.SelectedItem.Text;
-                        if (ddlclosure.Enabled == true)
-                        { 
+                       
                             if(ddlclosure.SelectedValue == "0")
                             {
                                 ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No Closure Selected!', 'Please Provide your confirmation!', 'error');", true);
@@ -217,13 +216,6 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                                 //}
                             }
 
-                        }
-                        else
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Vendor Has not closed this complaint!', 'error');", true);
-                            return;
-
-                        }
                        
                        
                     }
@@ -306,6 +298,7 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                 if (status != null) status.Enabled = false;
                 if (closure != null) closure.Enabled = false;
             }
+      
 
             // Set selected values for DropDownLists based on labels
             if (lblComplaintConf != null && !string.IsNullOrEmpty(lblComplaintConf.Text))
@@ -329,9 +322,11 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                     if (status.Items.FindByText(lblProductDelivery.Text) != null)
                     {
                         status.SelectedValue = status.Items.FindByText(lblProductDelivery.Text).Value;
+                        status.Enabled = false;
                     }
                 }
             }
+           
         }
     }
 

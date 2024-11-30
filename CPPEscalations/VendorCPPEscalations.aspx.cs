@@ -284,7 +284,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                         {
                             ClosureRemarks = null;
                         }
-                        if (Closure.SelectedValue != "1" && Closure.SelectedValue != "2")
+                        if (Closure.Enabled == true && Closure.SelectedValue != "1" && Closure.SelectedValue != "2")
                         {
                             ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error', 'Please select Closure Type from the dropdown', 'error');", true);
                             return;
