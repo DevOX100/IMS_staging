@@ -34,28 +34,20 @@ jobs:
     - name: Create Artifact ZIP
       run: Compress-Archive -Path ${{ github.workspace }}/bin/* -DestinationPath ./build-artifacts.zip
 
-    - name: Verify Artifact ZIP (Checksum)
-      run: |
-        certutil -hashfile ./build-artifacts.zip SHA256
-
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: build-artifacts
         path: ./build-artifacts.zip
 
-    # Establish VPN Connection
+    # Setup Pritunl VPN Connection
     - name: Pritunl Client GitHub Action
       uses: nathanielvarona/pritunl-client-github-action@v1.6.8
       with:
-        profile-file: ${{ secrets.PRITUNL_PROFILE }} # Provide the Pritunl profile (.ovpn or .wg) as a secret
-        profile-pin: ${{ secrets.PRITUNL_PIN }}      # Provide the profile PIN/password as a secret
-        vpn-mode: ovpn                              # Default mode is OpenVPN
-        start-connection: true                      # Automatically start VPN connection
-        ready-profile-timeout: 10                   # Adjust timeout as necessary
-        established-connection-timeout: 60          # Adjust timeout for connection establishment
+        profile-file: ${{ secrets.PRITUNL_PROFILE }}
+        vpn-mode: ovpn
+        start-connection: true
 
-    # Deploy to IIS Server over VPN
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
@@ -66,13 +58,10 @@ jobs:
         # Ensure the destination folder on the server exists (optional)
         ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "mkdir -p C:/inetpub/wwwroot/IMS_staging"
 
-        # Check that the file is transferred correctly (optional)
-        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "dir C:/inetpub/wwwroot/IMS_staging/"
-
         # Copy the build artifacts to the IIS server
         scp -r ./build-artifacts.zip ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:/C:/inetpub/wwwroot/IMS_staging/
 
-        # Unzip the build artifacts on the IIS server
+        # Unzip the build artifacts on the IIS server (Ensure PowerShell or cmd can unzip it)
         ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "powershell -Command Expand-Archive -Path 'C:/inetpub/wwwroot/IMS_staging/build-artifacts.zip' -DestinationPath 'C:/inetpub/wwwroot/IMS_staging/'"
 
         # Optionally, restart IIS application pool to refresh the deployment
