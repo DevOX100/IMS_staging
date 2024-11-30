@@ -40,6 +40,18 @@ jobs:
         name: build-artifacts
         path: ./build-artifacts.zip
 
+    # Establish VPN Connection
+    - name: Pritunl Client GitHub Action
+      uses: nathanielvarona/pritunl-client-github-action@v1.6.8
+      with:
+        profile-file: ${{ secrets.PRITUNL_PROFILE }} # Provide the Pritunl profile (.ovpn or .wg) as a secret
+        profile-pin: ${{ secrets.PRITUNL_PIN }}      # Provide the profile PIN/password as a secret
+        vpn-mode: ovpn                              # Default mode is OpenVPN
+        start-connection: true                      # Automatically start VPN connection
+        ready-profile-timeout: 10                   # Adjust timeout as necessary
+        established-connection-timeout: 60          # Adjust timeout for connection establishment
+
+    # Deploy to IIS Server over VPN
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
