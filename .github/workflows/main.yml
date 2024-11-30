@@ -40,8 +40,12 @@ jobs:
         name: build-artifacts
         path: ./build-artifacts.zip
 
-    # Set up the Pritunl VPN client
-    - name: Setup Pritunl Client VPN
+    # Install Pritunl Client using Chocolatey and set up VPN
+    - name: Install Pritunl Client
+      run: |
+        choco install pritunl-client --version=1.3.4066.5100 -y
+
+    - name: Set up VPN with Pritunl
       uses: nathanielvarona/pritunl-client-github-action@v1.6.8
       with:
         profile-file: ${{ secrets.PRITUNL_PROFILE }}  # Base64 encoded .ovpn profile file from GitHub Secrets
@@ -61,10 +65,10 @@ jobs:
         # Ensure the destination folder on the server exists (optional)
         ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "mkdir -p C:/inetpub/wwwroot/IMS_staging"
 
-        # Copy the build artifacts to the IIS server
+        # Copy the build artifacts to the IIS server (make sure the path is correct)
         scp -r ./build-artifacts.zip ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:/C:/inetpub/wwwroot/IMS_staging/
 
-        # Unzip the build artifacts on the IIS server
+        # Unzip the build artifacts on the IIS server (make sure to use Expand-Archive for ZIP files)
         ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "powershell -Command Expand-Archive -Path 'C:/inetpub/wwwroot/IMS_staging/build-artifacts.zip' -DestinationPath 'C:/inetpub/wwwroot/IMS_staging/'"
 
         # Optionally, restart IIS application pool to refresh the deployment
