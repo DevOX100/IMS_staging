@@ -28,17 +28,24 @@ jobs:
     - name: List files in root directory (for debugging)
       run: dir ${{ github.workspace }}
 
-    - name: List files in bin directory (for debugging)
-      run: dir ${{ github.workspace }}/bin
-
     - name: Create Artifact ZIP
-      run: Compress-Archive -Path ${{ github.workspace }}/bin/* -DestinationPath ./build-artifacts.tar
+      run: Compress-Archive -Path ${{ github.workspace }}/bin/* -DestinationPath ./build-artifacts.zip
 
+ 
+    - name: Install GNU tar
+      run: choco install gnu-tar -y
+    - name: Create Artifact TAR
+      run: tar -cvf build-artifacts.tar -C ${{ github.workspace }}/bin .
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: build-artifacts
         path: ./build-artifacts.tar
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+          name: build-artifacts
+          path: ./build-artifacts.tar
 
     # Install Pritunl Client using Chocolatey and set up VPN
     - name: Install Pritunl Client
