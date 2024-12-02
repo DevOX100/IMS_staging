@@ -32,13 +32,13 @@ jobs:
       run: dir ${{ github.workspace }}/bin
 
     - name: Create Artifact ZIP
-      run: Compress-Archive -Path ${{ github.workspace }}/bin/* -DestinationPath ./build-artifacts.zip
+      run: Compress-Archive -Path ${{ github.workspace }}/bin/* -DestinationPath ./build-artifacts.tar
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: build-artifacts
-        path: ./build-artifacts.zip
+        path: ./build-artifacts.tar
 
     # Install Pritunl Client using Chocolatey and set up VPN
     - name: Install Pritunl Client
