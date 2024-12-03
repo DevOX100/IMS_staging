@@ -3,20 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
 
     <style type="text/css">
-        .successColor {
-            background-color: #1fa756;
-            border: medium none;
-            color: White;
-        }
-
-        .defaultColor {
-            background-color: white;
-            color: black;
-        }
-         .my-gridview th, .my-gridview td {
-     padding: 10px;
-
- }
+   
 
  .my-gridview th {
      font-size: 16px;
@@ -29,16 +16,18 @@
  .my-gridview .label {
      font-size: 14px;
  }
+
+
+
+
     </style>
     <!-- Add jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <!-- Add Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />--%>
 
     <script type="text/javascript">
         function OpenNewPopUp(val, id) {
@@ -69,7 +58,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
 
     <div class="card">
-        <div class="card-header bold h4 text-white" style="background-color: #3a4f63">
+        <div class="card-header bold h4 text-white" style="background-color: #3a4f63; ">
             View Complaints
         </div>
         <div class="card-body">

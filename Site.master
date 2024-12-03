@@ -68,6 +68,8 @@
             margin-top: 2px;
             margin-bottom: 2px;
         }
+ 
+
     </style>
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
