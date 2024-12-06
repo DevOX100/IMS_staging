@@ -55,21 +55,20 @@ jobs:
     #     established-connection-timeout: 60  Timeout for the connection establishment (seconds)
     #     concealed-outputs: true  Conceal the profile outputs for security
 
-    # - name: Setup SSH
-    #   uses: webfactory/ssh-agent@v0.5.3
-    #   with:
-    #     ssh-private-key: ${{ secrets.IMSKEY }}  Your SSH private key in GitHub Secrets
+    - name: Setup SSH Agent
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.IMSKEY }}
 
-    # - name: Deploy to IIS Server
-    #   run: |
-    #     Ensure the destination folder on the server exists (optional)
-    #     ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "mkdir -p C:/inetpub/wwwroot/IMS_staging"
+    - name: Copy Artifact to Server
+      run: |
+        scp ./build-artifacts.zip ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:C:/inetpub/wwwroot/IMS_staging/
 
-    #     Copy the build artifacts to the IIS server
-    #     scp -r ./build-artifacts.zip ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:/C:/inetpub/wwwroot/IMS_staging/
+    - name: Unzip Artifact on Server
+      run: |
+        ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "powershell -Command Expand-Archive -Path 'C:/inetpub/wwwroot/IMS_staging/build-artifacts.zip' -DestinationPath 'C:/inetpub/wwwroot/IMS_staging/' -Force"
 
-    #     Unzip the build artifacts on the IIS server
-    #     ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "powershell -Command Expand-Archive -Path 'C:/inetpub/wwwroot/IMS_staging/build-artifacts.zip' -DestinationPath 'C:/inetpub/wwwroot/IMS_staging/'"
+    - name: Restart IIS to Apply Changes
+      run: |
+        ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "iisreset"
 
-    #     Optionally, restart IIS application pool to refresh the deployment
-    #     ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "iisreset"
