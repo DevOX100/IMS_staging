@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Windows.Controls;
 using CheckBox = System.Web.UI.WebControls.CheckBox;
 using Label = System.Web.UI.WebControls.Label;
+using TextBox = System.Web.UI.WebControls.TextBox;
 
 
 public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
@@ -17,7 +18,7 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
     Inventory_System ISS = new Inventory_System();
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!IsPostBack)
+        if (!IsPostBack)
         {
             if (Session["LoginType"].ToString() == "B")
             {
@@ -30,13 +31,13 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
             {
                 GVViewEscalationns.Columns[12].Visible = false;
                 GVViewEscalationns.Columns[13].Visible = false;
-              
+
                 ddlBranch.Visible = true;
                 ddlRegion.Visible = true;
                 lblBranch.Visible = true;
                 Region.Visible = true;
             }
-            
+
             BindStatus();
             BindRegion();
             BindGrid();
@@ -47,7 +48,8 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
         string status = ddlStatus.SelectedValue;
         string region = ddlRegion.SelectedValue;
         string branch = ddlBranch.SelectedValue;
-        if (string.IsNullOrEmpty(region) ){
+        if (string.IsNullOrEmpty(region))
+        {
             region = "0";
         }
         if (string.IsNullOrEmpty(branch))
@@ -55,15 +57,15 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
             branch = "0";
         }
         if (string.IsNullOrEmpty(status))
-        { 
-        status = "0";
+        {
+            status = "0";
         }
-        string userCode= Session["UserCode"].ToString();
-        ds =ISS.ViewEscalation(region, branch,status, userCode);
+        string userCode = Session["UserCode"].ToString();
+        ds = ISS.ViewEscalation(region, branch, status, userCode);
         GVViewEscalationns.DataSource = ds;
         GVViewEscalationns.DataBind();
 
-       
+
 
     }
     //private void RemoveLastGridColumn()
@@ -184,45 +186,47 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                     if (((CheckBox)GVViewEscalationns.Rows[i].FindControl("chkAction")).Checked)
                     {
                         Label lblEM_IssueID = ((Label)GVViewEscalationns.Rows[i].FindControl("lblEMIssueID"));
+
+                        TextBox txtRemarks = ((TextBox)GVViewEscalationns.Rows[i].FindControl("txtRemarks"));
                         int ID = Convert.ToInt32(lblEM_IssueID.Text);
                         DropDownList ddlclosure = ((DropDownList)GVViewEscalationns.Rows[i].FindControl("ddlCLosure"));
                         DropDownList ddlstatus = ((DropDownList)GVViewEscalationns.Rows[i].FindControl("ddlStatus"));
                         string closure = ddlclosure.SelectedItem.Text;
                         string status = ddlstatus.SelectedItem.Text;
-                       
-                            if(ddlclosure.SelectedValue == "0")
-                            {
-                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No Closure Selected!', 'Please Provide your confirmation!', 'error');", true);
-                                return;
-                            }
-                            else
-                            {
-                                //if(ddlstatus.SelectedValue =="1" && ddlclosure.SelectedValue == "0")
-                                //{
-                                //    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No Closure Selected!', 'Please choose a Status of delivery!', 'error');", true);
-                                //    return;
+                        string remarks = txtRemarks.Text;
+                        if (ddlclosure.SelectedValue == "0")
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No Closure Selected!', 'Please Provide your confirmation!', 'error');", true);
+                            return;
+                        }
+                        else
+                        {
+                            //if(ddlstatus.SelectedValue =="1" && ddlclosure.SelectedValue == "0")
+                            //{
+                            //    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No Closure Selected!', 'Please choose a Status of delivery!', 'error');", true);
+                            //    return;
 
-                                //}
-                                //else
-                                //{
-                                if (ddlstatus.SelectedValue == "0")
-                                {
-                                    status = "No Value Provided";
-                                }
-                                   
-                                    ISS.insertBranchfeedback(closure, status, ID);
-                                   ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Success!', 'Status Updated Successfully!', 'success');", true);
-                                    BindGrid();
-                                //}
+                            //}
+                            //else
+                            //{
+                            if (ddlstatus.SelectedValue == "0")
+                            {
+                                status = "No Value Provided";
                             }
 
-                       
-                       
+                            ISS.insertBranchfeedback(closure, status, ID, remarks);
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Success!', 'Status Updated Successfully!', 'success');", true);
+                            BindGrid();
+                            //}
+                        }
+
+
+
                     }
                 }
             }
         }
-    }           
+    }
 
 
 
@@ -235,45 +239,33 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
 
     protected void chkAction_CheckedChanged(object sender, EventArgs e)
     {
+        CheckBox chkAction = sender as CheckBox;
+        GridViewRow currentRow = chkAction.NamingContainer as GridViewRow;
+        RequiredFieldValidator remarks = currentRow.FindControl("rfvRemarks") as RequiredFieldValidator;
 
+
+
+        RequiredFieldValidator Status = currentRow.FindControl("rfvStatus") as RequiredFieldValidator;
+        RequiredFieldValidator Closure = currentRow.FindControl("rfvCLosure") as RequiredFieldValidator;
+
+        if (chkAction.Checked && chkAction.Checked == true)
+        {
+            remarks.Enabled = true;
+            Closure.Enabled = true;
+      
+
+
+        }
+        else
+        {
+            remarks.Enabled = false;
+            Closure.Enabled = false;
+           
+
+        }
     }
 
-    //protected void GVViewEscalationns_RowDataBound(object sender, GridViewRowEventArgs e)
-    //{
-    //    if (e.Row.RowType == DataControlRowType.DataRow)
-    //    {
-    //        DropDownList status = (DropDownList)e.Row.FindControl("ddlStatus");
-    //        DropDownList Closure = (DropDownList)e.Row.FindControl("ddlCLosure");
-    //        Label Status= (Label)e.Row.FindControl("lblStatus");
-    //        Label lblComplaintConf = (Label)e.Row.FindControl("lblComplaintconf");
-    //        Label lblProductDelivery = (Label)e.Row.FindControl("lblproductDelivery");
 
-
-    //        if(Status.Text == "Closed")
-    //        {
-    //            status.Enabled = true;
-    //            Closure.Enabled = true;
-    //        }
-    //        else
-    //        {
-    //            status.Enabled = false;
-    //            Closure.Enabled = false;
-    //        }
-    //        status.Enabled = false;
-    //        // Retrieve last submitted values (replace with actual data source or ViewState)
-    //        if (lblComplaintConf.Text != null)
-    //        {
-    //            Closure.SelectedItem.Text = lblComplaintConf.Text;
-    //           Closure.Enabled = false;
-
-    //        }
-    //        if (lblProductDelivery.Text != null)
-    //        {
-    //            status.Text = lblProductDelivery.Text;
-    //        }
-
-    //    }
-    //}
     protected void GVViewEscalationns_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -284,6 +276,8 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
             Label lblStatus = (Label)e.Row.FindControl("lblStatus");
             Label lblComplaintConf = (Label)e.Row.FindControl("lblComplaintconf");
             Label lblProductDelivery = (Label)e.Row.FindControl("lblproductDelivery");
+            Label lblIsVendorClosure = (Label)e.Row.FindControl("lblIsVendorClosure");
+           TextBox txtRemarks = (TextBox)e.Row.FindControl("txtRemarks");
 
             // Check if the "lblStatus" label exists and has a value
             if (lblStatus != null && lblStatus.Text == "Closed")
@@ -298,7 +292,7 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                 if (status != null) status.Enabled = false;
                 if (closure != null) closure.Enabled = false;
             }
-      
+
 
             // Set selected values for DropDownLists based on labels
             if (lblComplaintConf != null && !string.IsNullOrEmpty(lblComplaintConf.Text))
@@ -309,7 +303,17 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                     if (closure.Items.FindByText(lblComplaintConf.Text) != null)
                     {
                         closure.SelectedValue = closure.Items.FindByText(lblComplaintConf.Text).Value;
-                        closure.Enabled = false;
+
+                        if (lblIsVendorClosure.Text == "1")
+                        {
+                            closure.Enabled = false;
+                            txtRemarks.Enabled = false;
+                        }
+                        else
+                        {
+                            closure.Enabled = true;
+                            txtRemarks.Enabled = true;
+                        }
                     }
                 }
             }
@@ -326,7 +330,7 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                     }
                 }
             }
-           
+
         }
     }
 
@@ -347,5 +351,5 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
         }
     }
 
- 
+
 }

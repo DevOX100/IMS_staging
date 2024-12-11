@@ -53,6 +53,7 @@
                 }, 100);
             }
         }
+
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
@@ -106,6 +107,7 @@
                                                 <asp:Label ID="lblEMIssueID" Visible="false" runat="server" Text='<%#Eval("Em_IssueID")%>'></asp:Label>
                                                 <asp:Label ID="lblComplaintconf" Visible="false"   runat="server" Text='<%#Eval("EM_BranchComplaint_Confirmation")%>'></asp:Label>
                                                 <asp:Label ID="lblproductDelivery" Visible="false" runat="server" Text='<%#Eval("EM_BranchProduct_delivery")%>'></asp:Label>
+                                                <asp:Label ID="lblIsVendorClosure" Visible="false" runat="server" Text='<%#Eval("EM_isVendorClosedComplaint")%>'></asp:Label>
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
@@ -207,7 +209,7 @@
                                                     </asp:ListItem>
                                                     <asp:ListItem Value="1" Text="Complaint resolved ">
                                                     </asp:ListItem>
-                                                    <asp:ListItem Value="2" Text="Complaint Not resolved ">
+                                                    <asp:ListItem Value="2" Text="Complaint Not resolved">
                                                     </asp:ListItem>
 
                                                 </asp:DropDownList>
@@ -226,7 +228,10 @@
                                                 </asp:DropDownList>
                                                 <asp:RequiredFieldValidator ID="rfvStatus" Enabled="false" runat="server" ControlToValidate="ddlStatus" ErrorMessage="Kindly select" ForeColor="red"
                                                     Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
-
+                                                <br />
+                                                  <asp:TextBox ID="txtRemarks" AutoPostBack="true" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+  <asp:RequiredFieldValidator ID="rfvRemarks" Enabled="false" runat="server" ControlToValidate="txtRemarks" ErrorMessage="Kindly provide Remarks" ForeColor="red"
+      Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 

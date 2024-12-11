@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Asn1.Cmp;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using Org.BouncyCastle.Asn1.Cmp;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,12 +28,15 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
     {
         string RegionCode = ddlRegion.SelectedValue;
         string BranchID = ddlBranch.SelectedValue;
-        if (string.IsNullOrEmpty(BranchID) && string.IsNullOrEmpty(RegionCode))
+        if (string.IsNullOrEmpty(BranchID))
         {
             BranchID = "0";
+          
+        }
+        if (string.IsNullOrEmpty(RegionCode))
+        {
             RegionCode = "0";
         }
-
 
         string Usercode = Session["UserCode"].ToString();
         ds = ISS.INV_CPPEscalations(Usercode, RegionCode, BranchID);
@@ -116,18 +120,32 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                         string finalRemarks = Remarks.Text;
 
                         string EM_ActionTakenBY = Session["UserCode"].ToString();
+                        TextBox ExpectedClosureDate = ((TextBox)GVEscalations.Rows[i].FindControl("txtExpectedClosureDate"));
+                        DateTime? IS_ClosureDate;
+                        DropDownList Complaints= ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyVendor"));
+                        string ComplaintsbyVendor = Complaints.SelectedItem.Text;
+                        if (ExpectedClosureDate == null || ExpectedClosureDate.Text == "")
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'eneter the expected closure date', 'Invalid');", true);
+                           
+                        }
+                        else
+                        {
+                            IS_ClosureDate = Convert.ToDateTime(ExpectedClosureDate.Text);
+                            ISS.INV_CPPVendorConfirmation(ID, EM_ActionTakenBY, finalRemarks, (DateTime)IS_ClosureDate, ComplaintsbyVendor);
 
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
+                           
+                        
+                        }
 
-
-                        ISS.INV_CPPVendorConfirmation(ID, EM_ActionTakenBY, finalRemarks);
-
-                        ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
-                        BindGrid();
-                        BindGrid2();
+                       
                     }
 
                 }
             }
+            BindGrid2();
+            BindGrid();
 
 
         }
@@ -165,12 +183,13 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                         TextBox Remarks = ((TextBox)GVEscalations.Rows[i].FindControl("txtUpperRemarks"));
                         string VendorRemarks = Remarks.Text;
                         string RejectedBY = Session["UserCode"].ToString();
-
+                        DropDownList Complaints = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyVendor"));
+                        string ComplaintsbyVendor = Complaints.SelectedValue;
 
 
                         ISS.INV_Reject_Escalation("", "Name", "DamageProduct_ReceivedBY", "SpouseName", "MobileNO", 1, "ProductType", "Damage_Product_Name",
    "Damage_ProductComplaint", Convert.ToDateTime("01/01/1900"), "AvailableStockInBranch", "ComplaintsbyHO", VendorRemarks,
-   RejectedBY, ID, "loanID", "productID");
+   RejectedBY, ID, "loanID", "productID", ComplaintsbyVendor);
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'Rejected');", true);
                         BindGrid();
 
@@ -199,19 +218,22 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         CheckBox chkAction = sender as CheckBox;
         GridViewRow currentRow = chkAction.NamingContainer as GridViewRow;
         RequiredFieldValidator Remarks = currentRow.FindControl("rfvUpperRemarks") as RequiredFieldValidator;
+        RequiredFieldValidator rfvWarrantydate = currentRow.FindControl("rfvWarrantydate") as RequiredFieldValidator;
+        RequiredFieldValidator rfvComplaint = currentRow.FindControl("rfvComplaint") as RequiredFieldValidator;
 
 
 
         if (chkAction.Checked && chkAction.Checked == true)
         {
             Remarks.Enabled = true;
-
-
+            rfvWarrantydate.Enabled= true;
+            rfvComplaint.Enabled = true;
         }
         else
         {
             Remarks.Enabled = false;
-
+            rfvWarrantydate.Enabled = false;
+            rfvComplaint.Enabled = false;
         }
 
     }
@@ -320,10 +342,49 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            DropDownList status = (DropDownList)e.Row.FindControl("ddlStatus");
+            DropDownList ddlTechVisit = (DropDownList)e.Row.FindControl("ddlTechVisit");
+            DropDownList ddlStatus = (DropDownList)e.Row.FindControl("ddlStatus");
             DropDownList Closure = (DropDownList)e.Row.FindControl("ddlCLosure");
+            Label lblStatus = (Label)e.Row.FindControl("lblStatus");
+            Label lblTechVisit = (Label)e.Row.FindControl("lblTechVisit");
+            Label lblClosureType = (Label)e.Row.FindControl("lblClosureType");
 
             Closure.Enabled = false;
+            if (lblClosureType != null && !string.IsNullOrEmpty(lblClosureType.Text))
+            {
+                    // Select the item in ddlClosure matching lblComplaintConf.Text
+                    if (Closure.Items.FindByText(lblClosureType.Text) != null)
+                    {
+                    Closure.SelectedValue = Closure.Items.FindByText(lblClosureType.Text).Value;
+                    
+                    }
+                
+            }
+
+            if (lblStatus != null && !string.IsNullOrEmpty(lblStatus.Text))
+            {
+                if (ddlStatus != null)
+                {
+                    // Select the item in ddlStatus matching lblProductDelivery.Text
+                    if (ddlStatus.Items.FindByText(lblStatus.Text) != null)
+                    {
+                        ddlStatus.SelectedValue = ddlStatus.Items.FindByText(lblStatus.Text).Value;
+                      
+                    }
+                }
+            }
+            if (lblTechVisit != null && !string.IsNullOrEmpty(lblTechVisit.Text))
+            {
+                if (ddlTechVisit != null)
+                {
+                    // Select the item in ddlStatus matching lblProductDelivery.Text
+                    if (ddlTechVisit.Items.FindByText(lblTechVisit.Text) != null)
+                    {
+                        ddlTechVisit.SelectedValue = ddlTechVisit.Items.FindByText(lblTechVisit.Text).Value;
+
+                    }
+                }
+            }
 
 
 

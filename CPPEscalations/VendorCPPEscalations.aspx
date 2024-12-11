@@ -15,18 +15,18 @@
         }
 
     </script>
-     <script type="text/javascript">
-         function SelectAllCheckboxes(chkAll) {
-             var grid = document.getElementById('<%= GVConfirmEscalation.ClientID%>');
-             var inputs = grid.getElementsByTagName("input");
-             for (var i = 0; i < inputs.length; i++) {
-                 if (inputs[i].type == "checkbox") {
-                     inputs[i].checked = chkAll.checked;
-                 }
-             }
-         }
+    <script type="text/javascript">
+        function SelectAllCheckboxes(chkAll) {
+            var grid = document.getElementById('<%= GVConfirmEscalation.ClientID%>');
+            var inputs = grid.getElementsByTagName("input");
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].type == "checkbox") {
+                    inputs[i].checked = chkAll.checked;
+                }
+            }
+        }
 
-     </script>
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
 
@@ -66,10 +66,7 @@
                             <Columns>
 
                                 <asp:TemplateField HeaderText="Action" HeaderStyle-Width="5px">
-                                    <HeaderTemplate>
-                                        <asp:Label ID="lblSelectALL" runat="server" Text="Select All"></asp:Label>
-                                        <asp:CheckBox ID="chkSelectAll" runat="server" onclick="SelectAllCheckboxes(this);" />
-                                    </HeaderTemplate>
+                                  
                                     <ItemTemplate>
                                         <asp:CheckBox ID="chkAction" runat="server" AutoPostBack="true" OnCheckedChanged="chkAction_CheckedChanged" />
                                     </ItemTemplate>
@@ -80,9 +77,28 @@
                                     <ItemTemplate>
                                         <asp:Label ID="lblBranchID" runat="server" Text='<%#Eval("EM_DamageProduct_ReceivedBY")%>'></asp:Label>
 
+
+
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Customer ID">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblCustomerID" runat="server" Text='<%#Eval("em_CustID")%>'></asp:Label>
 
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Name">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblCustomerName" runat="server" Text='<%#Eval("EM_Name")%>'></asp:Label>
+
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Spouse Name">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblSpouseName" runat="server" Text='<%#Eval("EM_SpouseName")%>'></asp:Label>
+
+                                    </ItemTemplate>
+                                </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Product Type">
                                     <ItemTemplate>
@@ -128,9 +144,24 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Remarks">
                                     <ItemTemplate>
-                                        <asp:TextBox ID="txtUpperRemarks"  AutoPostBack="true" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" ValidationGroup="ABC"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="rfvUpperRemarks" Enabled="false" runat="server" ControlToValidate="txtUpperRemarks" ErrorMessage="Kindly provide Remarks" ForeColor="red"
-    Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtUpperRemarks" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="rfvUpperRemarks" Enabled="false" runat="server" ControlToValidate="txtUpperRemarks" ErrorMessage="Kindly provide Remarks" ForeColor="red"
+                                            Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>
+                                        <asp:TextBox ID="txtExpectedClosureDate" Style="margin-top: 10px" runat="server" CssClass="form-control border border-dark" placeholder="Enter Warranty Date" TextMode="Date" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="rfvWarrantydate" Enabled="false" runat="server" ControlToValidate="txtExpectedClosureDate" Font-Size="small"
+                                            ForeColor="red" ErrorMessage="Expected CLosure date is required date is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
+
+                                        <asp:DropDownList ID="ddlComplaintsbyVendor" Style="margin-top: 10px" runat="server" CssClass="form-control border border-dark">
+                                            <asp:ListItem Value="0" Text="Kindly Select"></asp:ListItem>
+                                            <asp:ListItem Value="1" Text="Physical damage"></asp:ListItem>
+                                            <asp:ListItem Value="2" Text="Out of warranty"></asp:ListItem>
+                                            <asp:ListItem Value="3" Text="Water Damage product"></asp:ListItem>
+                                            <asp:ListItem Value="4" Text="Product is not Available"></asp:ListItem>
+                                            <asp:ListItem Value="5" Text="Escalating to Technician"></asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="rfvComplaint" Enabled="false" runat="server" ControlToValidate="ddlComplaintsbyVendor" ErrorMessage="Kindly select" ForeColor="red"
+                                            Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
+
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
@@ -167,6 +198,27 @@
                                 <asp:TemplateField HeaderText="Branch">
                                     <ItemTemplate>
                                         <asp:Label ID="lblBranchID" runat="server" Text='<%#Eval("EM_DamageProduct_ReceivedBY")%>'></asp:Label>
+                                        <asp:Label ID="lblStatus" Visible="false" runat="server" Text='<%#Eval("EM_Status")%>'></asp:Label>
+                                        <asp:Label ID="lblTechVisit" Visible="false" runat="server" Text='<%#Eval("EM_TechnicianVisit")%>'></asp:Label>
+                                        <asp:Label ID="lblClosureType" Visible="false" runat="server" Text='<%#Eval("EM_VendorclosureType")%>'></asp:Label>
+
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Customer ID">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblCustomerID" runat="server" Text='<%#Eval("em_CustID")%>'></asp:Label>
+
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Name">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblCustomerName" runat="server" Text='<%#Eval("EM_Name")%>'></asp:Label>
+
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Spouse Name">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblSpouseName" runat="server" Text='<%#Eval("EM_SpouseName")%>'></asp:Label>
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -232,6 +284,8 @@
                                             </asp:ListItem>
                                             <asp:ListItem Value="3" Text="Pending">
                                             </asp:ListItem>
+                                            <asp:ListItem Value="4" Text="In process">
+                                            </asp:ListItem>
 
                                         </asp:DropDownList>
                                         <asp:RequiredFieldValidator ID="rfvStatus" Enabled="false" runat="server" ControlToValidate="ddlStatus" ErrorMessage="Kindly select" ForeColor="red"
@@ -253,7 +307,7 @@
 
                                 <asp:TemplateField HeaderText="Remarks">
                                     <ItemTemplate>
-                                        <asp:TextBox ID="txtRemarks"  AutoPostBack="true" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                        <asp:TextBox ID="txtRemarks" AutoPostBack="true" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" ValidationGroup="ABC"></asp:TextBox>
                                         <asp:RequiredFieldValidator ID="rfvRemarks" Enabled="false" runat="server" ControlToValidate="txtRemarks" ErrorMessage="Kindly provide Remarks" ForeColor="red"
                                             Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                     </ItemTemplate>

@@ -84,8 +84,8 @@
                     <div class="row" style="color: white">
 
                         <div class="col-12 login100-form-title p-b-30" style="font-weight: 700; border: groove; border-color: #070907; font-size: 1.5em; font-variant: small-caps; font-family: 'Segoe UI'">
-                            <asp:Image ImageUrl="~/images/logo.jpg" Height="80px" Width="140px" runat="server" />
-                            <br />
+                          <%--  <asp:Image ImageUrl="~/images/logo.jpg" Height="80px" Width="140px" runat="server" />
+                          --%>  <br />
                             <h3 style="text-decoration: solid; color: #070907; margin-top:10px;">Inventory  Management System</h3>
                         </div>
                     </div>

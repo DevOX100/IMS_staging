@@ -4,6 +4,7 @@ using System.Data;
 using System;
 using System.Drawing;
 using System.IO;
+using DocumentFormat.OpenXml.VariantTypes;
 
 
 public class Inventory_System : db
@@ -1318,9 +1319,10 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
            , string EM_ProductComplaintbyHO
            , string EM_Remarks
            , string EM_ActionTakenBY,
-         int EM_IssueID, string EM_LoanID, string Em_ProductID)
+         int EM_IssueID, string EM_LoanID, string Em_ProductID,
+         string Em_VendorConfirmationValue)
     {
-        param = new SqlParameter[17];
+        param = new SqlParameter[18];
         param[0] = new SqlParameter("@EM_CustID", EM_CustID);
         param[1] = new SqlParameter("@EM_Name", EM_Name);
         param[2] = new SqlParameter("@EM_DamageProduct_ReceivedBY", EM_DamageProduct_ReceivedBY);
@@ -1338,14 +1340,17 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[14] = new SqlParameter("@EM_IssueID", EM_IssueID);
         param[15] = new SqlParameter("@EM_LoanID", EM_LoanID);
         param[16] = new SqlParameter("@Em_ProductID", Em_ProductID);
+        param[17] = new SqlParameter("@Em_VendorConfirmationValue", Em_VendorConfirmationValue);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_Reject_Escalation", param);
     }  
-    public DataSet INV_CPPVendorConfirmation(int IssueID, string ActionTakenBy, string EM_Remarks)
+    public DataSet INV_CPPVendorConfirmation(int IssueID, string ActionTakenBy, string EM_Remarks,  DateTime GetDate, string Em_VendorConfirmationValue)
     {
-        param = new SqlParameter[3];
+        param = new SqlParameter[5];
         param[0] = new SqlParameter("@EM_IssueID", IssueID);
         param[1] = new SqlParameter("@EM_ActionTakenBY", ActionTakenBy);
         param[2] = new SqlParameter("@EM_Remarks", EM_Remarks);
+        param[3] = new SqlParameter("@GetDate", GetDate);
+        param[4] = new SqlParameter("@Em_VendorConfirmationValue", Em_VendorConfirmationValue);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_CPPVendorConfirmation", param);
     }  
     public DataSet INV_CPPVendorConfirmEscalations(string UserCode, string RegionCode, string BranchID)
@@ -1387,12 +1392,13 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[0] = new SqlParameter("@IssuedID", IssueID);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "ViewEscalationDetails", param);
     }  
-    public DataSet insertBranchfeedback(string Closure, string status ,int IssueID)
+    public DataSet insertBranchfeedback(string Closure, string status ,int IssueID, string EM_BranchConfirmationRemarks)
     {
-        param = new SqlParameter[3];
+        param = new SqlParameter[4];
         param[0] = new SqlParameter("@Closure", Closure);
         param[1] = new SqlParameter("@status", status);
         param[2] = new SqlParameter("@IssuedID", IssueID);
+        param[3] = new SqlParameter("@EM_BranchConfirmationRemarks", EM_BranchConfirmationRemarks);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "insertBranchfeedback", param);
     }
 }

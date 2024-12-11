@@ -83,7 +83,7 @@
                     <table>
                         <tr>
                             <td align="center">
-                                <asp:Image ID="ImgLogo" runat="server" ImageUrl="~/Styles/midlandmicrofin.jpg" />
+                               <%-- <asp:Image ID="ImgLogo" runat="server" ImageUrl="~/Styles/midlandmicrofin.jpg" />--%>
                             </td>
                             <td valign="top">
                                 <h1>Inventory Management System &nbsp;</h1>
