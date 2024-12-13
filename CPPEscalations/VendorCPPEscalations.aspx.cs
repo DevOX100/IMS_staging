@@ -31,7 +31,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         if (string.IsNullOrEmpty(BranchID))
         {
             BranchID = "0";
-          
+
         }
         if (string.IsNullOrEmpty(RegionCode))
         {
@@ -122,24 +122,34 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                         string EM_ActionTakenBY = Session["UserCode"].ToString();
                         TextBox ExpectedClosureDate = ((TextBox)GVEscalations.Rows[i].FindControl("txtExpectedClosureDate"));
                         DateTime? IS_ClosureDate;
-                        DropDownList Complaints= ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyVendor"));
+                        DropDownList Complaints = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyVendor"));
                         string ComplaintsbyVendor = Complaints.SelectedItem.Text;
                         if (ExpectedClosureDate == null || ExpectedClosureDate.Text == "")
                         {
                             ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'eneter the expected closure date', 'Invalid');", true);
-                           
+
                         }
                         else
                         {
-                            IS_ClosureDate = Convert.ToDateTime(ExpectedClosureDate.Text);
-                            ISS.INV_CPPVendorConfirmation(ID, EM_ActionTakenBY, finalRemarks, (DateTime)IS_ClosureDate, ComplaintsbyVendor);
+                            if (Complaints.SelectedValue == "5")
+                            {
+                                IS_ClosureDate = Convert.ToDateTime(ExpectedClosureDate.Text);
+                                ISS.INV_CPPVendorConfirmation(ID, EM_ActionTakenBY, finalRemarks, (DateTime)IS_ClosureDate, ComplaintsbyVendor);
 
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
-                           
-                        
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
+                            }
+                            else
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', '${ComplaintsbyVendor}', 'Kindly check Valid Reason');", true);
+                                return;
+
+                            }
+
+
+
                         }
 
-                       
+
                     }
 
                 }
@@ -164,11 +174,12 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
 
             if (chkCount == 0)
             {
-                // Replace ScriptManager.RegisterStartupScript with this line for page refresh:
-                Response.Redirect(Request.Url.AbsoluteUri);
-
-
+                //// Replace ScriptManager.RegisterStartupScript with this line for page refresh:
+                //Response.Redirect(Request.Url.AbsoluteUri);
+                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No One Checked!', 'Please choose at least one!', 'error');", true);
                 return;
+
+               
             }
             else
             {
@@ -184,14 +195,21 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                         string VendorRemarks = Remarks.Text;
                         string RejectedBY = Session["UserCode"].ToString();
                         DropDownList Complaints = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyVendor"));
-                        string ComplaintsbyVendor = Complaints.SelectedValue;
+                        string ComplaintsbyVendor = Complaints.SelectedItem.Text;
 
-
-                        ISS.INV_Reject_Escalation("", "Name", "DamageProduct_ReceivedBY", "SpouseName", "MobileNO", 1, "ProductType", "Damage_Product_Name",
-   "Damage_ProductComplaint", Convert.ToDateTime("01/01/1900"), "AvailableStockInBranch", "ComplaintsbyHO", VendorRemarks,
-   RejectedBY, ID, "loanID", "productID", ComplaintsbyVendor);
-                        ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'Rejected');", true);
-                        BindGrid();
+                        if (Complaints.SelectedValue == "5")
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Please select!', 'Valid Reason!', 'error');", true);
+                            return;
+                        }
+                        else
+                        {
+                            ISS.INV_Reject_Escalation("", "Name", "DamageProduct_ReceivedBY", "SpouseName", "MobileNO", 1, "ProductType", "Damage_Product_Name",
+       "Damage_ProductComplaint", Convert.ToDateTime("01/01/1900"), "AvailableStockInBranch", "ComplaintsbyHO", VendorRemarks,
+       RejectedBY, ID, "loanID", "productID", ComplaintsbyVendor);
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'Rejected');", true);
+                            BindGrid();
+                        }
 
                     }
                 }
@@ -207,7 +225,16 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
     protected void GVEscalations_RowDataBound(object sender, GridViewRowEventArgs e)
     {
 
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            DropDownList ddlComplaintsbyVendor = (DropDownList)e.Row.FindControl("ddlComplaintsbyVendor");
+            TextBox txtExpectedClosureDate = (TextBox)e.Row.FindControl("txtExpectedClosureDate");
+            if (ddlComplaintsbyVendor.SelectedValue != "5")
+            {
+                txtExpectedClosureDate.Enabled = false;
 
+            }
+        }
 
     }
 
@@ -226,13 +253,13 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         if (chkAction.Checked && chkAction.Checked == true)
         {
             Remarks.Enabled = true;
-            rfvWarrantydate.Enabled= true;
+            
             rfvComplaint.Enabled = true;
         }
         else
         {
             Remarks.Enabled = false;
-            rfvWarrantydate.Enabled = false;
+           
             rfvComplaint.Enabled = false;
         }
 
@@ -352,13 +379,13 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
             Closure.Enabled = false;
             if (lblClosureType != null && !string.IsNullOrEmpty(lblClosureType.Text))
             {
-                    // Select the item in ddlClosure matching lblComplaintConf.Text
-                    if (Closure.Items.FindByText(lblClosureType.Text) != null)
-                    {
+                // Select the item in ddlClosure matching lblComplaintConf.Text
+                if (Closure.Items.FindByText(lblClosureType.Text) != null)
+                {
                     Closure.SelectedValue = Closure.Items.FindByText(lblClosureType.Text).Value;
-                    
-                    }
-                
+
+                }
+
             }
 
             if (lblStatus != null && !string.IsNullOrEmpty(lblStatus.Text))
@@ -369,7 +396,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                     if (ddlStatus.Items.FindByText(lblStatus.Text) != null)
                     {
                         ddlStatus.SelectedValue = ddlStatus.Items.FindByText(lblStatus.Text).Value;
-                      
+
                     }
                 }
             }
@@ -439,6 +466,21 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
             TechVisit.Enabled = false;
             Status.Enabled = false;
 
+        }
+    }
+
+    protected void ddlComplaintsbyVendor_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DropDownList ddlComplaintsbyVendor = (DropDownList)sender;
+        GridViewRow row = (GridViewRow)ddlComplaintsbyVendor.NamingContainer;
+        TextBox txtExpectedClosureDate = (TextBox)row.FindControl("txtExpectedClosureDate");
+        if (ddlComplaintsbyVendor.SelectedValue == "5")
+        {
+            txtExpectedClosureDate.Enabled = true;
+        }
+        else
+        {
+            txtExpectedClosureDate.Enabled = false;
         }
     }
 }

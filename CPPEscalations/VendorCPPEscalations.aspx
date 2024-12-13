@@ -66,7 +66,7 @@
                             <Columns>
 
                                 <asp:TemplateField HeaderText="Action" HeaderStyle-Width="5px">
-                                  
+
                                     <ItemTemplate>
                                         <asp:CheckBox ID="chkAction" runat="server" AutoPostBack="true" OnCheckedChanged="chkAction_CheckedChanged" />
                                     </ItemTemplate>
@@ -142,25 +142,27 @@
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Remarks">
+                                <asp:TemplateField HeaderText="Remarks/Expected Closure Date/Complaint">
                                     <ItemTemplate>
-                                        <asp:TextBox ID="txtUpperRemarks" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" ValidationGroup="ABC"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="rfvUpperRemarks" Enabled="false" runat="server" ControlToValidate="txtUpperRemarks" ErrorMessage="Kindly provide Remarks" ForeColor="red"
-                                            Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>
-                                        <asp:TextBox ID="txtExpectedClosureDate" Style="margin-top: 10px" runat="server" CssClass="form-control border border-dark" placeholder="Enter Warranty Date" TextMode="Date" Width="180px" ValidationGroup="ABC"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="rfvWarrantydate" Enabled="false" runat="server" ControlToValidate="txtExpectedClosureDate" Font-Size="small"
-                                            ForeColor="red" ErrorMessage="Expected CLosure date is required date is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
-
-                                        <asp:DropDownList ID="ddlComplaintsbyVendor" Style="margin-top: 10px" runat="server" CssClass="form-control border border-dark">
+                                        <asp:DropDownList ID="ddlComplaintsbyVendor" Style="margin-top: 10px" AutoPostBack="true" runat="server" CssClass="form-control border border-dark" OnSelectedIndexChanged="ddlComplaintsbyVendor_SelectedIndexChanged">
                                             <asp:ListItem Value="0" Text="Kindly Select"></asp:ListItem>
-                                            <asp:ListItem Value="1" Text="Physical damage"></asp:ListItem>
-                                            <asp:ListItem Value="2" Text="Out of warranty"></asp:ListItem>
-                                            <asp:ListItem Value="3" Text="Water Damage product"></asp:ListItem>
-                                            <asp:ListItem Value="4" Text="Product is not Available"></asp:ListItem>
+                                            <asp:ListItem Value="1" Text="OTP Shared by Branch side"></asp:ListItem>
+                                            <asp:ListItem Value="2" Text="Physically Damage"></asp:ListItem>
+                                            <asp:ListItem Value="3" Text="Out of Warranty"></asp:ListItem>
+                                            <asp:ListItem Value="4" Text="Connectivity Issue With Branch"></asp:ListItem>
                                             <asp:ListItem Value="5" Text="Escalating to Technician"></asp:ListItem>
                                         </asp:DropDownList>
                                         <asp:RequiredFieldValidator ID="rfvComplaint" Enabled="false" runat="server" ControlToValidate="ddlComplaintsbyVendor" ErrorMessage="Kindly select" ForeColor="red"
                                             Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
+                                        <br />
+                                        <asp:TextBox ID="txtUpperRemarks" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="rfvUpperRemarks" Enabled="false" runat="server" ControlToValidate="txtUpperRemarks" ErrorMessage="Kindly provide Remarks" ForeColor="red"
+                                            Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>
+
+
+                                        <asp:TextBox ID="txtExpectedClosureDate" Style="margin-top: 10px" runat="server" CssClass="form-control border border-dark" placeholder="Enter Warranty Date" TextMode="Date" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="rfvWarrantydate" Enabled="false" runat="server" ControlToValidate="txtExpectedClosureDate" Font-Size="small"
+                                            ForeColor="red" ErrorMessage="Expected CLosure date is required date is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
