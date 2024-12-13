@@ -85,6 +85,10 @@
                 transform: rotate(360deg);
             }
         }
+
+        #PhotoDiv {
+            display:none;
+        }
     </style>
     <script type="text/javascript">
 
@@ -249,8 +253,8 @@
                                             <asp:ListItem Value="2" Text="No"></asp:ListItem>
 
                                         </asp:DropDownList>
-                                         <asp:RequiredFieldValidator ID="rfvCheckStatus" Enabled="false" runat="server" ControlToValidate="ddlStockCheck" ErrorMessage="Kindly select" ForeColor="red"
-     Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
+                                        <asp:RequiredFieldValidator ID="rfvCheckStatus" Enabled="false" runat="server" ControlToValidate="ddlStockCheck" ErrorMessage="Kindly select" ForeColor="red"
+                                            Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                     </ItemTemplate>
 
                                 </asp:TemplateField>
@@ -262,29 +266,16 @@
                                     <FooterTemplate>
                                         <asp:UpdatePanel ID="UpdatePO" runat="server">
                                             <ContentTemplate>
-                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server"  CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Submit</asp:LinkButton>
+                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Submit</asp:LinkButton>
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:PostBackTrigger ControlID="lnkApprove" />
-                                                <%--<asp:AsyncPostBackTrigger ControlID="VendorApproval" EventName="RowCommand" />--%>
+                                             
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </FooterTemplate>
                                 </asp:TemplateField>
-                                <%--  <asp:BoundField DataField="CUST_ID" HeaderText="Customer ID" />
-
-                                <asp:BoundField DataField="FIRST_NAME" HeaderText="Name" />
-                                <asp:BoundField DataField="PRODUCT_ID" HeaderText="Product" />
-                                <asp:BoundField DataField="Branch" HeaderText="Branch" />
-                                <asp:BoundField DataField="MOBILE_NUMBER" HeaderText="Mobile No " />
-                                <asp:BoundField DataField="SPOUSE_NAME" HeaderText="Spouse Name " />
-                                <asp:BoundField DataField="LOAN_ID" HeaderText="Loan ID " />--%>
-
-
-
-                                <%--          <asp:BoundField DataField="IS_InvoiceNO" HeaderText="Invoice" />
-                                <asp:BoundField DataField="IS_Quantity" HeaderText="Quantity" />
-                                <asp:BoundField DataField="IS_CreationDate" HeaderText="Created ON" />--%>
+                              
                             </Columns>
 
                             <EditRowStyle BackColor="#999999" />
@@ -304,6 +295,32 @@
             </blockquote>
         </div>
     </div>
+    <div id="PhotoDiv">
+        <asp:UpdatePanel ID="update" runat="server">
 
+            <ContentTemplate>
+                <div class="col-6">
+
+                    <asp:FileUpload ID="fupImage"  runat="server" CssClass="form-control border border-dark" />
+                    <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="fupImage" ErrorMessage="Kindly upload the Image" ForeColor="red"
+         Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>--%>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <asp:Button ID="btnSubmit" runat="server" Text="Submit" CssClass="btn text-white" BackColor="#3a4f63" ValidationGroup="ABC" OnClick="btnSubmit_Click" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ContentTemplate>
+            <Triggers>
+                <asp:PostBackTrigger ControlID="btnSubmit" />
+            </Triggers>
+        </asp:UpdatePanel>
+
+    </div>
 </asp:Content>
-

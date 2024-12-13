@@ -1,4 +1,4 @@
-﻿    using iTextSharp.text.pdf.codec;
+﻿using iTextSharp.text.pdf.codec;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,7 +22,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
         if (!IsPostBack)
         {
             BindGrid();
-            
+
         }
 
     }
@@ -72,8 +72,8 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
                     int vendorStockQuantity = Convert.ToInt32(Quantity.Text);
                     string remarks = VRemarks.Text;
                     int approvedQty = Convert.ToInt32(ApprovedQuantity.Text);
-                   
-                    if(Tentative_Delivery == null || Tentative_Delivery.Text == "")
+
+                    if (Tentative_Delivery == null || Tentative_Delivery.Text == "")
                     {
                         Tentative_Delivery_Date = Convert.ToDateTime(DateTime.Now);
                     }
@@ -82,7 +82,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
                         Tentative_Delivery_Date = Convert.ToDateTime(Tentative_Delivery.Text);
                     }
 
-           //         DateTime Tentative_Delivery_Date = Convert.ToDateTime(Tentative_Delivery.Text);
+                    //         DateTime Tentative_Delivery_Date = Convert.ToDateTime(Tentative_Delivery.Text);
                     string ddlstatus = dropdownStatus.SelectedValue.ToString();
 
                     if (approvedQty < vendorStockQuantity)
@@ -119,7 +119,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
 
                     }
 
-                    if(ddlstatus == "4" || ddlstatus == "5")
+                    if (ddlstatus == "4" || ddlstatus == "5")
                     {
                         ISS.ModifyStatusOfVendor(ID, ddlstatus, ddlstatus, remarks);
                     }
@@ -196,7 +196,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
             Label lblbisid = (Label)e.Row.FindControl("lblbisid");
             Label lblVendor = (Label)e.Row.FindControl("lblVendorSendstock");
             Label lblrequested = (Label)e.Row.FindControl("lblApprQuantity");
-            int req=Convert.ToInt32(txtRemarks.Text);
+            int req = Convert.ToInt32(txtRemarks.Text);
             int vendor;
             if (string.IsNullOrEmpty(lblVendor.Text))
             {
@@ -206,17 +206,17 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
             }
             else
             {
-                 vendor = Convert.ToInt32(lblVendor.Text);
+                vendor = Convert.ToInt32(lblVendor.Text);
             }
-            
+
             if (txtRemarks != null)
             {
                 if (!string.IsNullOrEmpty(lblVendor.Text))
                 {
                     txtRemarks.Text = (req - vendor).ToString();
                 }
-          
-                
+
+
             }
 
             DataSet ds1 = new DataSet();
@@ -243,7 +243,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
                 Status.Items.Insert(0, new ListItem("Select", "0"));
             }
 
-           
+
         }
     }
 
@@ -267,10 +267,10 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
             rfvTentDelDate.Enabled = true;
             rfvFileupload.Enabled = true;
             rfvddlStatus.Enabled = true;
-          //  chkAction.Checked = true;
+            //  chkAction.Checked = true;
         }
 
-        else if (selectedValue == "5" || selectedValue =="4")
+        else if (selectedValue == "5" || selectedValue == "4")
         {
             rfvRemarks.Enabled = false;
             rfvQuantity.Enabled = false;
@@ -290,26 +290,26 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
         Label rec = (Label)row.FindControl("lblApprQuantity");
         TextBox quantity = (TextBox)row.FindControl("txtQuantity");
         int qty = 0;
-        if (quantity.Text == null||  quantity.Text == "")
+        if (quantity.Text == null || quantity.Text == "")
         {
             qty = 0;
         }
         else
         {
-                qty = Convert.ToInt32(quantity.Text);
+            qty = Convert.ToInt32(quantity.Text);
         }
         if (!string.IsNullOrEmpty(sendstock.Text))
         {
-            int Rec=Convert.ToInt32(rec.Text);
+            int Rec = Convert.ToInt32(rec.Text);
             int remains = Convert.ToInt32(sendstock.Text);
-            int total =Rec- remains;
+            int total = Rec - remains;
             if (qty > total)
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Please Enter less than or equal to remaining Quantity!', 'info');", true);
                 quantity.Text = total.ToString();
             }
         }
-       
+
 
     }
 }

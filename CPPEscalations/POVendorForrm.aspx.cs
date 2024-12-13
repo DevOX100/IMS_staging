@@ -1,17 +1,19 @@
-﻿using gsmClasses;
+﻿    using iTextSharp.text.pdf.codec;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Reflection;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.IO;
 using QiHe.CodeLib;
-using DocumentFormat.OpenXml.Bibliography;
+using gsmClasses;
 using System.Windows.Controls;
-using CheckBox = System.Web.UI.WebControls.CheckBox;
 using Label = System.Web.UI.WebControls.Label;
 using TextBox = System.Web.UI.WebControls.TextBox;
-using iTextSharp.text.pdf.codec;
-using System.ComponentModel;
-
+using CheckBox = System.Web.UI.WebControls.CheckBox;
 
 public partial class Inventory_DamagedProduct : System.Web.UI.Page
 {
@@ -41,33 +43,64 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', 'Customer ID is wrong or no data found!');", true);
             return;
         }
+
+        bool allProductsExpired = true;
+
         foreach (GridViewRow row in gvDamageproduct.Rows)
         {
+            bool productFound = false;
+            Label product = (Label)row.FindControl("lblProduct");
+            DropDownList ddlProductType = (DropDownList)row.FindControl("ddlProductType");
+            DropDownList ddlProductName = (DropDownList)row.FindControl("ddlProductName");
             string creationDateText = ((Label)row.FindControl("lblcreationDate")).Text;
             string warrantyDateText = ((Label)row.FindControl("lblWarrantyDate")).Text;
             DateTime creationDate;
             DateTime warrantyDate;
             bool isCreationDateValid = DateTime.TryParse(creationDateText, out creationDate);
             bool isWarrantyDateValid = DateTime.TryParse(warrantyDateText, out warrantyDate);
-            
+            TextBox DamagedQty = (TextBox)row.FindControl("txtGQuantity");
+            Label complaint = (Label)row.FindControl("lblComplaint");
             if (!string.IsNullOrEmpty(creationDateText) && !string.IsNullOrEmpty(warrantyDateText))
             {
 
-                if (creationDate >= warrantyDate)
+                if (creationDate <= warrantyDate)
+                {
+                    DamagedQty.Enabled = true;
+
+                }
+                else
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', 'Warranty of the product has expired for this customer');", true);
+
                 }
-               
+
+
             }
 
+            foreach (DataRow Row in ds.Tables[0].Rows)
+            {
+                if (!string.IsNullOrEmpty(Row["PRODUCT_ID"].ToString()))
+                {
+                    productFound = true;
+                    break;
+                }
+
+            }
+
+
         }
+
         gvDamageproduct.DataSource = ds;
         gvDamageproduct.DataBind();
+
+
+
     }
 
 
     protected void btnSearch_Click(object sender, EventArgs e)
     {
+
         BindGrid();
         ScriptManager.RegisterStartupScript(this, GetType(), "hideLoading", "hideLoading();", true);
     }
@@ -158,6 +191,26 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                 }
             }
         }
+
+        //if (e.Row.RowType == DataControlRowType.DataRow)
+        //{
+        //    // Find controls in the current row
+        //    CheckBox chkAction = (CheckBox)e.Row.FindControl("chkAction");
+        //    RequiredFieldValidator Quantity = (RequiredFieldValidator)e.Row.FindControl("rfvQuantity");
+        //    RequiredFieldValidator ProductType = (RequiredFieldValidator)e.Row.FindControl("rfvProductType");
+        //    RequiredFieldValidator rfvFileupload = (RequiredFieldValidator)e.Row.FindControl("rfvFileupload");
+        //    RequiredFieldValidator ProductName = (RequiredFieldValidator)e.Row.FindControl("rfvProductName");
+        //    RequiredFieldValidator ComplaintType = (RequiredFieldValidator)e.Row.FindControl("rfvComplaintType");
+        //    RequiredFieldValidator CheckStatus = (RequiredFieldValidator)e.Row.FindControl("rfvCheckStatus");
+
+        //    // Enable or disable validators based on CheckBox state
+        //    if (string.IsNullOrEmpty(Quantity.Text)) Quantity.Enabled = true;
+        //    if (string.IsNullOrEmpty(ProductType.Text)) ProductType.Enabled = true;
+        //    if (string.IsNullOrEmpty(rfvFileupload.Text)) rfvFileupload.Enabled = true;
+        //    if (ProductName == null) ProductName.Enabled = false;
+        //    if (ComplaintType == null) ComplaintType.Enabled = false;
+        //    if (CheckStatus == null) CheckStatus.Enabled = false;
+        //}
     }
 
 
@@ -293,7 +346,7 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                             int RequestQty = Convert.ToInt32(DamagedQty.Text);
                             FileUpload fupImage = (FileUpload)gvDamageproduct.Rows[i].FindControl("fupid");
                             string LoanID = loanID.Text;
-                            string DamagedImage = " ";
+                            string DamagedImage = " ";  
                             string name = IS_Name.Text;
                             string branch = IS_Branch.Text;
                             string spouseName = IS_SpouseName.Text;
@@ -424,43 +477,6 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
             ProductName.Enabled = false;
             ComplaintType.Enabled = false;
             CheckStatus.Enabled = false;
-        }
-    }
-    protected void btnSubmit_Click(object sender, EventArgs e)
-    {
-        string POD = " ";
-        // Find the FileUpload control directly by its ID
-        if (fupImage.HasFile)
-        {
-            if (ff.GetFileSizeWithExtention(fupImage.FileName, Convert.ToDouble(fupImage.FileBytes.LongLength), 1048576, "pdf"))
-            {
-                if (fupImage.FileBytes.LongLength <= 1048576)
-                {
-                    string Exten;
-                    Exten = "." + ff.GetFileExtention(fupImage.FileName);
-                    Guid obj = Guid.NewGuid();
-                    POD = obj.ToString();
-                    fupImage.SaveAs(Server.MapPath("~\\Upload\\ProductImage\\" + POD + ".pdf"));
-                }
-                else
-                {
-                    ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Limit Exceed!', 'Please Upload Less than or Equal to 1 MB!', 'info');", true);
-                    return;
-                }
-            }
-
-            else
-            {
-                ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Only PDF Format!', 'Please Upload Invoice only in PDF!', 'info');", true);
-                return;
-            }
-
-        }
-
-        else
-        {
-            ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Info!', 'Please Upload POD only in PDF!', 'info');", true);
-            return;
         }
     }
 }

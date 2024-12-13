@@ -33,17 +33,17 @@
     </style>
          <script type="text/javascript">
 
-     function showLoading() {
-         document.getElementById("loadingScreen").style.display = "flex";
-     }
+             function showLoading() {
+                 document.getElementById("loadingScreen").style.display = "flex";
+             }
 
-     function hideLoading() {
-         document.getElementById("loadingScreen").style.display = "none";
-         var checkboxes = document.querySelectorAll("#<%= VendorApproval.ClientID %> input[type='checkbox']");
-         checkboxes.forEach(function (checkbox) {
-             checkbox.checked = false;
-         });
-     }
+             function hideLoading() {
+                 document.getElementById("loadingScreen").style.display = "none";
+                 var checkboxes = document.querySelectorAll("#<%= VendorApproval.ClientID %> input[type='checkbox']");
+                 checkboxes.forEach(function (checkbox) {
+                     checkbox.checked = false;
+                 });
+             }
          </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
