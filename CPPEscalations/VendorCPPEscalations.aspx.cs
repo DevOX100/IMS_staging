@@ -124,13 +124,8 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                         DateTime? IS_ClosureDate;
                         DropDownList Complaints = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyVendor"));
                         string ComplaintsbyVendor = Complaints.SelectedItem.Text;
-                        if (ExpectedClosureDate == null || ExpectedClosureDate.Text == "")
-                        {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'eneter the expected closure date', 'Invalid');", true);
-
-                        }
-                        else
-                        {
+                     
+                      
                             if (Complaints.SelectedValue == "5")
                             {
                                 IS_ClosureDate = Convert.ToDateTime(ExpectedClosureDate.Text);
@@ -147,7 +142,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
 
 
 
-                        }
+                        
 
 
                     }
@@ -161,8 +156,9 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         }
 
 
-        else
+        else if(e.CommandName == "delete")
         {
+            bool hasError = false;
 
             for (int i = 0; i < GVEscalations.Rows.Count; i++)
             {
@@ -199,8 +195,10 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
 
                         if (Complaints.SelectedValue == "5")
                         {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Please select!', 'Valid Reason!', 'error');", true);
-                            return;
+
+                            hasError = true;
+                            
+
                         }
                         else
                         {
@@ -215,8 +213,16 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                 }
 
                 // Show delete success message and refresh grid
-                Response.Redirect(Request.Url.AbsoluteUri);
+                //Response.Redirect(Request.Url.AbsoluteUri);
                 //  BindGridBranchWise(); // Refresh your grid after deletion
+            }
+
+            if(hasError == true)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "Alert", "showAlert('No one checked! Please choose at least one.');", true);
+                BindGrid();
+             
+
             }
         }
 

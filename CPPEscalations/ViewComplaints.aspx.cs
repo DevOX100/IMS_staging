@@ -154,7 +154,9 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                 lblEM_ProductDelivery.Text = (issueDetails["EM_BranchProduct_delivery"] != DBNull.Value) ? issueDetails["EM_BranchProduct_delivery"].ToString() : "N/A";
                 lblEM_ConfirmationDate.Text = (issueDetails["EM_BranchConfirmation_Date"] != DBNull.Value) ? issueDetails["EM_BranchConfirmation_Date"].ToString() : "N/A";
                 lblEM_ProductDeliveryDate.Text = (issueDetails["EM_BranchProduct_DeliveryDate"] != DBNull.Value) ? issueDetails["EM_BranchProduct_DeliveryDate"].ToString() : "N/A";
-
+                lblexpectedClosure.Text= (issueDetails["EM_VendorExpectedClosureDate"] != DBNull.Value) ? issueDetails["EM_VendorExpectedClosureDate"].ToString() : "N/A";
+                lblVendorRemarks.Text = (issueDetails["EM_VendorRemarks"] != DBNull.Value) ? issueDetails["EM_VendorRemarks"].ToString() : "N/A";
+                lblConfirmationRemarks.Text = (issueDetails["EM_BranchConfirmationRemarks"] != DBNull.Value) ? issueDetails["EM_BranchConfirmationRemarks"].ToString() : "N/A";
                 // Trigger the modal using ScriptManager
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowModal", "$('#divModel_InvoiceDetails').modal('show');", true);
             }

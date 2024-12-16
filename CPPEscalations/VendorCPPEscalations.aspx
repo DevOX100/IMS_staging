@@ -3,18 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
 
 
-    <script type="text/javascript">
-        function SelectAllCheckboxes(chkAll) {
-            var grid = document.getElementById('<%= GVEscalations.ClientID%>');
-            var inputs = grid.getElementsByTagName("input");
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].type == "checkbox") {
-                    inputs[i].checked = chkAll.checked;
-                }
-            }
-        }
+ 
 
-    </script>
     <script type="text/javascript">
         function SelectAllCheckboxes(chkAll) {
             var grid = document.getElementById('<%= GVConfirmEscalation.ClientID%>');
@@ -27,6 +17,8 @@
         }
 
     </script>
+    
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
 

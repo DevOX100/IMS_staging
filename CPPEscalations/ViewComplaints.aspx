@@ -16,6 +16,10 @@
  .my-gridview .label {
      font-size: 14px;
  }
+ .modal-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
 
 
 
@@ -167,7 +171,17 @@
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
+                                             <asp:TemplateField HeaderText="HO Confirmation">
+         <ItemTemplate>
+             <asp:Label ID="lblCOmplaintbyHO" runat="server" Text='<%#Eval("EM_ProductComplaintbyHO")%>'></asp:Label>
 
+         </ItemTemplate>
+     </asp:TemplateField>               <asp:TemplateField HeaderText="Vendor Confirmation">
+         <ItemTemplate>
+             <asp:Label ID="lblCOmplaintbyVendor" runat="server" Text='<%#Eval("Em_VendorConfirmationValue")%>'></asp:Label>
+
+         </ItemTemplate>
+     </asp:TemplateField>
 
                                        <%-- <asp:TemplateField HeaderText="Technician Visit">
                                             <ItemTemplate>
@@ -183,12 +197,12 @@
                                         </asp:TemplateField>--%>
 
 
-                                        <asp:TemplateField HeaderText="Vendor Remarks">
+                                        <%--<asp:TemplateField HeaderText="Vendor Remarks">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblVendorRemarks" runat="server" Text='<%#Eval("EM_VendorRemarks")%>'></asp:Label>
 
                                             </ItemTemplate>
-                                        </asp:TemplateField>
+                                        </asp:TemplateField>--%>
                                         <asp:TemplateField HeaderText="Date">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblStatusDate" runat="server" Text='<%#Eval("StatusDate")%>'></asp:Label>
@@ -281,6 +295,10 @@
                         <strong>Product Type:</strong>
                         <asp:Label ID="lblProductType" runat="server"></asp:Label>
                     </p>
+                         <p>
+         <strong>Product Complaint Date:</strong>
+         <asp:Label ID="lblComplaint" runat="server"></asp:Label>
+     </p>
                     <p>
                         <strong>Is stock available in branch:</strong>
                         <asp:Label ID="lblAvailableStock" runat="server"></asp:Label>
@@ -289,10 +307,7 @@
                         <strong>HO Remarks:</strong>
                         <asp:Label ID="lblRemarks" runat="server"></asp:Label>
                     </p>
-                    <p>
-                        <strong>Product Complaint Date:</strong>
-                        <asp:Label ID="lblComplaint" runat="server"></asp:Label>
-                    </p>
+               
                     <p>
                         <strong>HO Escalation Date:</strong>
                         <asp:Label ID="lblEscalation" runat="server"></asp:Label>
@@ -301,6 +316,13 @@
                         <strong>Vendor confirm Date:</strong>
                         <asp:Label ID="lblVendorConfirmDate" runat="server"></asp:Label>
                     </p>
+                      <p>
+      <strong>Vendor Expected closure Date:</strong>
+      <asp:Label ID="lblexpectedClosure" runat="server"></asp:Label>
+  </p>           <p>
+      <strong>Vendor Remarks:</strong>
+      <asp:Label ID="lblVendorRemarks" runat="server"></asp:Label>
+  </p>
                     <p>
                         <strong>vendor reject Date:</strong>
                         <asp:Label ID="lblEM_VendorRejectDate" runat="server"></asp:Label>
@@ -321,14 +343,19 @@
                         <strong>Branch Confiramtion:</strong>
                         <asp:Label ID="lblEM_Confirmation" runat="server"></asp:Label>
                     </p>
+                      <p>
+      <strong>Branch Confiramtion Remarks :</strong>
+      <asp:Label ID="lblConfirmationRemarks" runat="server"></asp:Label>
+  </p>
+                        <p>
+        <strong>Confirmation Date:</strong>
+        <asp:Label ID="lblEM_ConfirmationDate" runat="server"></asp:Label>
+    </p>  
                     <p>
                         <strong>Stock Handover:</strong>
                         <asp:Label ID="lblEM_ProductDelivery" runat="server"></asp:Label>
                     </p> 
-                    <p>
-                        <strong>Confirmation Date:</strong>
-                        <asp:Label ID="lblEM_ConfirmationDate" runat="server"></asp:Label>
-                    </p>  
+                
                     <p>
                         <strong>Delivery Date:</strong>
                         <asp:Label ID="lblEM_ProductDeliveryDate" runat="server"></asp:Label>
