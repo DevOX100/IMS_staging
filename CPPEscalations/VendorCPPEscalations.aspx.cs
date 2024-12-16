@@ -179,7 +179,7 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
                 ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No One Checked!', 'Please choose at least one!', 'error');", true);
                 return;
 
-               
+
             }
             else
             {
@@ -253,13 +253,13 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
         if (chkAction.Checked && chkAction.Checked == true)
         {
             Remarks.Enabled = true;
-            
+
             rfvComplaint.Enabled = true;
         }
         else
         {
             Remarks.Enabled = false;
-           
+
             rfvComplaint.Enabled = false;
         }
 
