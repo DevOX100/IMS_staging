@@ -19,11 +19,14 @@ public partial class Account_Home : System.Web.UI.Page
         if (!IsPostBack)
         {
             string HOLogins= Session["RCode"].ToString();
+            string Division = Session["Division"].ToString();
+            string Cluster = Session["Cluster"].ToString();
+            string[] loginType = { "U", "D", "C" };
 
             //string[] HOLogins = { "10000", "01479", "01823", "09917", "08000" };
             //string[] CppHUBWise = { "15020", "12307", "15704", "18269", "18891" };
             //string UserCode = Session["UserCode"].ToString();
-            if (Session["loginType"].ToString() == "U" && HOLogins!="R000" && !HOLogins.StartsWith("BH",StringComparison.OrdinalIgnoreCase))
+            if (loginType.Contains(Session["loginType"].ToString()) && HOLogins!="R000" && !HOLogins.StartsWith("BH",StringComparison.OrdinalIgnoreCase))
             {
                 BindBranch();
                 Region.Visible = false;
@@ -78,10 +81,14 @@ public partial class Account_Home : System.Web.UI.Page
     }
     protected void BindRegion()
     {
+        
         string HOLogins = Session["RCode"].ToString();
-        if (HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
+        if (HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase) )
         {
+       
+
             string CppHub = Session["RegionID"].ToString();
+      
             ds = ISS.HUBWiseRegion(CppHub);
             ddlRegion.DataSource = ds;
             ddlRegion.DataTextField = "Cluster_ID";
@@ -104,10 +111,12 @@ public partial class Account_Home : System.Web.UI.Page
     
     protected void BindBranch()
     {
-
+        string[] loginType = { "D", "C" };
+       
         string HOLogins = Session["RCode"].ToString();
         if (Session["loginType"].ToString() == "U" && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
         {
+           
             string clusterID = Session["RegionID"].ToString();
             ds = ISS.BranchDetailsByRegion(clusterID);
             ddlBranch.DataSource = ds;
@@ -115,6 +124,20 @@ public partial class Account_Home : System.Web.UI.Page
             ddlBranch.DataValueField = "Branch_ID";
             ddlBranch.DataBind();
             ddlBranch.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        else if (loginType.Contains(Session["loginType"].ToString()))
+        {
+            string clusterID = Session["RegionID"].ToString();
+            string userCode = Session["UserCode"].ToString();
+            if (loginType.Contains(Session["loginType"].ToString()))
+            {
+                ds = ISS.BranchDetailsByDivisionCluster(userCode, clusterID);
+                ddlBranch.DataSource = ds;
+                ddlBranch.DataTextField = "Branch_Name";
+                ddlBranch.DataValueField = "Branch_ID";
+                ddlBranch.DataBind();
+                ddlBranch.Items.Insert(0, new ListItem("Select", "0"));
+            }
         }
         else
         {
@@ -288,8 +311,8 @@ public partial class Account_Home : System.Web.UI.Page
             regionID = "0";
         }
         string UserCode = Session["UserCode"].ToString();
-
-        if (Session["loginType"].ToString() == "U" && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
+        string[] loginType = { "D", "C" ,"U"};
+        if (loginType.Contains(Session["loginType"].ToString())  && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
         {
             regionID = Session["RegionID"].ToString();
         }

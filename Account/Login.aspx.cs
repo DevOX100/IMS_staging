@@ -60,6 +60,8 @@ public partial class Account_Login : System.Web.UI.Page
             int RoleID = Convert.ToInt32((ds.Tables[0].Rows[0]["RoleID"]).ToString());
             int DepID = Convert.ToInt32((ds.Tables[0].Rows[0]["DepID"]).ToString());
             string RegionID = (ds.Tables[0].Rows[0]["R_Name"]).ToString();
+            string Division = (ds.Tables[0].Rows[0]["REGION_NAME"]).ToString();
+            string Cluster = (ds.Tables[0].Rows[0]["AREA_NAME"]).ToString();
             Session["UserCode"] = x.ToString();
             Session["UserName"] = EmpName;
             Session["BranchID"] = BranchID;
@@ -68,6 +70,8 @@ public partial class Account_Login : System.Web.UI.Page
             Session["DepID"] = DepID;
             Session["loginType"] = loginType;
             Session["RegionID"] = RegionID;
+            Session["Division"] = Division;
+            Session["Cluster"] = Cluster;
             HttpBrowserCapabilities capability = Request.Browser;
             string BrowserName = capability.Browser + capability.Version + "/" + capability.Platform;
             string IP = tip.GetIp();

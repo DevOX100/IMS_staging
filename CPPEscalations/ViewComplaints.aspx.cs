@@ -29,8 +29,8 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
             }
             else
             {
-                GVViewEscalationns.Columns[12].Visible = false;
                 GVViewEscalationns.Columns[13].Visible = false;
+                GVViewEscalationns.Columns[14].Visible = false;
 
                 ddlBranch.Visible = true;
                 ddlRegion.Visible = true;

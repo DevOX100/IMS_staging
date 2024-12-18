@@ -29,8 +29,10 @@ public partial class Inventory_viewPO : System.Web.UI.Page
             BindBranch();
             //BindVendor();
             BindPONumber();
-             string HOLogins= Session["RCode"].ToString();
-            if (Session["loginType"].ToString() == "U" && HOLogins!="R000" && !HOLogins.StartsWith("BH",StringComparison.OrdinalIgnoreCase))
+            string[] LoginType = { "U", "D", "C" };
+
+            string HOLogins = Session["RCode"].ToString();
+            if (LoginType.Contains(Session["loginType"].ToString()) && HOLogins!="R000" && !HOLogins.StartsWith("BH",StringComparison.OrdinalIgnoreCase))
             {
                 ddlPONUMBER.Visible = false;
             }
@@ -300,30 +302,43 @@ public partial class Inventory_viewPO : System.Web.UI.Page
     }
     protected void BindBranch()
     {
-        string BranchCode;
-        string HOLogins = Session["RCode"].ToString();
-        if (HOLogins=="R000")
+        string[] loginType = { "D", "C" };
+        if (loginType.Contains(Session["loginType"].ToString()))
         {
-            BranchCode = Session["UserCode"].ToString();
+            string clusterID = Session["RegionID"].ToString();
+            string userCode = Session["UserCode"].ToString();
+            if (loginType.Contains(Session["loginType"].ToString()))
+            {
+                ds = ISS.BranchDetailsByDivisionCluster(userCode, clusterID);
+                ddlBranch.DataSource = ds;
+                ddlBranch.DataTextField = "Branch_Name";
+                ddlBranch.DataValueField = "Branch_ID";
+                ddlBranch.DataBind();
+                ddlBranch.Items.Insert(0, new ListItem("Select", "0"));
+            }
         }
         else
         {
-            BranchCode = Session["RegionID"].ToString();
+            string BranchCode;
+            string HOLogins = Session["RCode"].ToString();
+            if (HOLogins == "R000")
+            {
+                BranchCode = Session["UserCode"].ToString();
+            }
+            else
+            {
+                BranchCode = Session["RegionID"].ToString();
+            }
+
+            ds = ISS.BranchDetails(BranchCode);
+            ddlBranch.DataSource = ds;
+            ddlBranch.DataTextField = "Branch_Name";
+            ddlBranch.DataValueField = "Branch_ID";
+            ddlBranch.DataBind();
+            ddlBranch.Items.Insert(0, new ListItem("Select Branch", "0"));
         }
-        
-        ds = ISS.BranchDetails(BranchCode);
-        ddlBranch.DataSource = ds;
-        ddlBranch.DataTextField = "Branch_Name";
-        ddlBranch.DataValueField = "Branch_ID";
-        ddlBranch.DataBind();
-        ddlBranch.Items.Insert(0, new ListItem("Select Branch", "0"));
     }
-    //protected void BindGridBranchWise()
-    //{
-    //    string BranchID = ddlBranch.SelectedValue;
-    //    gvApproval.DataSource = ISS.GetBranchWisePoDetails(BranchID);
-    //    gvApproval.DataBind();
-    //}
+   
     protected void BindOrder()
     {
         string HOLogins;
@@ -412,6 +427,7 @@ public partial class Inventory_viewPO : System.Web.UI.Page
             BindGrid();
        
         }
+        BindOrderStatus();
     }
 
     protected void ddlPONUMBER_SelectedIndexChanged(object sender, EventArgs e)
@@ -429,7 +445,7 @@ public partial class Inventory_viewPO : System.Web.UI.Page
     protected void ddlStatus_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindOrder();
-
+       
 
     }
 }

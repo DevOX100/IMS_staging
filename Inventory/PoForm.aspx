@@ -239,7 +239,7 @@
 
             <div class="container">
                 <asp:Label runat="server" ID="lblPoNum" CssClass="col-form-label bold" Visible="false"></asp:Label>
-              <%--  <asp:Image ID="logoImage" runat="server" ImageUrl="~/images/Midland.png" AlternateText="Logo Alt Text" />--%>
+                <asp:Image ID="logoImage" runat="server" ImageUrl="~/images/Midland.png" AlternateText="Logo Alt Text" />
 
                 <h1 class="card-header bold">Purchase Order</h1>
                 <div class="spacing">

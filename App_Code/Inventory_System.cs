@@ -562,8 +562,10 @@ public class Inventory_System : db
     {
         param = new SqlParameter[1];
         param[0] = new SqlParameter("@clusterID", clusterID);
+
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_BranchDetailsByRegion", param);
-    }
+    }   
+   
     public DataSet Vendorpo(string vendorCode)
     {
         param = new SqlParameter[1];
@@ -1400,5 +1402,13 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[2] = new SqlParameter("@IssuedID", IssueID);
         param[3] = new SqlParameter("@EM_BranchConfirmationRemarks", EM_BranchConfirmationRemarks);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "insertBranchfeedback", param);
+    }
+    public DataSet BranchDetailsByDivisionCluster( string UserCode, string ClusterID)
+    {
+        param = new SqlParameter[2];
+     
+        param[0] = new SqlParameter("@UserCode", UserCode);
+        param[1] = new SqlParameter("@ClusterID", ClusterID);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_BranchDetailsByDivisionCluster", param);
     }
 }
