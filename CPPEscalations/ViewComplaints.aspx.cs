@@ -20,15 +20,34 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            if (Session["LoginType"].ToString() == "B")
+            string headOffice = "R000";
+            string[] loginType = { "C", "D" };
+            if (Session["loginType"].ToString()=="B")
             {
                 ddlBranch.Visible = false;
                 ddlRegion.Visible = false;
                 lblBranch.Visible = false;
                 Region.Visible = false;
             }
+           else if (loginType.Contains(Session["loginType"].ToString()))
+            {
+                Region.Visible = false;
+                ddlRegion.Visible = false;
+                BindBranch();
+                GVViewEscalationns.Columns[13].Visible = false;
+                GVViewEscalationns.Columns[14].Visible = false;
+            }
+            else if (headOffice != Session["RCode"].ToString())
+            {
+                Region.Visible = false;
+                ddlRegion.Visible = false;
+                BindBranch();
+                GVViewEscalationns.Columns[13].Visible = false;
+                GVViewEscalationns.Columns[14].Visible = false;
+            }
             else
             {
+                
                 GVViewEscalationns.Columns[13].Visible = false;
                 GVViewEscalationns.Columns[14].Visible = false;
 
@@ -60,7 +79,17 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
         {
             status = "0";
         }
-        string userCode = Session["UserCode"].ToString();
+      
+        if (Session["loginType"].ToString()=="C")
+        {
+            region = Session["Cluster"].ToString();
+        }
+        else if (Session["loginType"].ToString() == "D")
+        {
+            region = Session["Division"].ToString();
+         
+        }
+            string userCode = Session["UserCode"].ToString();
         ds = ISS.ViewEscalation(region, branch, status, userCode);
         GVViewEscalationns.DataSource = ds;
         GVViewEscalationns.DataBind();
@@ -87,24 +116,83 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
     }
     protected void BindBranch()
     {
-        string clusterID = ddlRegion.SelectedValue;
-        ds = ISS.BranchDetailsByRegion(clusterID);
+        string[] loginType = { "D", "C" };
+        string headOffice="R000";
+        if (loginType.Contains(Session["loginType"].ToString()))
+        {
+            string clusterID = Session["RegionID"].ToString();
+            string userCode = Session["UserCode"].ToString();
+            if (loginType.Contains(Session["loginType"].ToString()))
+            {
+                ds = ISS.BranchDetailsByDivisionCluster(userCode, clusterID);
+                ddlBranch.DataSource = ds;
+                ddlBranch.DataTextField = "Branch_Name";
+                ddlBranch.DataValueField = "Branch_ID";
+                ddlBranch.DataBind();
+                ddlBranch.Items.Insert(0, new ListItem("Select", "0"));
+            }
+        }
+        else if(Session["loginType"].ToString() == "U"&& headOffice != Session["RCode"].ToString())
+        {
+            string clusterID = Session["RegionID"].ToString();
+            ds = ISS.BranchDetailsByRegion(clusterID);
 
-        ddlBranch.DataSource = ds;
-        ddlBranch.DataTextField = "Branch_Name";
-        ddlBranch.DataValueField = "Branch_ID";
-        ddlBranch.DataBind();
-        ddlBranch.Items.Insert(0, new ListItem("Select", "0"));
+            ddlBranch.DataSource = ds;
+            ddlBranch.DataTextField = "Branch_Name";
+            ddlBranch.DataValueField = "Branch_ID";
+            ddlBranch.DataBind();
+            ddlBranch.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        else
+        {
+            string clusterID = ddlRegion.SelectedValue;
+            ds = ISS.BranchDetailsByRegion(clusterID);
 
+            ddlBranch.DataSource = ds;
+            ddlBranch.DataTextField = "Branch_Name";
+            ddlBranch.DataValueField = "Branch_ID";
+            ddlBranch.DataBind();
+            ddlBranch.Items.Insert(0, new ListItem("Select", "0"));
+        }
     }
     protected void BindStatus()
     {
-        ds = ISS.SelectStatus();
-        ddlStatus.DataSource = ds;
-        ddlStatus.DataTextField = "EM_Status";
-        ddlStatus.DataValueField = "EM_Status";
-        ddlStatus.DataBind();
-        ddlStatus.Items.Insert(0, new ListItem("Select", "0"));
+        string clusterID;
+        string userCode;
+
+        if (Session["loginType"].ToString()=="D")
+        {
+             clusterID = Session["Division"].ToString();
+             userCode = Session["UserCode"].ToString();
+            ds = ISS.SelectStatus(userCode,clusterID);
+            ddlStatus.DataSource = ds;
+            ddlStatus.DataTextField = "EM_Status";
+            ddlStatus.DataValueField = "EM_Status";
+            ddlStatus.DataBind();
+            ddlStatus.Items.Insert(0, new ListItem("Select", "0"));
+        }
+       else if (Session["loginType"].ToString() == "C")
+        {
+            clusterID = Session["Cluster"].ToString();
+            userCode = Session["UserCode"].ToString();
+            ds = ISS.SelectStatus(userCode, clusterID);
+            ddlStatus.DataSource = ds;
+            ddlStatus.DataTextField = "EM_Status";
+            ddlStatus.DataValueField = "EM_Status";
+            ddlStatus.DataBind();
+            ddlStatus.Items.Insert(0, new ListItem("Select", "0"));
+        }
+        else
+        {
+            clusterID = Session["RegionID"].ToString();
+            userCode = Session["UserCode"].ToString();
+            ds = ISS.SelectStatus(userCode, clusterID);
+            ddlStatus.DataSource = ds;
+            ddlStatus.DataTextField = "EM_Status";
+            ddlStatus.DataValueField = "EM_Status";
+            ddlStatus.DataBind();
+            ddlStatus.Items.Insert(0, new ListItem("Select", "0"));
+        }
     }
 
     protected void ddlStatus_SelectedIndexChanged(object sender, EventArgs e)
