@@ -180,26 +180,28 @@ public partial class Account_Home : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count > 0)
             {
 
-                string CRS = (ds.Tables[0].Rows[0]["Customer Return Stock"]).ToString();
-                string RDS = (ds.Tables[1].Rows[0]["Received Damaged Stock"]).ToString();
-                string Total = (ds.Tables[2].Rows[0]["Total Order"]).ToString();
-                string Dispatch = (ds.Tables[3].Rows[0]["Dispatched Order"]).ToString();
-                string Pending = (ds.Tables[4].Rows[0]["Pending Order"]).ToString();
-                string Delivered = (ds.Tables[5].Rows[0]["Delivered Order"]).ToString();
-                string Handover = (ds.Tables[6].Rows[0]["Handover Order"]).ToString();
-                string Available = (ds.Tables[7].Rows[0]["Available Order"]).ToString();
+                string Total = (ds.Tables[0].Rows[0]["Total"]).ToString();
+                string OutStock = (ds.Tables[1].Rows[0]["Out Stock"]).ToString();
+                string stockAdjustment = (ds.Tables[2].Rows[0]["Stock Adjustment"]).ToString();
+                string AvailableStock= (ds.Tables[3].Rows[0]["Available Order"]).ToString();
+                string MTD = (ds.Tables[4].Rows[0]["MTD"]).ToString();
+                string FTD = (ds.Tables[5].Rows[0]["FTD"]).ToString();
+                string CustomerComplaints = (ds.Tables[6].Rows[0]["Customer Return Stock"]).ToString();
+                string Pending = (ds.Tables[7].Rows[0]["Pending Order"]).ToString();
+                string Delivered = (ds.Tables[8].Rows[0]["Delivered Order"]).ToString();
 
 
 
 
-                lblCR.Text = CRS.ToString();
-                lblRDS.Text = RDS.ToString();
                 lblotal.Text = Total.ToString();
-                lblDispatched.Text = Dispatch.ToString();
-                lblPend.Text = Pending.ToString();
-                lblDelivered.Text = Delivered.ToString();
-                lblHandover.Text = Handover.ToString();
-                lblAvailable.Text = Available.ToString();
+                lblCR.Text = OutStock.ToString();
+                lblRDS.Text = stockAdjustment.ToString();
+                lblPend.Text = AvailableStock.ToString();
+                lblMonthTillDate.Text = MTD.ToString();
+                lblForTheDay.Text = FTD.ToString();
+                lblCustomerComplaints.Text = CustomerComplaints.ToString();
+                lblNotDelivered.Text = Pending.ToString();
+                lblDeliveredStocks.Text = Delivered.ToString();
 
             }
             VendorDataChart();
@@ -405,27 +407,29 @@ public partial class Account_Home : System.Web.UI.Page
             //ds = ISS.DashboardInvoiceCount(UserCode);
             if (ds.Tables[0].Rows.Count > 0)
             {
-               
-                string CRS = (ds.Tables[0].Rows[0]["Customer Return Stock"]).ToString();
-                string RDS = (ds.Tables[1].Rows[0]["Received Damaged Stock"]).ToString();
-                string Total = (ds.Tables[2].Rows[0]["Total Order"]).ToString();
-                string Dispatch = (ds.Tables[3].Rows[0]["Dispatched Order"]).ToString();
-                string Pending = (ds.Tables[4].Rows[0]["Pending Order"]).ToString();
-                string Delivered = (ds.Tables[5].Rows[0]["Delivered Order"]).ToString();
-                string Handover = (ds.Tables[6].Rows[0]["Handover Order"]).ToString();
-                string Available = (ds.Tables[7].Rows[0]["Available Order"]).ToString();
-                
-               
+
+                string Total = (ds.Tables[0].Rows[0]["Total"]).ToString();
+                string OutStock = (ds.Tables[1].Rows[0]["Out Stock"]).ToString();
+                string stockAdjustment = (ds.Tables[2].Rows[0]["Stock Adjustment"]).ToString();
+                string AvailableStock = (ds.Tables[3].Rows[0]["Available Order"]).ToString();
+                string MTD = (ds.Tables[4].Rows[0]["MTD"]).ToString();
+                string FTD = (ds.Tables[5].Rows[0]["FTD"]).ToString();
+                string CustomerComplaints = (ds.Tables[6].Rows[0]["Customer Return Stock"]).ToString();
+                string Pending = (ds.Tables[7].Rows[0]["Pending Order"]).ToString();
+                string Delivered = (ds.Tables[8].Rows[0]["Delivered Order"]).ToString();
 
 
-                lblCR.Text = CRS.ToString();
-                lblRDS.Text = RDS.ToString();
+
+
                 lblotal.Text = Total.ToString();
-                lblDispatched.Text = Dispatch.ToString();
-                lblPend.Text = Pending.ToString();
-                lblDelivered.Text = Delivered.ToString();
-                lblHandover.Text = Handover.ToString();
-                lblAvailable.Text = Available.ToString();
+                lblCR.Text = OutStock.ToString();
+                lblRDS.Text = stockAdjustment.ToString();
+                lblPend.Text = AvailableStock.ToString();
+                lblMonthTillDate.Text = MTD.ToString();
+                lblForTheDay.Text = FTD.ToString();
+                lblCustomerComplaints.Text = CustomerComplaints.ToString();
+                lblNotDelivered.Text = Pending.ToString();
+                lblDeliveredStocks.Text = Delivered.ToString();
 
             }
         }

@@ -39,9 +39,7 @@
                                             <ItemTemplate>
                                                   <asp:Label ID="lblbisid" runat="server" Text='<%#Eval("BIS_ID") %>' Visible="false"></asp:Label>
                                               <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control border border-dark">
-                                       <%--           <asp:ListItem Value="1">Order Confirmed</asp:ListItem>
-                                                  <asp:ListItem Value="2">Ready For Dispatched</asp:ListItem>
-                                                  <asp:ListItem Value="3">Dispatched</asp:ListItem>--%>
+                                    
                                               </asp:DropDownList>
                                             </ItemTemplate>
                                         </asp:TemplateField>

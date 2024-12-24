@@ -305,7 +305,7 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                             }
 
                             ISS.insertBranchfeedback(closure, status, ID, remarks);
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Success!', 'Status Updated Successfully!', 'success');", true);
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Success!', 'Escalation Updated Successfully!', 'success');", true);
                             BindGrid();
                             //}
                         }
@@ -375,12 +375,14 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                 // Enable DropDownLists if the status is "Closed"
                 if (status != null) status.Enabled = true;
                 if (closure != null) closure.Enabled = true;
+                if(txtRemarks != null) txtRemarks.Enabled = true;
             }
             else
             {
                 // Disable DropDownLists for other statuses
                 if (status != null) status.Enabled = false;
                 if (closure != null) closure.Enabled = false;
+                if (txtRemarks != null) txtRemarks.Enabled = false;
             }
 
 
@@ -394,15 +396,15 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                     {
                         closure.SelectedValue = closure.Items.FindByText(lblComplaintConf.Text).Value;
 
-                        if (lblIsVendorClosure.Text == "1")
+                        if (closure.Items.FindByText(lblComplaintConf.Text).Value == "1")
                         {
                             closure.Enabled = false;
-                            txtRemarks.Enabled = false;
+                          
                         }
                         else
                         {
                             closure.Enabled = true;
-                            txtRemarks.Enabled = true;
+                     
                         }
                     }
                 }
@@ -416,7 +418,13 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                     if (status.Items.FindByText(lblProductDelivery.Text) != null)
                     {
                         status.SelectedValue = status.Items.FindByText(lblProductDelivery.Text).Value;
-                        status.Enabled = false;
+                        if(status.Items.FindByText(lblProductDelivery.Text).Value == "1")
+                        {
+                            status.Enabled = false;
+                            txtRemarks.Enabled = false;
+                        }
+                        
+                      
                     }
                 }
             }

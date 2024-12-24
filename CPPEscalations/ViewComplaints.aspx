@@ -218,7 +218,7 @@
                                         <asp:TemplateField HeaderText="Branch Action" HeaderStyle-Width="5px">
                                             <ItemTemplate>
                                             
-                                                <asp:DropDownList ID="ddlCLosure" Width="150px" runat="server" AutoPostBack="true" CssClass="form-control border border-dark" OnSelectedIndexChanged="ddlCLosure_SelectedIndexChanged" ValidationGroup="ABC">
+                                                <asp:DropDownList ID="ddlCLosure" Width="100px" runat="server" AutoPostBack="true" CssClass="form-control border border-dark" OnSelectedIndexChanged="ddlCLosure_SelectedIndexChanged" ValidationGroup="ABC">
                                                     <asp:ListItem Value="0" Text="Select Closure Type">
                                                     </asp:ListItem>
                                                     <asp:ListItem Value="1" Text="Complaint resolved ">
@@ -230,7 +230,7 @@
                                                 <asp:RequiredFieldValidator ID="rfvCLosure" Enabled="false" runat="server" ControlToValidate="ddlCLosure" ErrorMessage="Kindly select" ForeColor="red"
                                                     Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                                 <br />
-                                                <asp:DropDownList ID="ddlStatus"  Width="150px" runat="server" AutoPostBack="true" CssClass="form-control border border-dark"  ValidationGroup="ABC">
+                                                <asp:DropDownList ID="ddlStatus"  Width="100px" runat="server" AutoPostBack="true" CssClass="form-control border border-dark"  ValidationGroup="ABC">
                                                     <asp:ListItem Value="0" Text="Select Delivery">
                                                     </asp:ListItem>
                                                     <asp:ListItem Value="1" Text="Product Delivered ">
@@ -243,7 +243,7 @@
                                                 <asp:RequiredFieldValidator ID="rfvStatus" Enabled="false" runat="server" ControlToValidate="ddlStatus" ErrorMessage="Kindly select" ForeColor="red"
                                                     Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                                 <br />
-                                                  <asp:TextBox ID="txtRemarks" AutoPostBack="true" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                                  <asp:TextBox ID="txtRemarks" AutoPostBack="true" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="100px" ValidationGroup="ABC"></asp:TextBox>
   <asp:RequiredFieldValidator ID="rfvRemarks" Enabled="false" runat="server" ControlToValidate="txtRemarks" ErrorMessage="Kindly provide Remarks" ForeColor="red"
       Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>
                                             </ItemTemplate>

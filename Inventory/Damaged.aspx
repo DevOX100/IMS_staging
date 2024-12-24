@@ -146,6 +146,7 @@
                                         <asp:ListItem Text="Missing  Unit" Value="1" />
                                         <asp:ListItem Text="Employee Purchase" Value="2" />
 <asp:ListItem Text="Admin Use units" Value="3" />
+<asp:ListItem Text="Adjustment by HO" Value="4" />
 
                                     </asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="rfc2" runat="server" ControlToValidate="ddlComplaintType" ErrorMessage="Kindly Select Complaint" ForeColor="red"

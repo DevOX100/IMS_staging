@@ -86,14 +86,15 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
 
     protected void GVEscalations_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        int chkCount = 0;
-        if (e.CommandName == "Submit")
+        try
         {
+            int chkCount = 0;
 
-
-            for (int i = 0; i < GVEscalations.Rows.Count; i++)
+            // Count the number of selected checkboxes
+            foreach (GridViewRow row in GVEscalations.Rows)
             {
-                if (((CheckBox)GVEscalations.Rows[i].FindControl("chkAction")).Checked)
+                CheckBox chkAction = (CheckBox)row.FindControl("chkAction");
+                if (chkAction != null && chkAction.Checked)
                 {
                     chkCount++;
                 }
@@ -101,131 +102,91 @@ public partial class CPPEscalations_VendorCPPEscalations : System.Web.UI.Page
 
             if (chkCount == 0)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No One Checked!', 'Please choose at least one!', 'error');", true);
+                ShowAlert("No One Checked!", "Please choose at least one!", "error");
                 return;
             }
-            else
+
+            // Process each selected row
+            foreach (GridViewRow row in GVEscalations.Rows)
             {
-                for (int i = 0; i < GVEscalations.Rows.Count; i++)
+                CheckBox chkAction = (CheckBox)row.FindControl("chkAction");
+                if (chkAction != null && chkAction.Checked)
                 {
-
-
-
-                    if (((CheckBox)GVEscalations.Rows[i].FindControl("chkAction")).Checked)
+                    try
                     {
-                        CheckBox Approve = ((CheckBox)GVEscalations.Rows[i].FindControl("chkAction"));
-                        int ID = Convert.ToInt32(GVEscalations.DataKeys[i]["Em_IssueID"].ToString());
+                        int id = Convert.ToInt32(GVEscalations.DataKeys[row.RowIndex]["Em_IssueID"].ToString());
+                        TextBox remarksTextBox = (TextBox)row.FindControl("txtUpperRemarks");
+                        string remarks = remarksTextBox != null ? remarksTextBox.Text : string.Empty;
+                        string actionTakenBy = Session["UserCode"].ToString();
 
-                        TextBox Remarks = ((TextBox)GVEscalations.Rows[i].FindControl("txtUpperRemarks"));
-                        string finalRemarks = Remarks.Text;
+                        DropDownList complaintsDropdown = (DropDownList)row.FindControl("ddlComplaintsbyVendor");
+                        string complaintsByVendor = complaintsDropdown != null && complaintsDropdown.SelectedItem != null
+                            ? complaintsDropdown.SelectedItem.Text : string.Empty;
+                        string selectedValue = complaintsDropdown != null ? complaintsDropdown.SelectedValue : string.Empty;
 
-                        string EM_ActionTakenBY = Session["UserCode"].ToString();
-                        TextBox ExpectedClosureDate = ((TextBox)GVEscalations.Rows[i].FindControl("txtExpectedClosureDate"));
-                        DateTime? IS_ClosureDate;
-                        DropDownList Complaints = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyVendor"));
-                        string ComplaintsbyVendor = Complaints.SelectedItem.Text;
-                     
-                      
-                            if (Complaints.SelectedValue == "5")
+                        if (e.CommandName == "Submit")
+                        {
+                            if (selectedValue == "5")
                             {
-                                IS_ClosureDate = Convert.ToDateTime(ExpectedClosureDate.Text);
-                                ISS.INV_CPPVendorConfirmation(ID, EM_ActionTakenBY, finalRemarks, (DateTime)IS_ClosureDate, ComplaintsbyVendor);
+                                TextBox closureDateTextBox = (TextBox)row.FindControl("txtExpectedClosureDate");
+                                string closureDateText = closureDateTextBox != null ? closureDateTextBox.Text : string.Empty;
+                                DateTime closureDate;
 
-                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
+                                if (DateTime.TryParse(closureDateText, out closureDate))
+                                {
+                                    ISS.INV_CPPVendorConfirmation(id, actionTakenBy, remarks, closureDate, complaintsByVendor);
+                                    ShowAlert("Done!", "Submitted", "success");
+                                }
+                                else
+                                {
+                                    ShowAlert("Error!", "Invalid Closure Date!", "error");
+                                    return;
+                                }
                             }
                             else
                             {
-                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', '${ComplaintsbyVendor}', 'Kindly check Valid Reason');", true);
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Kindly select \"Escalating to Technician\" while approving the request', 'error');", true);
                                 return;
-
                             }
-
-
-
-                        
-
-
+                        }
+                        else if (e.CommandName == "Reject")
+                        {
+                            if (selectedValue != "5")
+                            {
+                                ISS.INV_Reject_Escalation("", "Name", "DamageProduct_ReceivedBY", "SpouseName", "MobileNO", 1, "ProductType", "Damage_Product_Name",
+                                    "Damage_ProductComplaint", Convert.ToDateTime("01/01/1900"), "AvailableStockInBranch", "ComplaintsbyHO", remarks,
+                                    actionTakenBy, id, "loanID", "productID", complaintsByVendor);
+                                ShowAlert("Done!", "Rejected", "success");
+                            }
+                            else
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Kindly select \"Correct Complaint from the dropdown\" while Rejecting the request', 'error');", true);
+                                return;
+                            }
+                        }
                     }
-
+                    catch (Exception ex)
+                    {
+                        ShowAlert("Invalid!", ex.Message.Replace("'", "\\'"), "error");
+                    }
                 }
             }
+
+            // Refresh the grid after processing
             BindGrid2();
             BindGrid();
-
-
         }
-
-
-        else if(e.CommandName == "delete")
+        catch (Exception ex)
         {
-            bool hasError = false;
-
-            for (int i = 0; i < GVEscalations.Rows.Count; i++)
-            {
-                if (((CheckBox)GVEscalations.Rows[i].FindControl("chkAction")).Checked)
-                {
-                    chkCount++;
-                }
-            }
-
-            if (chkCount == 0)
-            {
-                //// Replace ScriptManager.RegisterStartupScript with this line for page refresh:
-                //Response.Redirect(Request.Url.AbsoluteUri);
-                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No One Checked!', 'Please choose at least one!', 'error');", true);
-                return;
-
-
-            }
-            else
-            {
-                for (int i = 0; i < GVEscalations.Rows.Count; i++)
-                {
-
-
-                    if (((CheckBox)GVEscalations.Rows[i].FindControl("chkAction")).Checked)
-                    {
-
-                        int ID = Convert.ToInt32(GVEscalations.DataKeys[i]["Em_IssueID"]);
-                        TextBox Remarks = ((TextBox)GVEscalations.Rows[i].FindControl("txtUpperRemarks"));
-                        string VendorRemarks = Remarks.Text;
-                        string RejectedBY = Session["UserCode"].ToString();
-                        DropDownList Complaints = ((DropDownList)GVEscalations.Rows[i].FindControl("ddlComplaintsbyVendor"));
-                        string ComplaintsbyVendor = Complaints.SelectedItem.Text;
-
-                        if (Complaints.SelectedValue == "5")
-                        {
-
-                            hasError = true;
-                            
-
-                        }
-                        else
-                        {
-                            ISS.INV_Reject_Escalation("", "Name", "DamageProduct_ReceivedBY", "SpouseName", "MobileNO", 1, "ProductType", "Damage_Product_Name",
-       "Damage_ProductComplaint", Convert.ToDateTime("01/01/1900"), "AvailableStockInBranch", "ComplaintsbyHO", VendorRemarks,
-       RejectedBY, ID, "loanID", "productID", ComplaintsbyVendor);
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'Rejected');", true);
-                            BindGrid();
-                        }
-
-                    }
-                }
-
-                // Show delete success message and refresh grid
-                //Response.Redirect(Request.Url.AbsoluteUri);
-                //  BindGridBranchWise(); // Refresh your grid after deletion
-            }
-
-            if(hasError == true)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "Alert", "showAlert('No one checked! Please choose at least one.');", true);
-                BindGrid();
-             
-
-            }
+            ShowAlert("Error!", ex.Message.Replace("'", "\\'"), "error");
         }
+    }
 
+    // Helper method to show alerts using SweetAlert
+    private void ShowAlert(string title, string message, string icon)
+    {
+        ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert",
+            string.Format("swal('{0}', '{1}', '{2}');", title, message, icon), true);
     }
 
     protected void GVEscalations_RowDataBound(object sender, GridViewRowEventArgs e)
