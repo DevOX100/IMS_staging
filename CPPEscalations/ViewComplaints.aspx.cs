@@ -403,7 +403,15 @@ public partial class CPPEscalations_ViewComplaints : System.Web.UI.Page
                         }
                         else
                         {
-                            closure.Enabled = true;
+                            if(lblStatus.Text== "Complaint Re-Open")
+                            {
+                                closure.Enabled = false;
+                            }
+                            else
+                            {
+                                closure.Enabled = true;
+                            }
+                        
                      
                         }
                     }
