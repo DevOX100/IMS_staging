@@ -1427,9 +1427,10 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
        int     StockONIMSDashboard,
        int     PhysicalStockPresentInBranch,
         int    TotalDamagedUnits,
-         string OtherFeedback)
+         string OtherFeedback,
+         string UserCode)
     {
-        param = new SqlParameter[12];
+        param = new SqlParameter[13];
         param[0] = new SqlParameter("@EmployeeID", EmployeeID);
         param[1] = new SqlParameter("@EmployeeName", EmployeeName);
         param[2] = new SqlParameter("@Designation", Designation);
@@ -1442,6 +1443,7 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[9] = new SqlParameter("@PhysicalStockPresentInBranch", PhysicalStockPresentInBranch);
         param[10] = new SqlParameter("@TotalDamagedUnits", TotalDamagedUnits);
         param[11] = new SqlParameter("@OtherFeedback", OtherFeedback);
+        param[12] = new SqlParameter("@UserCode", @UserCode);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "insertReconciliationData", param);
     }
 }

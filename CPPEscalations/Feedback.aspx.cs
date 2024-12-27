@@ -90,7 +90,7 @@ public partial class CPPEscalations_Feedback : System.Web.UI.Page
         }
 
         bool isSuccessful = true;  // Flag to track if all data is processed successfully
-
+        DataSet result;
         // Process stock data
         foreach (var key in Request.Form.AllKeys)
         {
@@ -103,7 +103,7 @@ public partial class CPPEscalations_Feedback : System.Web.UI.Page
                 string productName = Request.Form[productNameKey];
                 string stockIMS = Request.Form[key];
                 string stockPhysical = Request.Form[stockPhysicalKey];
-
+                string UserCode=Session["UserCode"].ToString();
                 // Convert stock values to integers
                 int stockIMSValue = 0, stockPhysicalValue = 0;
                 if (!int.TryParse(stockIMS, out stockIMSValue) || !int.TryParse(stockPhysical, out stockPhysicalValue))
@@ -114,7 +114,7 @@ public partial class CPPEscalations_Feedback : System.Web.UI.Page
                 }
 
                 // Call the database method to save this product's data
-                DataSet result = ISS.insertReconciliationData(
+                 result = ISS.insertReconciliationData(
                     employeeId,
                     employeeName,
                     designation,
@@ -126,18 +126,14 @@ public partial class CPPEscalations_Feedback : System.Web.UI.Page
                     stockIMSValue,
                     stockPhysicalValue,
                     totalDamagedUnits,
-                    feedback
+                    feedback,
+                    UserCode
                 );
+                isSuccessful = true;
 
-                if (result == null || result.Tables.Count == 0)
-                {
-                    //ShowMessage("Failed to save data for product: " + productName, "error");
-                    isSuccessful = true;
-                    break;
-                }
             }
         }
-
+    
         // Show success message if all data is processed successfully
         if (isSuccessful)
         {
