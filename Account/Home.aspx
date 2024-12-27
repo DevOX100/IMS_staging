@@ -17,7 +17,11 @@
         a {
             text-decoration: none;
         }
-
+        body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Disable scrollbar */
+    }
 
         /* Additional spacing and styling adjustments */
         .card-header, .card-body, .card-footer {
@@ -80,9 +84,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        #vendorCards {
-            margin-top: -300px;
-        }
+   
 
         .card-header, .card-body, .card-footer {
             padding: 1rem;
@@ -137,9 +139,7 @@
             align-items: center;
             text-align: center;
         }
-
-        #mainGraph {
-            display: flex;
+        #mainGraph{
             justify-content: center;
             align-items: center;
             text-align: center;
@@ -203,7 +203,6 @@
 
         <br />
         <div class="card-container">
-
 
             <div id="TS" runat="server" class="card border-round1 animationC1" style="background-color: #0a4a71">
                 <div class="card-header cb-style" style="font-size: larger">
@@ -303,114 +302,10 @@
             </div>
 
 
-            <%--vendor cards--%>
-
-            <div id="DivTotals" runat="server" class="card border-round1 animationC5" style="background-color: #188162">
-                <div class="card-header cb-style" style="font-size: larger">
-                    <h4 style="color: oldlace; font-weight: bold">Total Stock</h4>
-                </div>
-                <div class="card-body border-round2">
-                    <div class="row">
-                        <div class="col-6">
-                            <i class="fa-solid fa-calendar-xmark fa-3x" style="color: oldlace;"></i>
-
-
-                        </div>
-                        <div class="col-6">
-                            <asp:Label runat="server" ID="lblotal" Style="color: oldlace; font-size: 30Px;"></asp:Label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <asp:Label runat="server" ID="Label9" Style="color: oldlace; font-size: 14Px;">Total Stock till now (All Status)</asp:Label>
-                </div>
-            </div>
-            <div id="VendorCustomerDamage" runat="server" class="card border-round1 animationC5" style="background-color: #188162">
-                <div class="card-header cb-style" style="font-size: larger">
-                    <h4 style="color: oldlace; font-weight: bold">Out Stock</h4>
-                </div>
-                <div class="card-body border-round2">
-                    <div class="row">
-                        <div class="col-6">
-                            <i class="fa-solid fa-calendar-xmark fa-3x" style="color: oldlace;"></i>
-
-
-                        </div>
-                        <div class="col-6">
-                            <asp:Label runat="server" ID="lblCR" Style="color: oldlace; font-size: 30Px;"></asp:Label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <asp:Label runat="server" ID="Label3" Style="color: oldlace; font-size: 14Px;">Stocks issued to customers till now in the inventory</asp:Label>
-                </div>
-            </div>
-
-            <div id="VendorStockDamage" runat="server" class="card border-round1 animationC5" style="background-color: #f87226f0">
-                <div class="card-header cb-style" style="font-size: larger">
-                    <h4 style="color: oldlace; font-weight: bold">Stock Adjustment</h4>
-                </div>
-                <div class="card-body border-round2">
-                    <div class="row">
-                        <div class="col-6">
-                            <i class="fa-solid fa-tools fa-3x" style="color: oldlace;"></i>
-
-                        </div>
-                        <div class="col-6">
-                            <asp:Label runat="server" ID="lblRDS" Style="color: oldlace; font-size: 30Px;"></asp:Label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <asp:Label runat="server" ID="Label7" Style="color: oldlace; font-size: 14Px;">Stock Adjusted by Branch and HO</asp:Label>
-                </div>
-            </div>
-
-            <div id="DivPending" runat="server" class="card border-round1 animationC5" style="background-color: #188162">
-                <div class="card-header cb-style" style="font-size: larger">
-                    <h4 style="color: oldlace; font-weight: bold">Available Stocks</h4>
-                </div>
-                <div class="card-body border-round2">
-                    <div class="row">
-                        <div class="col-6">
-                            <i class="fa-solid fa-calendar-xmark fa-3x" style="color: oldlace;"></i>
-
-
-                        </div>
-                        <div class="col-6">
-                            <asp:Label runat="server" ID="lblPend" Style="color: oldlace; font-size: 30Px;"></asp:Label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <asp:Label runat="server" ID="Label15" Style="color: oldlace; font-size: 14Px;">Available stocks in the branch</asp:Label>
-                </div>
-            </div>
-
-            <div id="DivDispatched" runat="server" class="card border-round1 animationC5" style="background-color: #f87226f0">
-                <div class="card-header cb-style" style="font-size: larger">
-                    <h4 style="color: oldlace; font-weight: bold">MTD</h4>
-                </div>
-                <div class="card-body border-round2">
-                    <div class="row">
-                        <div class="col-6">
-                            <i class="fa-solid fa-tools fa-3x" style="color: oldlace;"></i>
-
-                        </div>
-                        <div class="col-6">
-                            <asp:Label runat="server" ID="lblMonthTillDate" Style="color: oldlace; font-size: 30Px;"></asp:Label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <asp:Label runat="server" ID="Label13" Style="color: oldlace; font-size: 14Px;">Last 30 Days Issued Stocks </asp:Label>
-                </div>
-            </div>
-
 
         </div>
-        <br />
         <div class="card-container">
+            
 
             <div id="MTDhide" runat="server" class="card border-round1 animationC4" style="background-color: red">
                 <div class="card-header cb-style" style="font-size: larger">
@@ -422,7 +317,7 @@
                             <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
                         </div>
                         <div class="col-6">
-                            <asp:Label runat="server" ID="lblPaymentDue" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                            <asp:Label runat="server" ID="lblMonthTillDate" Style="color: oldlace; font-size: 30Px;"></asp:Label>
                         </div>
                     </div>
                 </div>
@@ -442,7 +337,7 @@
                             <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
                         </div>
                         <div class="col-6">
-                            <asp:Label runat="server" ID="lblLastDay" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                            <asp:Label runat="server" ID="lblForTheDay" Style="color: oldlace; font-size: 30Px;"></asp:Label>
                         </div>
                     </div>
                 </div>
@@ -453,32 +348,6 @@
 
 
 
-
-
-
-        </div>
-        <br />
-        <div id="vendorCards" class="card-container">
-            <div id="DivDelivered" runat="server" class="card border-round1 animationC5" style="background-color: #188162">
-                <div class="card-header cb-style" style="font-size: larger">
-                    <h4 style="color: oldlace; font-weight: bold">FTD</h4>
-                </div>
-                <div class="card-body border-round2">
-                    <div class="row">
-                        <div class="col-6">
-                            <i class="fa-solid fa-calendar-xmark fa-3x" style="color: oldlace;"></i>
-
-
-                        </div>
-                        <div class="col-6">
-                            <asp:Label runat="server" ID="lblForTheDay" Style="color: oldlace; font-size: 30Px;"></asp:Label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <asp:Label runat="server" ID="Label12" Style="color: oldlace; font-size: 14Px;">Stock issued Today</asp:Label>
-                </div>
-            </div>
             <div id="DivHandover" runat="server" class="card border-round1 animationC5" style="background-color: #f87226f0">
                 <div class="card-header cb-style" style="font-size: larger">
                     <h4 style="color: oldlace; font-weight: bold">Customer Complaints</h4>
@@ -537,17 +406,15 @@
                     <asp:Label runat="server" ID="Label14" Style="color: oldlace; font-size: 14Px;">Delivered Stocks</asp:Label>
                 </div>
             </div>
+
         </div>
-
-
-
     </div>
 
 
     <%-- POPUP Code--%>
     <!-- Modal Popup1 Total -->
     <div id="mainGraph">
-        <div id="css" runat="server" style="padding-right: 0px; text-align: center;">
+        <div id="css" runat="server" style=" text-align: center;">
             <asp:Chart ID="Chart1" runat="server"
                 BackColor="#000000"
                 BackGradientStyle="Center"

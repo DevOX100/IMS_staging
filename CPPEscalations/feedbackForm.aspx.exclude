@@ -1,0 +1,205 @@
+﻿    <div class="card-container">
+
+
+        <div id="TS" runat="server" class="card border-round1 animationC1" style="background-color: #0a4a71">
+            <div class="card-header cb-style" style="font-size: larger">
+                <h4 style="color: oldlace; font-weight: bold">Total Stock</h4>
+            </div>
+            <div class="card-body border-round2">
+                <div class="row">
+                    <div class="col-6">
+                        <i class="fa-solid fa-box fa-rotate-45 fa-3x" style="color: oldlace;"></i>
+                    </div>
+                    <div class="col-6">
+                        <asp:Label runat="server" ID="lblTotal" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <asp:Label runat="server" ID="Label2" Style="color: oldlace; font-size: 14Px;">Total Stocks till now in the inventory</asp:Label>
+            </div>
+        </div>
+
+
+        <div id="OS" runat="server" class="card border-round1 animationC2" style="background-color: #188162">
+            <div class="card-header cb-style" style="font-size: larger">
+                <h4 style="color: oldlace; font-weight: bold">Out Stock</h4>
+            </div>
+            <div class="card-body border-round2">
+                <div class="row">
+                    <div class="col-6">
+                        <i class='fa-solid fa-truck-loading fa-3x' style="color: oldlace;"></i>
+                        <!-- Updated icon -->
+                    </div>
+                    <div class="col-6">
+                        <asp:Label runat="server" ID="lblPaid" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <asp:Label runat="server" ID="Label4" Style="color: oldlace; font-size: 14Px;">Stocks issued to customers till now in the inventory</asp:Label>
+            </div>
+        </div>
+
+        <div id="Div2" runat="server" class="card border-round1 animationC1" style="background-color: #538ee5">
+            <div class="card-header cb-style" style="font-size: larger">
+                <h4 style="color: oldlace; font-weight: bold">Stock Transfer</h4>
+            </div>
+            <div class="card-body border-round2">
+                <div class="row">
+                    <div class="col-6">
+                        <i class="fa-solid fa-box fa-rotate-45 fa-3x" style="color: oldlace;"></i>
+                    </div>
+                    <div class="col-6">
+                        <asp:Label runat="server" ID="lblStockTransfer" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <asp:Label runat="server" ID="Label5" Style="color: oldlace; font-size: 14Px;">Stock Transfer till now in the inventory</asp:Label>
+            </div>
+        </div>
+
+        <div id="Div3" runat="server" class="card border-round1 animationC1" style="background-color: #ff8026eb">
+            <div class="card-header cb-style" style="font-size: larger">
+                <h4 style="color: oldlace; font-weight: bold">Stock Adjustment</h4>
+            </div>
+            <div class="card-body border-round2">
+                <div class="row">
+                    <div class="col-6">
+                        <i class="fa-solid fa-box fa-rotate-45 fa-3x" style="color: oldlace;"></i>
+                    </div>
+                    <div class="col-6">
+                        <asp:Label runat="server" ID="lblStockAdjustment" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <asp:Label runat="server" ID="Label11" Style="color: oldlace; font-size: 14Px;">Stock Adjustment till now in the inventory</asp:Label>
+            </div>
+        </div>
+
+        <div id="AS" runat="server" class="card border-round1 animationC3" style="background-color: #42ae5a">
+            <div class="card-header cb-style" style="font-size: larger">
+                <h4 style="color: oldlace; font-weight: bold">Available Stock</h4>
+            </div>
+            <div class="card-body border-round2">
+                <div class="row">
+                    <div class="col-6">
+                        <i class="fa-solid fa-warehouse fa-3x" style="color: oldlace;"></i>
+                    </div>
+                    <div class="col-6">
+                        <asp:Label runat="server" ID="lblPending" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <asp:Label runat="server" ID="Label6" Style="color: oldlace; font-size: 14Px;">Available stock in the branch till now in the inventory</asp:Label>
+            </div>
+        </div>
+
+
+         
+
+       <div id="MTDhide" runat="server" class="card border-round1 animationC4" style="background-color: red">
+           <div class="card-header cb-style" style="font-size: larger">
+               <h4 style="color: oldlace; font-weight: bold">MTD</h4>
+           </div>
+           <div class="card-body border-round2">
+               <div class="row">
+                   <div class="col-6">
+                       <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
+                   </div>
+                   <div class="col-6">
+                       <asp:Label runat="server" ID="lblPaymentDue" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                   </div>
+               </div>
+           </div>
+           <div class="card-footer">
+               <asp:Label runat="server" ID="Label8" Style="color: oldlace; font-size: 14Px;">Last 30 Days Issued Stocks</asp:Label>
+           </div>
+       </div>
+
+
+       <div id="FTDhide" runat="server" class="card border-round1 animationC5" style="background-color: #e79505">
+           <div class="card-header cb-style" style="font-size: larger">
+               <h4 style="color: oldlace; font-weight: bold">FTD</h4>
+           </div>
+           <div class="card-body border-round2">
+               <div class="row">
+                   <div class="col-6">
+                       <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
+                   </div>
+                   <div class="col-6">
+                       <asp:Label runat="server" ID="lblLastDay" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                   </div>
+               </div>
+           </div>
+           <div class="card-footer">
+               <asp:Label runat="server" ID="Label10" Style="color: oldlace; font-size: 14Px;">Today Issued Stocks</asp:Label>
+           </div>
+       </div>
+
+
+
+                 <div id="DivHandover" runat="server" class="card border-round1 animationC5" style="background-color: #f87226f0">
+       <div class="card-header cb-style" style="font-size: larger">
+           <h4 style="color: oldlace; font-weight: bold">Customer Complaints</h4>
+       </div>
+       <div class="card-body border-round2">
+           <div class="row">
+               <div class="col-6">
+                   <i class="fa-solid fa-tools fa-3x" style="color: oldlace;"></i>
+
+               </div>
+               <div class="col-6">
+                   <asp:Label runat="server" ID="lblCustomerComplaints" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+               </div>
+           </div>
+       </div>
+       <div class="card-footer">
+           <asp:Label runat="server" ID="Label17" Style="color: oldlace; font-size: 14Px;">Complaints From Customers</asp:Label>
+       </div>
+   </div>
+
+   <div id="DivAvailable" runat="server" class="card border-round1 animationC5" style="background-color: #f87226f0">
+       <div class="card-header cb-style" style="font-size: larger">
+           <h4 style="color: oldlace; font-weight: bold">Not Delivered Stocks</h4>
+       </div>
+       <div class="card-body border-round2">
+           <div class="row">
+               <div class="col-6">
+                   <i class="fa-solid fa-tools fa-3x" style="color: oldlace;"></i>
+
+               </div>
+               <div class="col-6">
+                   <asp:Label runat="server" ID="lblNotDelivered" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+               </div>
+           </div>
+       </div>
+       <div class="card-footer">
+           <asp:Label runat="server" ID="Label19" Style="color: oldlace; font-size: 14Px;">Pending Stocks</asp:Label>
+       </div>
+   </div>
+   <div id="Div4" runat="server" class="card border-round1 animationC5" style="background-color: #f87226f0">
+       <div class="card-header cb-style" style="font-size: larger">
+           <h4 style="color: oldlace; font-weight: bold">Delivered Stocks</h4>
+       </div>
+       <div class="card-body border-round2">
+           <div class="row">
+               <div class="col-6">
+                   <i class="fa-solid fa-tools fa-3x" style="color: oldlace;"></i>
+
+               </div>
+               <div class="col-6">
+                   <asp:Label runat="server" ID="lblDeliveredStocks" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+               </div>
+           </div>
+       </div>
+       <div class="card-footer">
+           <asp:Label runat="server" ID="Label14" Style="color: oldlace; font-size: 14Px;">Delivered Stocks</asp:Label>
+       </div>
+   </div>
+
+
+   </div>
