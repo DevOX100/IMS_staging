@@ -1,0 +1,63 @@
+[33m5598835[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mCMDMFeedbackForm[m[33m)[m Merge pull request #3 from DevOX100/CMDMFeedbackForm
+[33m038eda4[m[33m ([m[1;31morigin/CMDMFeedbackForm[m[33m)[m Changed the Feedback FOrm
+[33mdb39606[m[33m ([m[1;31morigin/cppescalations[m[33m, [m[1;32mcppescalations[m[33m, [m[1;32mDashboardCorrection[m[33m)[m CppEscalation validation correction
+[33m7a0898f[m change cpp escalation and dashboard
+[33maedf37c[m Merge pull request #2 from DevOX100/Division/cluster
+[33mf17f461[m[33m ([m[1;31morigin/Division/cluster[m[33m, [m[1;32mDivision/cluster[m[33m)[m CM/DM changes done on reports and viewescalations
+[33m0a156ea[m Add Division/Cluster
+[33mcd42239[m BRD Observation Changes v1
+[33mae36da9[m changed vendorCppEscalations
+[33md712668[m changed in vendorEscalations
+[33m57d1e27[m Final Changes In DamagedProduct
+[33m34025f5[m CPP escalations process modified
+[33mb3c557b[m Deploy the Artifact
+[33maaeff58[m updated YML
+[33m6dd7e14[m pull main.yml
+[33m7af9d20[m Fixed Bugs
+[33m69956a1[m Update main.yml
+[33m10e34bb[m Update main.yml
+[33mcae6253[m Update main.yml
+[33mb53072a[m Update main.yml
+[33m8a2981d[m Update main.yml
+[33m61fe81d[m Update main.yml
+[33m68b2d3d[m Update main.yml
+[33mc68aac4[m Update main.yml
+[33m207e309[m Update main.yml
+[33m09e220b[m Changes pushed to UAT also changes made in Stock adjustment page
+[33m8a048c3[m Change the functionality of dropdowns in branch action
+[33m2c12210[m Changes done in ViewComplaints for branch Action
+[33m49a11a4[m Deploy Test 2
+[33m5d7f582[m Deploy Test 1
+[33m48d96df[m Change in yml 4
+[33mf065d1c[m change in yml 3
+[33m00b590e[m change in yml 2
+[33m558bb21[m made changes in YML for artifact
+[33ma970bac[m create build artifact
+[33md6b51b0[m update gitignore
+[33mc1a4025[m Work on ViewPage and made changes in CPPEscalation and vndorCppEscalations page
+[33m7022cc5[m Add View Escalation pgae
+[33mab4a9e6[m Added env reference
+[33m09329fd[m updated yml file
+[33mb47a4c1[m Made New changes in the SLN
+[33m4abcdc5[m Delete Inventory.sln
+[33m3fe394f[m Update main.yml
+[33m96f3c5e[m main.yml
+[33m57e88f1[m Merge pull request #1 from DevOX100/DevOX100-patch-1
+[33m535b131[m Create dotnet.yml
+[33mb4be6c4[m Remove the CI.yml
+[33m910d614[m Add CI pipeline for .NET Framework 4.8
+[33m03ac83b[m new changes
+[33m4776b4d[m Add changes in vendor escalation
+[33m1666b00[m work on Vendor escalation process
+[33m447ca4c[m Add new module Cpp escalation and change coding in Damageproduct
+[33m386b094[m work start on CPP escalation process
+[33m0d0bd58[m Add changes in .gitignore
+[33m7ef20cb[m Add .gitignore
+[33mb67e7bf[m Add Inventory.sln
+[33m6e413d5[m Add gitignore and Bin/
+[33m4246139[m Add packages files
+[33m166a641[m Add files and folders Phase-3
+[33m5f40d71[m Add files and folders Phase-2
+[33m72fe1f6[m  Add files and folder Phase-1
+[33m63e4317[m Add .gitignore
+[33md8f30c5[m Add Account
