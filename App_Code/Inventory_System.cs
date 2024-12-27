@@ -5,6 +5,8 @@ using System;
 using System.Drawing;
 using System.IO;
 using DocumentFormat.OpenXml.VariantTypes;
+using DocumentFormat.OpenXml.Bibliography;
+
 
 
 public class Inventory_System : db
@@ -1413,5 +1415,33 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[0] = new SqlParameter("@UserCode", UserCode);
         param[1] = new SqlParameter("@ClusterID", ClusterID);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_BranchDetailsByDivisionCluster", param);
+    }
+    public DataSet insertReconciliationData(string EmployeeID ,
+   string EmployeeName,
+     string Designation,
+       string BranchID,
+      string BranchName,
+    DateTime        SR_Date,
+     string Product_Name,
+      string ProductID,
+       int     StockONIMSDashboard,
+       int     PhysicalStockPresentInBranch,
+        int    TotalDamagedUnits,
+         string OtherFeedback)
+    {
+        param = new SqlParameter[12];
+        param[0] = new SqlParameter("@EmployeeID", EmployeeID);
+        param[1] = new SqlParameter("@EmployeeName", EmployeeName);
+        param[2] = new SqlParameter("@Designation", Designation);
+        param[3] = new SqlParameter("@BranchID", BranchID);
+        param[4] = new SqlParameter("@BranchName", BranchName);
+        param[5] = new SqlParameter("@SR_Date", SR_Date);
+        param[6] = new SqlParameter("@Product_Name", Product_Name);
+        param[7] = new SqlParameter("@ProductID", ProductID);
+        param[8] = new SqlParameter("@StockONIMSDashboard", StockONIMSDashboard);
+        param[9] = new SqlParameter("@PhysicalStockPresentInBranch", PhysicalStockPresentInBranch);
+        param[10] = new SqlParameter("@TotalDamagedUnits", TotalDamagedUnits);
+        param[11] = new SqlParameter("@OtherFeedback", OtherFeedback);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "insertReconciliationData", param);
     }
 }

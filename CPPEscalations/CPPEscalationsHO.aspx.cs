@@ -182,18 +182,36 @@ public partial class CPPEscalations_CPPEscalationsHO : System.Web.UI.Page
                         // Determine action based on command name
                         if (e.CommandName == "Submit")
                         {
-                            ISS.INV_InsertEscalations(CustID, Name, DamageProduct_ReceivedBY, SpouseName, MobileNO, Quantity, ProductType, Damage_Product_Name,
+                            if (ddlComplaintsby.SelectedValue != "5")
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Kindly select \"Escalate to Vendor\" while approving the request', 'error');", true);
+                                return;
+                            }
+                            else
+                            {
+                                ISS.INV_InsertEscalations(CustID, Name, DamageProduct_ReceivedBY, SpouseName, MobileNO, Quantity, ProductType, Damage_Product_Name,
                                 Damage_ProductComplaint, Damage_ProductComplaint_date, AvailableStockInBranch, ComplaintsbyHO, finalRemarks,
                                 EM_ActionTakenBY, ID, loanID, productID);
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted Successfully', 'success');", true);
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted Successfully', 'success');", true);
+                            }
+                            
                         }
 
                         else if (e.CommandName == "Reject")
                         {
-                            ISS.INV_Reject_Escalation(CustID, Name, DamageProduct_ReceivedBY, SpouseName, MobileNO, Quantity, ProductType, Damage_Product_Name,
+                            if(ddlComplaintsby.SelectedValue == "5")
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Kindly select \"Correct Complaint\" while rejecting the request', 'error');", true);
+                                return;
+                            }
+                            else
+                            {
+                                ISS.INV_Reject_Escalation(CustID, Name, DamageProduct_ReceivedBY, SpouseName, MobileNO, Quantity, ProductType, Damage_Product_Name,
                                 Damage_ProductComplaint, Damage_ProductComplaint_date, AvailableStockInBranch, ComplaintsbyHO, finalRemarks,
-                                EM_ActionTakenBY, ID, loanID, productID,"");
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted Successfully', 'success');", true);
+                                EM_ActionTakenBY, ID, loanID, productID, "");
+                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted Successfully', 'success');", true);
+                            }
+                            
                         }
                     }
                     catch (Exception ex)

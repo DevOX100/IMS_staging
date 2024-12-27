@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
 
 
- 
+
 
     <script type="text/javascript">
         function SelectAllCheckboxes(chkAll) {
@@ -17,7 +17,7 @@
         }
 
     </script>
-    
+
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
@@ -62,7 +62,22 @@
                                     <ItemTemplate>
                                         <asp:CheckBox ID="chkAction" runat="server" AutoPostBack="true" OnCheckedChanged="chkAction_CheckedChanged" />
                                     </ItemTemplate>
+                                    <FooterTemplate>
+                                        <asp:LinkButton ID="lnkApprove"
+                                            ForeColor="White"
+                                            runat="server"
+                                            CssClass="btn btn-sm btn-success"
+                                            ValidationGroup="ABC"
+                                            CommandName="Submit">Approve</asp:LinkButton>
 
+                                        <asp:LinkButton ID="lnkReject"
+                                            Style="margin-top: 20px"
+                                            ForeColor="White"
+                                            runat="server"
+                                            CssClass="btn btn-sm btn-danger"
+                                            ValidationGroup="ABC"
+                                            CommandName="Reject">Reject</asp:LinkButton>
+                                    </FooterTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Branch">
@@ -124,17 +139,17 @@
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Confirmation">
+                                <%--   <asp:TemplateField HeaderText="Confirmation">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkApprove" Style="background-color: green; text-decoration: none;" ForeColor="White" AutoPostBack="true" runat="server" CssClass="form-control border border-dark"
                                             ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("Em_IssueID") %>'>Confirm</asp:LinkButton>
                                         <br />
-                                        <asp:LinkButton ID="LinkButton1" Style="margin-top: 20px; background-color: green; text-decoration: none;" AutoPostBack="true" ForeColor="White" runat="server" CssClass="form-control border border-dark"
+                                        <asp:LinkButton ID="lnkReject" Style="margin-top: 20px; background-color: green; text-decoration: none;" AutoPostBack="true" ForeColor="White" runat="server" CssClass="form-control border border-dark"
                                             ValidationGroup="ABC" CommandName="delete" CommandArgument='<%# Eval("Em_IssueID") %>'>Reject</asp:LinkButton>
 
                                     </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Remarks/Expected Closure Date/Complaint">
+                                </asp:TemplateField>--%>
+                                <asp:TemplateField HeaderText="Complaint/Remarks/Expected Closure Date">
                                     <ItemTemplate>
                                         <asp:DropDownList ID="ddlComplaintsbyVendor" Style="margin-top: 10px" AutoPostBack="true" runat="server" CssClass="form-control border border-dark" OnSelectedIndexChanged="ddlComplaintsbyVendor_SelectedIndexChanged">
                                             <asp:ListItem Value="0" Text="Kindly Select"></asp:ListItem>
