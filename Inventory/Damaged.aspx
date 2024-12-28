@@ -107,7 +107,7 @@
                                     <asp:DropDownList ID="ddlBranch" runat="server" Enabled="true" CssClass="form-control border border-dark" AutoPostBack="true">
                                     </asp:DropDownList>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="ddlBranch" ErrorMessage="Kindly choose Branch"
-                                        ForeColor="red" Display="Dynamic" ValidationGroup="XCV" InitialValue="0"></asp:RequiredFieldValidator>
+                                        ForeColor="red" Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
 

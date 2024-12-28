@@ -99,6 +99,10 @@ public partial class Inventory_Damaged : System.Web.UI.Page
         string productComplaint = ddlComplaintType.SelectedItem.Text;
         int quantity = Convert.ToInt32(txtQuantity.Text);
         string DP_Region = ddlRegion.SelectedValue;
+        if(DP_Region == "0")
+        {
+            DP_Region = Session["RegionID"].ToString();
+        }
         string DP_Branch = ddlBranch.SelectedValue;
         string DP_Remarks = txtRemarks.Text;
         string DamagedImage = " ";
