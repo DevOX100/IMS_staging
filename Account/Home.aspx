@@ -82,6 +82,7 @@
             background-color: #fff;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
+
         }
 
    
@@ -96,7 +97,7 @@
 
         .card-footer {
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .cb-style {
@@ -134,7 +135,7 @@
             /*  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(247,247,247,1) 98%);*/
             background: linear-gradient(180deg, #A0C4FF 0%, #4B79A1 100%);
             margin: 0;
-            height: 110vh;
+            height: 150vh;
             justify-items: center;
             align-items: center;
             text-align: center;
@@ -144,6 +145,8 @@
             align-items: center;
             text-align: center;
             padding-right: 50px;
+          
+/*            margin-top:100px;*/
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -368,7 +371,7 @@
                 </div>
             </div>
 
-            <div id="DivAvailable" runat="server" class="card border-round1 animationC5" style="background-color: #f87226f0">
+            <div id="DivAvailable" runat="server" class="card border-round1 animationC5" style="background-color: #42ae5a">
                 <div class="card-header cb-style" style="font-size: larger">
                     <h4 style="color: oldlace; font-weight: bold">Not Delivered Stocks</h4>
                 </div>
@@ -408,6 +411,54 @@
             </div>
 
         </div>
+
+              <div class="card-container">
+          
+
+          <div id="Div5" runat="server" class="card border-round1 animationC4" style="background-color: red">
+              <div class="card-header cb-style" style="font-size: larger">
+                  <h4 style="color: oldlace; font-weight: bold">Damaged Stock</h4>
+              </div>
+              <div class="card-body border-round2">
+                  <div class="row">
+                      <div class="col-6">
+                          <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
+                      </div>
+                      <div class="col-6">
+                          <asp:Label runat="server" ID="lblDamagedStockByVendor" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-footer">
+                  <asp:Label runat="server" ID="Label3" Style="color: oldlace; font-size: 14Px;">Damaged stock Received by Vendor</asp:Label>
+              </div>
+          </div>
+
+
+          <div id="Div6" runat="server" class="card border-round1 animationC5" style="background-color: #e79505">
+              <div class="card-header cb-style" style="font-size: larger">
+                  <h4 style="color: oldlace; font-weight: bold">Cpp Escalation</h4>
+              </div>
+              <div class="card-body border-round2">
+                  <div class="row">
+                      <div class="col-6">
+                          <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
+                      </div>
+                      <div class="col-6">
+                          <asp:Label runat="server" ID="lblCPPEscalation" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-footer">
+                  <asp:Label runat="server" ID="Label9" Style="color: oldlace; font-size: 14Px;">Action Pending From vendor</asp:Label>
+              </div>
+          </div>
+
+
+
+        
+
+      </div>
     </div>
 
 
