@@ -370,19 +370,19 @@ public partial class Account_Home : System.Web.UI.Page
         var damagedQuantities = productNames.Select(pn => damagedData.ContainsKey(pn) ? damagedData[pn] : 0).ToArray();
 
         Chart1.Series["Available Stock"].Points.Clear();
-        Chart1.Series["Damaged Stock"].Points.Clear();
+        //Chart1.Series["Damaged Stock"].Points.Clear();
 
         Chart1.Series["Available Stock"].Points.DataBindXY(productNames, availableQuantities);
-        Chart1.Series["Damaged Stock"].Points.DataBindXY(productNames, damagedQuantities);
+        //Chart1.Series["Damaged Stock"].Points.DataBindXY(productNames, damagedQuantities);
 
         Chart1.Series["Available Stock"].Color = Color.Green;
-        Chart1.Series["Damaged Stock"].Color = Color.Red;
+        //Chart1.Series["Damaged Stock"].Color = Color.Red;
 
         Chart1.Series["Available Stock"].IsValueShownAsLabel = true;
-        Chart1.Series["Damaged Stock"].IsValueShownAsLabel = true;
+        //Chart1.Series["Damaged Stock"].IsValueShownAsLabel = true;
 
         Chart1.Series["Available Stock"].LabelForeColor = Color.Black;
-        Chart1.Series["Damaged Stock"].LabelForeColor = Color.Black;
+        //Chart1.Series["Damaged Stock"].LabelForeColor = Color.Black;
 
         //Chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Angle = 0; 
         Chart1.ChartAreas["ChartArea1"].AxisX.Interval = 1;

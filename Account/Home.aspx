@@ -491,14 +491,14 @@
                         IsValueShownAsLabel="True"
                         LabelFormat="{0} units"
                         Font="Arial, 10pt" />
-                    <asp:Series Name="Damaged Stock"
+                   <%-- <asp:Series Name="Damaged Stock"
                         ChartType="Column"
                         BorderWidth="2"
                         Color="#00FF00"
                         LabelForeColor="#FFFFFF"
                         IsValueShownAsLabel="True"
                         LabelFormat="{0} units"
-                        Font="Arial, 10pt" />
+                        Font="Arial, 10pt" />--%>
 
                 </Series>
 
