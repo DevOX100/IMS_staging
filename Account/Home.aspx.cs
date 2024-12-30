@@ -189,7 +189,8 @@ public partial class Account_Home : System.Web.UI.Page
                 string CustomerComplaints = (ds.Tables[6].Rows[0]["Customer Return Stock"]).ToString();
                 string Pending = (ds.Tables[7].Rows[0]["Pending Order"]).ToString();
                 string Delivered = (ds.Tables[8].Rows[0]["Delivered Order"]).ToString();
-
+                string DamagedStockByVendor = (ds.Tables[9].Rows[0]["Damaged Stock by Vendor"]).ToString();
+                string CppEscalation = (ds.Tables[10].Rows[0]["CPP Escalation"]).ToString();
 
 
 
@@ -202,7 +203,8 @@ public partial class Account_Home : System.Web.UI.Page
                 lblCustomerComplaints.Text = CustomerComplaints.ToString();
                 lblNotDelivered.Text = Pending.ToString();
                 lblDeliveredStocks.Text = Delivered.ToString();
-
+                lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
+                lblCPPEscalation.Text = CppEscalation.ToString();
             }
             VendorDataChart();
         }
@@ -225,6 +227,9 @@ public partial class Account_Home : System.Web.UI.Page
                 string CustomerComplaints = (ds.Tables[7].Rows[0]["Customer Return Stock"]).ToString();
                 string Pending = (ds.Tables[8].Rows[0]["Pending Order"]).ToString();
                 string Delivered = (ds.Tables[9].Rows[0]["Delivered Order"]).ToString();
+                string DamagedStockByVendor = (ds.Tables[10].Rows[0]["Damaged Stock by Vendor"]).ToString();
+                string CppEscalation = (ds.Tables[11].Rows[0]["CPP Escalation"]).ToString();
+
 
                 lblTotal.Text = Total.ToString();
                 lblPaid.Text = OutStock.ToString();
@@ -236,6 +241,8 @@ public partial class Account_Home : System.Web.UI.Page
                 lblCustomerComplaints.Text = CustomerComplaints.ToString();
                 lblNotDelivered.Text = Pending.ToString();
                 lblDeliveredStocks.Text = Delivered.ToString();
+                lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
+                lblCPPEscalation.Text = CppEscalation.ToString();
             }
         }
         
@@ -363,19 +370,19 @@ public partial class Account_Home : System.Web.UI.Page
         var damagedQuantities = productNames.Select(pn => damagedData.ContainsKey(pn) ? damagedData[pn] : 0).ToArray();
 
         Chart1.Series["Available Stock"].Points.Clear();
-        Chart1.Series["Damaged Stock"].Points.Clear();
+        //Chart1.Series["Damaged Stock"].Points.Clear();
 
         Chart1.Series["Available Stock"].Points.DataBindXY(productNames, availableQuantities);
-        Chart1.Series["Damaged Stock"].Points.DataBindXY(productNames, damagedQuantities);
+        //Chart1.Series["Damaged Stock"].Points.DataBindXY(productNames, damagedQuantities);
 
         Chart1.Series["Available Stock"].Color = Color.Green;
-        Chart1.Series["Damaged Stock"].Color = Color.Red;
+        //Chart1.Series["Damaged Stock"].Color = Color.Red;
 
         Chart1.Series["Available Stock"].IsValueShownAsLabel = true;
-        Chart1.Series["Damaged Stock"].IsValueShownAsLabel = true;
+        //Chart1.Series["Damaged Stock"].IsValueShownAsLabel = true;
 
         Chart1.Series["Available Stock"].LabelForeColor = Color.Black;
-        Chart1.Series["Damaged Stock"].LabelForeColor = Color.Black;
+        //Chart1.Series["Damaged Stock"].LabelForeColor = Color.Black;
 
         //Chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Angle = 0; 
         Chart1.ChartAreas["ChartArea1"].AxisX.Interval = 1;
@@ -416,6 +423,8 @@ public partial class Account_Home : System.Web.UI.Page
                 string CustomerComplaints = (ds.Tables[6].Rows[0]["Customer Return Stock"]).ToString();
                 string Pending = (ds.Tables[7].Rows[0]["Pending Order"]).ToString();
                 string Delivered = (ds.Tables[8].Rows[0]["Delivered Order"]).ToString();
+                string DamagedStockByVendor = (ds.Tables[9].Rows[0]["Damaged Stock by Vendor"]).ToString();
+                string CppEscalation = (ds.Tables[10].Rows[0]["CPP Escalation"]).ToString();
 
 
 
@@ -429,6 +438,8 @@ public partial class Account_Home : System.Web.UI.Page
                 lblCustomerComplaints.Text = CustomerComplaints.ToString();
                 lblNotDelivered.Text = Pending.ToString();
                 lblDeliveredStocks.Text = Delivered.ToString();
+                lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
+                lblCPPEscalation.Text = CppEscalation.ToString();
 
             }
         }
@@ -452,6 +463,9 @@ public partial class Account_Home : System.Web.UI.Page
                 string CustomerComplaints = (ds.Tables[7].Rows[0]["Customer Return Stock"]).ToString();
                 string Pending = (ds.Tables[8].Rows[0]["Pending Order"]).ToString();
                 string Delivered = (ds.Tables[9].Rows[0]["Delivered Order"]).ToString();
+                string DamagedStockByVendor = (ds.Tables[10].Rows[0]["Damaged Stock by Vendor"]).ToString();
+                string CppEscalation = (ds.Tables[11].Rows[0]["CPP Escalation"]).ToString();
+
 
                 lblTotal.Text = Total.ToString();
                 lblPaid.Text = OutStock.ToString();
@@ -463,7 +477,8 @@ public partial class Account_Home : System.Web.UI.Page
                 lblCustomerComplaints.Text = CustomerComplaints.ToString();
                 lblNotDelivered.Text = Pending.ToString();
                 lblDeliveredStocks.Text = Delivered.ToString();
-
+                lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
+                lblCPPEscalation.Text = CppEscalation.ToString();
             }
         }
 
