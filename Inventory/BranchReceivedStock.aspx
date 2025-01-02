@@ -2,7 +2,49 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
     <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+    <style>
+         #loadingScreen {
+     position: fixed;
+     width: 100%;
+     height: 100%;
+     top: 0;
+     left: 0;
+     background: rgba(255, 255, 255, 0.8);
+     z-index: 1000;
+     display: none;
+     justify-content: center;
+     align-items: center;
+ }
+         .spinner {
+     border: 4px solid rgba(0, 0, 0, 0.1);
+     border-left-color: #3a4f63;
+     border-radius: 50%;
+     width: 40px;
+     height: 40px;
+     animation: spin 1s linear infinite;
+ }
 
+ @keyframes spin {
+     to {
+         transform: rotate(360deg);
+     }
+ }
+
+    </style>
+      <script type="text/javascript">
+
+          function showLoading() {
+              document.getElementById("loadingScreen").style.display = "flex";
+          }
+
+          function hideLoading() {
+              document.getElementById("loadingScreen").style.display = "none";
+              var checkboxes = document.querySelectorAll("#<%= gvBranchRecStock.ClientID %> input[type='checkbox']");
+              checkboxes.forEach(function (checkbox) {
+                  checkbox.checked = false;
+              });
+          }
+      </script>
     <script type="text/javascript">
         function OpenNewPopUp(val, id) {
             // alert('Entered as a ' + val);
@@ -30,7 +72,9 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
-
+    <div id="loadingScreen">
+    <div class="spinner"></div>
+</div>
     <div class="card">
         <div class="card-header bold h4 text-white" style="background-color: #3a4f63">
             Goods Received Note (GRN)
@@ -150,7 +194,7 @@
 
                                 <asp:TemplateField HeaderText="Received Quantity /Remarks">
                                     <ItemTemplate>
-                                        <asp:TextBox ID="txtQuantity" runat="server" CssClass="form-control border border-dark" MaxLength="3" placeholder="Received Quantity" Width="180px" ValidationGroup="Branch"></asp:TextBox>
+                                        <asp:TextBox ID="txtQuantity" runat="server" CssClass="form-control border border-dark" MaxLength="3" placeholder="Received Quantity" Width="180px" OnTextChanged="txtQuantity_TextChanged" ValidationGroup="Branch"></asp:TextBox>
 
                                         <asp:RequiredFieldValidator ID="rfvQnty" runat="server" Enabled="false" ControlToValidate="txtQuantity" Font-Size="small" ForeColor="red" ErrorMessage="Quantity is required."
                                             Display="Dynamic" ValidationGroup="AXV"></asp:RequiredFieldValidator>
@@ -166,7 +210,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Damage Quantity/Remarks">
                                     <ItemTemplate>
-                                        <asp:TextBox ID="txtDamageQuantity" runat="server" CssClass="form-control border border-dark" MaxLength="3" placeholder="Damaged Quantity" Width="180px" ></asp:TextBox><br />
+                                        <asp:TextBox ID="txtDamageQuantity" runat="server" CssClass="form-control border border-dark" MaxLength="3" OnTextChanged="txtDamageQuantity_TextChanged" placeholder="Damaged Quantity" Width="180px" ></asp:TextBox><br />
                                         <br />
                                         <asp:TextBox ID="txtDamageRemarks" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" TextMode="MultiLine"></asp:TextBox>
                                     </ItemTemplate>
@@ -180,8 +224,8 @@
                                     <FooterTemplate>
                                         <asp:UpdatePanel ID="UpdatePO" runat="server">
                                             <ContentTemplate>
-                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" CssClass="btn btn-sm btn-success"
-                                                    ValidationGroup="AXV" CommandName="Submit" CommandArgument='<%# Eval("BIS_ID") %>'>Submit</asp:LinkButton>
+                                                <asp:LinkButton ID="lnkApprove" ForeColor="White"  runat="server" CssClass="btn btn-sm btn-success"
+                                                    ValidationGroup="AXV" CommandName="Submit" CommandArgument='<%# Eval("BIS_ID") %>' >Submit</asp:LinkButton>
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:PostBackTrigger ControlID="lnkApprove" />
