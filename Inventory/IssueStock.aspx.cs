@@ -164,7 +164,7 @@ public partial class IssueStock : System.Web.UI.Page
         {
 
 
-            ds = ISS.IssueStock(IS_CustID, IS_Name, IS_Product, IS_Branch, IS_SpouseName, IS_MobileNO, POD, IS_InvoiceNO, IS_Quantity, IS_UserType, IS_WarrantyDate, IS_LoanID, IS_PaymentMode, IS_Amount);
+            ds = ISS.IssueStock(IS_CustID, IS_Name, IS_Product, IS_Branch, IS_SpouseName, IS_MobileNO, POD, IS_InvoiceNO, IS_Quantity, IS_UserType, IS_WarrantyDate, IS_LoanID, IS_PaymentMode, IS_Amount,"","");
             ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Product has been saved!', 'success');", true);
             cleardata();
         }
@@ -305,6 +305,8 @@ public partial class IssueStock : System.Web.UI.Page
                     Label FirstName = ((Label)gvIssue.Rows[i].FindControl("lblFirstName"));
                  //   Label ProID = ((Label)gvIssue.Rows[i].FindControl("lblProduct"));
                     DropDownList IMSProID = ((DropDownList)gvIssue.Rows[i].FindControl("Productddl"));
+                    DropDownList ddlModeOfDisbursement = ((DropDownList)gvIssue.Rows[i].FindControl("ModeOfDisbursement"));
+                    DropDownList ddlApplicationReceivedStage = ((DropDownList)gvIssue.Rows[i].FindControl("ApplicationReceivedStage"));
                     Label INVBranch = ((Label)gvIssue.Rows[i].FindControl("lblBranchID"));
                     Label MobileNumber = ((Label)gvIssue.Rows[i].FindControl("lblMobileNO"));
                     Label SpouseName = ((Label)gvIssue.Rows[i].FindControl("lblSpouseNAme"));
@@ -384,7 +386,7 @@ public partial class IssueStock : System.Web.UI.Page
                     {
 
 
-                        ds = ISS.IssueStock(custID, fName, IMSProductID, Bnch, Sname, Mnumber, POD, Invoice, QTY, IS_UserType, IS_WarrantyDate, loanID, "", UnitPrice);
+                        ds = ISS.IssueStock(custID, fName, IMSProductID, Bnch, Sname, Mnumber, POD, Invoice, QTY, IS_UserType, IS_WarrantyDate, loanID, "", UnitPrice,ddlModeOfDisbursement.SelectedItem.Text,ddlApplicationReceivedStage.SelectedItem.Text);
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Product has been Issued!', 'success');", true);
                         gvIssue.DataSource = null;
                         gvIssue.DataBind();
@@ -436,6 +438,8 @@ public partial class IssueStock : System.Web.UI.Page
         RequiredFieldValidator ProdDropDWN = currentRow.FindControl("ProdDropDWN") as RequiredFieldValidator;
         RequiredFieldValidator InvoiceValidator = currentRow.FindControl("InvoiceValidator") as RequiredFieldValidator;
         RequiredFieldValidator rfvWarrantydate = currentRow.FindControl("rfvWarrantydate") as RequiredFieldValidator;
+        RequiredFieldValidator rfc2 = currentRow.FindControl("rfc2") as RequiredFieldValidator;
+        RequiredFieldValidator RequiredFieldValidator4 = currentRow.FindControl("RequiredFieldValidator4") as RequiredFieldValidator;
 
         if (chkAction.Checked)
         {
@@ -444,6 +448,8 @@ public partial class IssueStock : System.Web.UI.Page
             ProdDropDWN.Enabled = true;
             InvoiceValidator.Enabled = true;
             rfvWarrantydate.Enabled = true;
+            rfc2.Enabled = true;
+            RequiredFieldValidator4.Enabled = true;
         }
         else
         {
@@ -452,6 +458,8 @@ public partial class IssueStock : System.Web.UI.Page
             ProdDropDWN.Enabled = false;
             InvoiceValidator.Enabled = false;
             rfvWarrantydate.Enabled = false;
+            rfc2.Enabled = false;
+            RequiredFieldValidator4.Enabled = false;
         }
     }
 
