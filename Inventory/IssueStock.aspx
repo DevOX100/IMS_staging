@@ -57,7 +57,7 @@
             }
 
         /*below is the code which made the grid perfect and controlled the overflow*/
-        .my-gridview {  
+        .my-gridview {
             border-collapse: collapse;
             width: 100%;
         }
@@ -122,15 +122,28 @@
                                 </div>
 
                                 <div class="col-6" runat="server">
-                                    <label for="payment" class="col-form-label bold">Payment Mode : <span style="color: red">*</span></label>
+                                    <label for="payment" class="col-form-label bold">Mode Of Disbursement: <span style="color: red">*</span></label>
                                     <asp:DropDownList ID="ddlPaymentMode" runat="server" Enabled="true" CssClass="form-control border border-dark" ValidationGroup="ABC">
-                                        <asp:ListItem Text="Select Payment Mode"></asp:ListItem>
-                                        <asp:ListItem Value="Cash DB" Text="Cash DB"></asp:ListItem>
-                                        <asp:ListItem Value="Pay by UPI" Text="Pay by UPI"></asp:ListItem>
-                                        <asp:ListItem Value="Pay to Vendor" Text="Pay to Vendor"></asp:ListItem>
-                                        <asp:ListItem Value="Loan" Text="Loan"></asp:ListItem>
+                                        <asp:ListItem Text="Select Mode Of Disbursement" Value="0" />
+                                        <asp:ListItem Text="Loan" Value="1" />
+                                        <asp:ListItem Text="QR Code" Value="2" />
+                                        <asp:ListItem Text="Cash" Value="3" />
                                     </asp:DropDownList>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ddlProduct" ErrorMessage="Kindly select anything" ForeColor="red"
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ddlPaymentMode" ErrorMessage="Kindly select Mode Of Disbursement:" ForeColor="red"
+                                        Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>
+                                </div>
+
+                                <div class="col-6" runat="server">
+                                    <label for="Application" class="col-form-label bold">Application Received Stage : <span style="color: red">*</span></label>
+                                    <asp:DropDownList ID="ApplicationReceivedStage" CssClass="form-control border border-dark" runat="server" ValidationGroup="ABC">
+                                        <asp:ListItem Text="Select Application Received Stage" Value="0" />
+                                        <asp:ListItem Text="GFM/GRT" Value="1" />
+                                        <asp:ListItem Text="Disbursement of Business loan" Value="2" />
+                                        <asp:ListItem Text="Centre meeting" Value="3" />
+
+
+                                    </asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="ApplicationReceivedStage" ErrorMessage="Kindly select Application Received Stage" ForeColor="red"
                                         Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>
                                 </div>
 
