@@ -12,7 +12,7 @@ public partial class IssueStock : System.Web.UI.Page
     Inventory_System ISS = new Inventory_System();
     DataSet ds = new DataSet();
     Encryption ec = new Encryption();
-    gsmFileFolders ff=  new gsmFileFolders();
+    gsmFileFolders ff = new gsmFileFolders();
     duValidate dv = new duValidate();
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -20,11 +20,11 @@ public partial class IssueStock : System.Web.UI.Page
         {
             Bindproduct();
 
-           
+
             secondDiv.Visible = false;
             box.Visible = false;
             CustID.Visible = false;
-            LoanID.Visible = true;  
+            LoanID.Visible = true;
             GroupID.Visible = false;
             CenterID.Visible = false;
         }
@@ -50,7 +50,7 @@ public partial class IssueStock : System.Web.UI.Page
         string GrpCenterID = txtGrpCenter.Text;
         string GroupID = ddlGroup.SelectedValue;
 
-        if(LoanID == "" || LoanID == null)
+        if (LoanID == "" || LoanID == null)
         {
             LoanID = "null";
         }
@@ -75,16 +75,16 @@ public partial class IssueStock : System.Web.UI.Page
             CenterID = GrpCenterID;
         }
 
-       // string BranchID = Session["UserCode"].ToString();
+        // string BranchID = Session["UserCode"].ToString();
 
-        DataSet ds = ISS.GetIssueStock(IS_CustID,LoanID , GroupID, CenterID, branchID)/* , Quantity);*/;
-  
-         if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+        DataSet ds = ISS.GetIssueStock(IS_CustID, LoanID, GroupID, CenterID, branchID)/* , Quantity);*/;
+
+        if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
         {
             gvIssue.DataSource = ds;
             gvIssue.DataBind();
             gvIssue.Visible = true;
-           
+
         }
         else
         {
@@ -98,15 +98,15 @@ public partial class IssueStock : System.Web.UI.Page
     protected void RadioButton_CheckedChanged(object sender, EventArgs e)
     {
         ShowAllControls();
-         
-        
-      
+
+
+
     }
     protected void RadioButton2_CheckedChanged(object sender, EventArgs e)
     {
         HideAllControls();
-        
-      
+
+
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
@@ -124,8 +124,9 @@ public partial class IssueStock : System.Web.UI.Page
         string IS_InvoiceNO = txtInvoiceNO.Text;
         DateTime IS_WarrantyDate = Convert.ToDateTime(txtWarrantyDatee.Text);
         int IS_Quantity = Convert.ToInt32(txtQuantity.Text);
-        string IS_PaymentMode = ddlPaymentMode.SelectedValue;
-        int IS_Amount= Convert.ToInt32(textAmount.Text);
+        string IS_PaymentMode = ddlPaymentMode.SelectedItem.Text;
+        string Is_ApplicationReceivedStage = ApplicationReceivedStage.SelectedItem.Text;
+        int IS_Amount = Convert.ToInt32(textAmount.Text);
         string POD = " ";
         if (fupImage.HasFile)
         {
@@ -137,7 +138,7 @@ public partial class IssueStock : System.Web.UI.Page
                     Exten = "." + ff.GetFileExtention(fupImage.FileName);
                     Guid obj = Guid.NewGuid();
                     POD = obj.ToString();
-                    fupImage.SaveAs(Server.MapPath("~\\Upload\\ProductImage\\" + POD + ".pdf"));
+                    fupImage.SaveAs(Server.MapPath("~\\Upload\\PodBranch\\" + POD + ".pdf"));
                 }
                 else
                 {
@@ -154,17 +155,17 @@ public partial class IssueStock : System.Web.UI.Page
 
         }
 
- else
- {
-     ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Info!', 'Please Upload POD only in PDF!', 'info');", true);
-     return;
- }
+        else
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Info!', 'Please Upload POD only in PDF!', 'info');", true);
+            return;
+        }
 
         try
         {
 
 
-            ds = ISS.IssueStock(IS_CustID, IS_Name, IS_Product, IS_Branch, IS_SpouseName, IS_MobileNO, POD, IS_InvoiceNO, IS_Quantity, IS_UserType, IS_WarrantyDate, IS_LoanID, IS_PaymentMode, IS_Amount,"","");
+            ds = ISS.IssueStock(IS_CustID, IS_Name, IS_Product, IS_Branch, IS_SpouseName, IS_MobileNO, POD, IS_InvoiceNO, IS_Quantity, IS_UserType, IS_WarrantyDate, IS_LoanID, IS_PaymentMode, IS_Amount, Is_ApplicationReceivedStage);
             ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Product has been saved!', 'success');", true);
             cleardata();
         }
@@ -179,7 +180,7 @@ public partial class IssueStock : System.Web.UI.Page
         txtCustomer.Text = "";
         txtName.Text = "";
         ddlProduct.SelectedValue = "0";
-       
+
         txtPhone.Text = "";
         txtSpouse.Text = "";
         txtInvoiceNO.Text = "";
@@ -250,7 +251,7 @@ public partial class IssueStock : System.Web.UI.Page
     {
         secondDiv.Visible = true;
         box.Visible = false;
-       
+
 
 
         //SetVisibilityForControls(false);
@@ -303,7 +304,7 @@ public partial class IssueStock : System.Web.UI.Page
                     Label CUSTID = ((Label)gvIssue.Rows[i].FindControl("lblCustID"));
                     Label Amount = ((Label)gvIssue.Rows[i].FindControl("lblUnitprice"));
                     Label FirstName = ((Label)gvIssue.Rows[i].FindControl("lblFirstName"));
-                 //   Label ProID = ((Label)gvIssue.Rows[i].FindControl("lblProduct"));
+                    //   Label ProID = ((Label)gvIssue.Rows[i].FindControl("lblProduct"));
                     DropDownList IMSProID = ((DropDownList)gvIssue.Rows[i].FindControl("Productddl"));
                     DropDownList ddlModeOfDisbursement = ((DropDownList)gvIssue.Rows[i].FindControl("ModeOfDisbursement"));
                     DropDownList ddlApplicationReceivedStage = ((DropDownList)gvIssue.Rows[i].FindControl("ApplicationReceivedStage"));
@@ -317,21 +318,21 @@ public partial class IssueStock : System.Web.UI.Page
                     TextBox WarrantyDate = ((TextBox)gvIssue.Rows[i].FindControl("txtWarrantyDate"));
 
 
-                    if (ID == null || Quantity == null || FirstName == null || IMSProID == null || INVBranch == null || MobileNumber == null || SpouseName == null 
+                    if (ID == null || Quantity == null || FirstName == null || IMSProID == null || INVBranch == null || MobileNumber == null || SpouseName == null
                         || fupImage == null || WarrantyDate == null)
                     {
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Not able to insert the data as data is missing!', 'error');", true);
                         return;
                     }
-                    string Invoice= txtInvoice.Text;
-                   string custID=CUSTID.Text;
-                    string fName= FirstName.Text;
-                   // string ProductID= ProID.Text;
-                    string IMSProductID= IMSProID.SelectedValue;
-                    string Bnch= INVBranch.Text;
-                    string Mnumber= MobileNumber.Text;
+                    string Invoice = txtInvoice.Text;
+                    string custID = CUSTID.Text;
+                    string fName = FirstName.Text;
+                    // string ProductID= ProID.Text;
+                    string IMSProductID = IMSProID.SelectedValue;
+                    string Bnch = INVBranch.Text;
+                    string Mnumber = MobileNumber.Text;
                     string Sname = SpouseName.Text;
-                    string loanID= LoanId.Text;
+                    string loanID = LoanId.Text;
                     //string IS_WarrantyDate = WarrantyDate.Text;
                     DateTime? IS_WarrantyDate;
 
@@ -344,7 +345,7 @@ public partial class IssueStock : System.Web.UI.Page
                     {
                         IS_WarrantyDate = Convert.ToDateTime(WarrantyDate.Text);
                     }
-                   
+
 
 
 
@@ -375,18 +376,18 @@ public partial class IssueStock : System.Web.UI.Page
 
                     }
 
- else
- {
-     ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Info!', 'Please Upload POD only in PDF!', 'info');", true);
-     return;
- }
+                    else
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Info!', 'Please Upload POD only in PDF!', 'info');", true);
+                        return;
+                    }
                     int UnitPrice = Convert.ToInt32(Amount.Text);
                     int QTY = Convert.ToInt32(Quantity.Text);
                     try
                     {
 
 
-                        ds = ISS.IssueStock(custID, fName, IMSProductID, Bnch, Sname, Mnumber, POD, Invoice, QTY, IS_UserType, IS_WarrantyDate, loanID, "", UnitPrice,ddlModeOfDisbursement.SelectedItem.Text,ddlApplicationReceivedStage.SelectedItem.Text);
+                        ds = ISS.IssueStock(custID, fName, IMSProductID, Bnch, Sname, Mnumber, POD, Invoice, QTY, IS_UserType, IS_WarrantyDate, loanID, ddlModeOfDisbursement.SelectedItem.Text, UnitPrice, ddlApplicationReceivedStage.SelectedItem.Text);
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Product has been Issued!', 'success');", true);
                         gvIssue.DataSource = null;
                         gvIssue.DataBind();
@@ -400,8 +401,8 @@ public partial class IssueStock : System.Web.UI.Page
 
             }
         }
-       
-       // BindGrid();
+
+        // BindGrid();
 
 
     }
@@ -479,7 +480,7 @@ public partial class IssueStock : System.Web.UI.Page
         //}
         BindGrid();
     }
-    
+
 
     protected void rbloptionCustID_CheckedChanged(object sender, EventArgs e)
     {
@@ -518,16 +519,16 @@ public partial class IssueStock : System.Web.UI.Page
 
             if (prdctddl != null)
             {
-                   DataSet dsProducts = ISS.GetProductList(Session["UserCode"].ToString());
+                DataSet dsProducts = ISS.GetProductList(Session["UserCode"].ToString());
 
-  // Bind the data to the DropDownList
-  prdctddl.DataSource = dsProducts;
-  prdctddl.DataTextField = "PM_Description1"; // Change "product" to your actual column name for display text
-  prdctddl.DataValueField = "PM_ItemCode1"; // Change "PM_ItemCode1" to your actual column name for value
-  prdctddl.DataBind();
+                // Bind the data to the DropDownList
+                prdctddl.DataSource = dsProducts;
+                prdctddl.DataTextField = "PM_Description1"; // Change "product" to your actual column name for display text
+                prdctddl.DataValueField = "PM_ItemCode1"; // Change "PM_ItemCode1" to your actual column name for value
+                prdctddl.DataBind();
 
-  // Optionally, add a default "Select" item at the first position
-  prdctddl.Items.Insert(0, new ListItem("Select", "0"));
+                // Optionally, add a default "Select" item at the first position
+                prdctddl.Items.Insert(0, new ListItem("Select", "0"));
             }
         }
     }
