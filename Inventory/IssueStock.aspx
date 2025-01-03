@@ -55,6 +55,30 @@
             .form label:hover {
                 background-color: #e0e0e0;
             }
+
+        /*below is the code which made the grid perfect and controlled the overflow*/
+        .my-gridview {  
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            .my-gridview th, .my-gridview td {
+                text-align: left;
+                padding: 15px;
+            }
+
+            .my-gridview th {
+                background-color: #5D7B9D;
+                color: white;
+            }
+
+            .my-gridview tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            .my-gridview tr:hover {
+                background-color: #ddd;
+            }
     </style>
     <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
@@ -159,7 +183,7 @@
 
                                 <div class="col-6">
                                     <label id="lblQuantity" class="col-form-label bold">Quantity :</label>
-                                    <asp:TextBox ID="txtQuantity" runat="server" CssClass="form-control border border-dark" Readonly="true" Text="1" TextMode="SingleLine" placeholder="Enter the Quantity" ValidationGroup="ABC"></asp:TextBox>
+                                    <asp:TextBox ID="txtQuantity" runat="server" CssClass="form-control border border-dark" ReadOnly="true" Text="1" TextMode="SingleLine" placeholder="Enter the Quantity" ValidationGroup="ABC"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="Qvalid" runat="server" ControlToValidate="txtQuantity" ErrorMessage="Kindly Enter Quantity" ForeColor="red"
                                         Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>
                                 </div>
@@ -167,18 +191,18 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label id="warnty" class="col-form-label bold">Warranty Date :</label>
-                                    <asp:TextBox ID="txtWarrantyDatee" runat="server" CssClass="form-control border border-dark" 
+                                    <asp:TextBox ID="txtWarrantyDatee" runat="server" CssClass="form-control border border-dark"
                                         placeholder="Enter Warranty Date" TextMode="Date" ValidationGroup="ABC"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="rfvWarrantydatee" Enabled="false" runat="server" ControlToValidate="txtWarrantyDatee" Font-Size="small"
                                         ForeColor="red" ErrorMessage="Invoice number is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
                                 </div>
                                 <div class="col-6">
-    <label id="PayAmounr" class="col-form-label bold">Enter Amount :</label>
-    <asp:TextBox ID="textAmount" runat="server" CssClass="form-control border border-dark" 
-        placeholder="Enter Amount" TextMode="SingleLine" ValidationGroup="ABC"></asp:TextBox>
-    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Enabled="false" runat="server" ControlToValidate="textAmount" Font-Size="small"
-        ForeColor="red" ErrorMessage="Amount is Required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
-</div>
+                                    <label id="PayAmounr" class="col-form-label bold">Enter Amount :</label>
+                                    <asp:TextBox ID="textAmount" runat="server" CssClass="form-control border border-dark"
+                                        placeholder="Enter Amount" TextMode="SingleLine" ValidationGroup="ABC"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Enabled="false" runat="server" ControlToValidate="textAmount" Font-Size="small"
+                                        ForeColor="red" ErrorMessage="Amount is Required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
+                                </div>
                             </div>
 
 
@@ -297,138 +321,167 @@
 
 
                     <div class="col-12">
+                        <div style="overflow-x: auto; white-space: nowrap;">
+
+                            <asp:GridView ID="gvIssue" runat="server" CssClass="table table-bordered table-hover my-gridview"
+                                AutoGenerateColumns="False" GridLines="None" ForeColor="#333333" ShowFooter="true" Width="100%"
+                                DataKeyNames="IS_CustID" OnRowCommand="gvIssue_RowCommand" OnRowDataBound="gvIssue_RowDataBound">
+
+                                <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                                <Columns>
+
+                                    <asp:TemplateField HeaderText="Action" HeaderStyle-Width="5px">
+                                        <ItemTemplate>
+                                            <asp:CheckBox ID="chkAction" runat="server" OnCheckedChanged="chkAction_CheckedChanged" AutoPostBack="true" />
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            <asp:UpdatePanel ID="UpdatePO" runat="server">
+                                                <ContentTemplate>
+                                                    <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Approved</asp:LinkButton>
+                                                </ContentTemplate>
+                                                <Triggers>
+                                                    <asp:PostBackTrigger ControlID="lnkApprove" />
+                                                    <%--<asp:AsyncPostBackTrigger ControlID="VendorApproval" EventName="RowCommand" />--%>
+                                                </Triggers>
+                                            </asp:UpdatePanel>
+                                        </FooterTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Quantity">
+                                        <ItemTemplate>
+
+                                            <asp:TextBox ID="txtGQuantity" runat="server" CssClass="form-control border border-dark" ReadOnly="true" Text="1" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="rfvQuanty" Enabled="false" runat="server" ControlToValidate="txtGQuantity" Font-Size="small"
+                                                ForeColor="red" ErrorMessage="Quantity is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
+                                            <br />
+                                            <asp:FileUpload ID="fupid" runat="server" CssClass="form-control border border-dark" />
+                                            <asp:RequiredFieldValidator ID="rfvFileUpload" Enabled="false" runat="server" ControlToValidate="fupid" Font-Size="small"
+                                                ForeColor="red" ErrorMessage="File is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Product / Inovice Number / Warranty Date">
+                                        <ItemTemplate>
+                                            <asp:DropDownList ID="Productddl" runat="server" CssClass="form-control border border-dark" ValidationGroup="ABC">
+                                            </asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="ProdDropDWN" runat="server" ControlToValidate="Productddl" ErrorMessage="Kindly select Product" Font-Bold="true" Font-Size="small" ForeColor="red"
+                                                Display="Dynamic" ValidationGroup="ABC" Enabled="false" InitialValue="0"></asp:RequiredFieldValidator>
+
+                                            <br />
+                                            <asp:TextBox ID="txtInvoice" runat="server" CssClass="form-control border border-dark" placeholder="Enter Invoice Number" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                            <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" TargetControlID="txtInvoice" FilterType="Numbers" ValidChars="0123456789" />
+                                            <asp:RequiredFieldValidator ID="InvoiceValidator" Enabled="false" runat="server" ControlToValidate="txtInvoice" Font-Size="small"
+                                                ForeColor="red" ErrorMessage="Invoice number is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
+
+                                            <br />
+                                            <asp:TextBox ID="txtWarrantyDate" runat="server" CssClass="form-control border border-dark" placeholder="Enter Warranty Date" TextMode="Date" Width="180px" ValidationGroup="ABC"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="rfvWarrantydate" Enabled="false" runat="server" ControlToValidate="txtWarrantyDate" Font-Size="small"
+                                                ForeColor="red" ErrorMessage="Invoice Warranty date is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Mode of disbursement/Application Received Stage">
+                                        <ItemTemplate>
+                                            <asp:DropDownList ID="ModeOfDisbursement" CssClass="form-control border border-dark" runat="server" ValidationGroup="ABC">
+                                                <asp:ListItem Text="Select Mode Of Disbursement" Value="0" />
+                                                <asp:ListItem Text="Loan" Value="1" />
+                                                <asp:ListItem Text="QR Code" Value="2" />
+                                                <asp:ListItem Text="Cash" Value="3" />
 
 
-                        <asp:GridView ID="gvIssue" runat="server" CssClass="table table-bordered table-hover my-gridview"
-                            AutoGenerateColumns="False" GridLines="None" ForeColor="#333333" ShowFooter="true" Width="100%"
-                            DataKeyNames="IS_CustID" OnRowCommand="gvIssue_RowCommand" OnRowDataBound="gvIssue_RowDataBound">
-
-                            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
-                            <Columns>
-
-                                <asp:TemplateField HeaderText="Action" HeaderStyle-Width="5px">
-                                    <ItemTemplate>
-                                        <asp:CheckBox ID="chkAction" runat="server" OnCheckedChanged="chkAction_CheckedChanged" AutoPostBack="true" />
-                                    </ItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:UpdatePanel ID="UpdatePO" runat="server">
-                                            <ContentTemplate>
-                                                <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Approved</asp:LinkButton>
-                                            </ContentTemplate>
-                                            <Triggers>
-                                                <asp:PostBackTrigger ControlID="lnkApprove" />
-                                                <%--<asp:AsyncPostBackTrigger ControlID="VendorApproval" EventName="RowCommand" />--%>
-                                            </Triggers>
-                                        </asp:UpdatePanel>
-                                    </FooterTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField HeaderText="Quantity">
-                                    <ItemTemplate>
-
-                                        <asp:TextBox ID="txtGQuantity" runat="server" CssClass="form-control border border-dark" ReadOnly="true" Text="1" Width="180px" ValidationGroup="ABC"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="rfvQuanty" Enabled="false" runat="server" ControlToValidate="txtGQuantity" Font-Size="small"
-                                            ForeColor="red" ErrorMessage="Quantity is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
-                                        <br />
-                                        <asp:FileUpload ID="fupid" runat="server" CssClass="form-control border border-dark" />
-                                          <asp:RequiredFieldValidator ID="rfvFileUpload" Enabled="false" runat="server" ControlToValidate="fupid" Font-Size="small"
-      ForeColor="red" ErrorMessage="File is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Product / Inovice Number / Warranty Date">
-                                    <ItemTemplate>
-                                        <asp:DropDownList ID="Productddl" runat="server" CssClass="form-control border border-dark" ValidationGroup="ABC">
-                                        </asp:DropDownList>
-                                        <asp:RequiredFieldValidator ID="ProdDropDWN" runat="server" ControlToValidate="Productddl" ErrorMessage="Kindly select Product" Font-Bold="true"  Font-Size="small" ForeColor="red"
-                                            Display="Dynamic" ValidationGroup="ABC" Enabled="false" InitialValue="0"></asp:RequiredFieldValidator>
-
-                                        <br />
-                                        <asp:TextBox ID="txtInvoice" runat="server" CssClass="form-control border border-dark" placeholder="Enter Invoice Number" Width="180px" ValidationGroup="ABC"></asp:TextBox>
-                                        <cc1:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" runat="server" TargetControlID="txtInvoice" FilterType="Numbers" ValidChars="0123456789" />
-                                        <asp:RequiredFieldValidator ID="InvoiceValidator" Enabled="false" runat="server" ControlToValidate="txtInvoice" Font-Size="small"
-                                            ForeColor="red" ErrorMessage="Invoice number is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
-
-                                        <br />
-                                        <asp:TextBox ID="txtWarrantyDate" runat="server" CssClass="form-control border border-dark" placeholder="Enter Warranty Date" TextMode="Date" Width="180px" ValidationGroup="ABC"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="rfvWarrantydate" Enabled="false" runat="server" ControlToValidate="txtWarrantyDate" Font-Size="small"
-                                            ForeColor="red" ErrorMessage="Invoice Warranty date is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Customer ID">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblCustID" runat="server" Text='<%#Eval("IS_CustID") %>'></asp:Label>
-                                        <asp:Label ID="lblUnitprice" visible="false" runat="server" Text='<%#Eval("PM_UnitPrice") %>'></asp:Label>
-                                        
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField HeaderText="Name">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblFirstName" runat="server" Text='<%#Eval("FIRST_NAME") %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField HeaderText="Product">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblProduct" runat="server" Text='<%# Eval("PRODUCT_ID") %>'></asp:Label>
-                                        <asp:Label ID="lblProductID" runat="server" Visible="false" Text='<%# Eval("PM_ItemCode1") %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
-                                <asp:TemplateField HeaderText="Branch ">
-                                    <ItemTemplate>
-
-                                        <asp:Label ID="lblBranch" runat="server" Text='<%# Eval("Branch") %>'></asp:Label>
-                                        <asp:Label ID="lblBranchID" Visible="false" runat="server" Text='<%# Eval("BRANCH_ID") %>'></asp:Label>
+                                            </asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="rfc2" runat="server" ControlToValidate="ModeOfDisbursement" ErrorMessage="Kindly Select Mode of Disbursement" ForeColor="red"
+                                                Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
+                                            <br />
+                                            <asp:DropDownList ID="ApplicationReceivedStage" CssClass="form-control border border-dark" runat="server" ValidationGroup="ABC">
+                                                <asp:ListItem Text="Select Application Received Stage" Value="0" />
+                                                <asp:ListItem Text="GFM/GRT" Value="1" />
+                                                <asp:ListItem Text="Disbursement of Business loan" Value="2" />
+                                                <asp:ListItem Text="Centre meeting" Value="3" />
 
 
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                            </asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="ApplicationReceivedStage" ErrorMessage="Kindly Select Application Received Stage" ForeColor="red"
+                                                Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
 
-                                <asp:TemplateField HeaderText="Mobile Number">
-                                    <ItemTemplate>
 
-                                        <asp:Label ID="lblMobileNO" runat="server" Text='<%# Eval("MOBILE_NUMBER") %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Customer ID">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblCustID" runat="server" Text='<%#Eval("IS_CustID") %>'></asp:Label>
+                                            <asp:Label ID="lblUnitprice" Visible="false" runat="server" Text='<%#Eval("PM_UnitPrice") %>'></asp:Label>
 
-                                <asp:TemplateField HeaderText="Spouse Name">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblSpouseNAme" runat="server" Text='<%# Eval("SPOUSE_NAME") %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
 
-                                <asp:TemplateField HeaderText="Loan ID">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblLoanID" runat="server" Text='<%# Eval("LOAN_ID") %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
 
-                                <asp:TemplateField HeaderText="CENTER ID">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblCenterID" runat="server" Text='<%# Eval("CENTER_ID") %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Name">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblFirstName" runat="server" Text='<%#Eval("FIRST_NAME") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
 
-                                <asp:TemplateField HeaderText="Group ID">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblGroupID" runat="server" Text='<%# Eval("center_group_code") %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
+                                    <asp:TemplateField HeaderText="Product">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblProduct" runat="server" Text='<%# Eval("PRODUCT_ID") %>'></asp:Label>
+                                            <asp:Label ID="lblProductID" runat="server" Visible="false" Text='<%# Eval("PM_ItemCode1") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
 
-                            <EditRowStyle BackColor="#999999" />
-                            <FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
-                            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                            <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
-                            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                            <SortedAscendingCellStyle BackColor="#E9E7E2" />
-                            <SortedAscendingHeaderStyle BackColor="#506C8C" />
-                            <SortedDescendingCellStyle BackColor="#FFFDF8" />
-                            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+                                    <asp:TemplateField HeaderText="Branch ">
+                                        <ItemTemplate>
 
-                        </asp:GridView>
+                                            <asp:Label ID="lblBranch" runat="server" Text='<%# Eval("Branch") %>'></asp:Label>
+                                            <asp:Label ID="lblBranchID" Visible="false" runat="server" Text='<%# Eval("BRANCH_ID") %>'></asp:Label>
+
+
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Mobile Number">
+                                        <ItemTemplate>
+
+                                            <asp:Label ID="lblMobileNO" runat="server" Text='<%# Eval("MOBILE_NUMBER") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Spouse Name">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblSpouseNAme" runat="server" Text='<%# Eval("SPOUSE_NAME") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Loan ID">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblLoanID" runat="server" Text='<%# Eval("LOAN_ID") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="CENTER ID">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblCenterID" runat="server" Text='<%# Eval("CENTER_ID") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField HeaderText="Group ID">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblGroupID" runat="server" Text='<%# Eval("center_group_code") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+
+                                <EditRowStyle BackColor="#999999" />
+                                <FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
+                                <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                                <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                                <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                                <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                                <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                                <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                                <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                                <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+
+                            </asp:GridView>
+                        </div>
                     </div>
                 </div>
             </blockquote>
