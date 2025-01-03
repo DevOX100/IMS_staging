@@ -57,7 +57,7 @@
             }
 
         /*below is the code which made the grid perfect and controlled the overflow*/
-        .my-gridview {
+        .my-gridview {  
             border-collapse: collapse;
             width: 100%;
         }
