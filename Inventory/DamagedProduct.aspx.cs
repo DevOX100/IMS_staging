@@ -50,15 +50,15 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
             bool isCreationDateValid = DateTime.TryParse(creationDateText, out creationDate);
             bool isWarrantyDateValid = DateTime.TryParse(warrantyDateText, out warrantyDate);
             
-            if (!string.IsNullOrEmpty(creationDateText) && !string.IsNullOrEmpty(warrantyDateText))
-            {
+            //if (!string.IsNullOrEmpty(creationDateText) && !string.IsNullOrEmpty(warrantyDateText))
+            //{
 
-                if (creationDate >= warrantyDate)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', 'Warranty of the product has expired for this customer');", true);
-                }
+            //    if (creationDate >= warrantyDate)
+            //    {
+            //        ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', 'Warranty of the product has expired for this customer');", true);
+            //    }
                
-            }
+            //}
 
         }
         gvDamageproduct.DataSource = ds;
@@ -350,38 +350,38 @@ public partial class Inventory_DamagedProduct : System.Web.UI.Page
                             {
                                 productType = ddlProductType.SelectedItem.Text;
                             }
-                            if (isCreationDateValid && isWarrantyDateValid)
-                            {
+                            //if (isCreationDateValid && isWarrantyDateValid)
+                            //{
 
-                                bool isConditionMet = creationDate <= warrantyDate;
+                            //    bool isConditionMet = creationDate <= warrantyDate;
 
-                                if (isConditionMet)
-                                {
+                            //    if (isConditionMet)
+                            //    {
 
                                     ISS.insertDamageStock(DamageApprovedBY, RequestQty, complaint, productType, productName, DamagedImage, LoanID
                                     , name, branch, spouseName, mobile, CustID, ProdID, brnachAvailable);
                                     ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Damaged product details have been saved!', 'success');", true);
                                     BindGrid();
-                                }
-                                else
-                                {
-                                    DamagedQty.Enabled = false;
+                                //}
+                                //else
+                                //{
+                                //    DamagedQty.Enabled = false;
 
-                                    BindGrid();
-                                    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', 'Warranty of the Poduct has expired! for this customer' );", true);
+                                //    BindGrid();
+                                //    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', 'Warranty of the Poduct has expired! for this customer' );", true);
 
-                                }
+                                //}
 
 
-                            }
-                            else
-                            {
+                            //}
+                            //else
+                            //{
 
-                                ISS.insertDamageStock(DamageApprovedBY, RequestQty, complaint, productType, productName, DamagedImage, LoanID
-                                , name, branch, spouseName, mobile, CustID, ProdID, brnachAvailable);
-                                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Damaged product details have been saved!', 'success');", true);
-                                BindGrid();
-                            }
+                            //    ISS.insertDamageStock(DamageApprovedBY, RequestQty, complaint, productType, productName, DamagedImage, LoanID
+                            //    , name, branch, spouseName, mobile, CustID, ProdID, brnachAvailable);
+                            //    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Damaged product details have been saved!', 'success');", true);
+                            //    BindGrid();
+                            //}
 
 
                         }
