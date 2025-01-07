@@ -364,34 +364,35 @@ public partial class Inventory_BranchReceivedStock : System.Web.UI.Page
 
     protected void txtDamageQuantity_TextChanged(object sender, EventArgs e)
     {
-        TextBox textBox = (TextBox)sender;
+        //TextBox textBox = (TextBox)sender;
 
-        GridViewRow row = (GridViewRow)textBox.NamingContainer;
-        Label sendstock = (Label)row.FindControl("lblVendorSendQty");
-        //Label rec = (Label)row.FindControl("lblApprQuantity");
-        TextBox quantity = (TextBox)row.FindControl("txtQuantity");
-        TextBox DamagedQuantity = (TextBox)row.FindControl("txtDamageQuantity");
-        int qty = 0;
-        if (quantity.Text == null || quantity.Text == "")
-        {
-            qty = 0;
-        }
-        else
-        {
-            qty = Convert.ToInt32(quantity.Text);
-        }
-        if (!string.IsNullOrEmpty(sendstock.Text))
-        {
+        //GridViewRow row = (GridViewRow)textBox.NamingContainer;
+        //Label sendstock = (Label)row.FindControl("lblVendorSendQty");
+        ////Label rec = (Label)row.FindControl("lblApprQuantity");
+        //TextBox quantity = (TextBox)row.FindControl("txtQuantity");
+        //TextBox DamagedQuantity = (TextBox)row.FindControl("txtDamageQuantity");
+        //int qty = 0;
+        //if (quantity.Text == null || quantity.Text == "")
+        //{
+        //    qty = 0;
+        //}
+        //else
+        //{
+        //    qty = Convert.ToInt32(quantity.Text);
+        //}
+        //if (!string.IsNullOrEmpty(sendstock.Text))
+        //{
     
-            int remains = Convert.ToInt32(sendstock.Text);
-            int total =Convert.ToInt32(quantity.Text);
+        //    string remains = sendstock.Text;
+        //    string total =quantity.Text;
 
-            if (total > remains)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Please Enter less than or equal to remaining Quantity!', 'info');", true);
-                quantity.Text = remains.ToString();
-            }
-        }
+
+        //    if (Convert.ToInt32(total) > Convert.ToInt32(remains))
+        //    {
+        //        ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Please Enter less than or equal to remaining Quantity!', 'info');", true);
+        //        quantity.Text = remains.ToString();
+        //    }
+        //}
        
     }
 
