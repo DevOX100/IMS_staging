@@ -343,7 +343,7 @@ public partial class Account_Home : System.Web.UI.Page
         if (ChartData.Rows.Count == 0)
         {
             Chart1.Series["Available Stock"].Points.Clear();
-            Chart1.Series["Damaged Stock"].Points.Clear();
+            //Chart1.Series["Damaged Stock"].Points.Clear();
             return;
         }
 
