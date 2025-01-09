@@ -1448,4 +1448,32 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[12] = new SqlParameter("@UserCode", @UserCode);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "insertReconciliationData", param);
     }
+    public DataTable FormatVendorDelivery( string vendorCode)
+    {
+        con.Open();
+        SqlCommand cmd = new SqlCommand("INV_BulkOrderDelivery", con);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.CommandTimeout = 800;   
+        cmd.Parameters.AddWithValue("@vendorCode", vendorCode);
+        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        DataTable dt = new DataTable();
+        adapter.Fill(dt);
+        con.Close();
+        return dt;
+    }
+    public DataSet INV_BulkVendorData(string Remarks, int ID, string VendorUSerID, string vendor_stock_status, int vendor_stock_quantity, string filePath,
+        DateTime Tentative_Delivery_Date, string BIS_VendorStatus)
+    {
+        param = new SqlParameter[8];
+        param[0] = new SqlParameter("@Remarks", Remarks);
+        param[1] = new SqlParameter("@ID", ID);
+        param[2] = new SqlParameter("@VendorUSerID", VendorUSerID);
+        param[3] = new SqlParameter("@vendor_stock_status", vendor_stock_status);
+        param[4] = new SqlParameter("@vendor_stock_quantity", vendor_stock_quantity);
+        param[5] = new SqlParameter("@VendorImage", filePath);
+        param[6] = new SqlParameter("@Tentative_Delivery_Date", Tentative_Delivery_Date);
+        param[7] = new SqlParameter("@BIS_VendorStatus", BIS_VendorStatus);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_BulkVendorData", param);
+    }
+
 }
