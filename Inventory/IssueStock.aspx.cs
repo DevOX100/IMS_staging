@@ -313,6 +313,8 @@ public partial class IssueStock : System.Web.UI.Page
                     Label SpouseName = ((Label)gvIssue.Rows[i].FindControl("lblSpouseNAme"));
                     Label LoanId = ((Label)gvIssue.Rows[i].FindControl("lblLoanID"));
                     TextBox txtInvoice = ((TextBox)gvIssue.Rows[i].FindControl("txtInvoice"));
+                    TextBox txtAmount = ((TextBox)gvIssue.Rows[i].FindControl("txtAmount"));
+
                     FileUpload fupImage = gvIssue.Rows[i].FindControl("fupid") as FileUpload;
 
                     TextBox WarrantyDate = ((TextBox)gvIssue.Rows[i].FindControl("txtWarrantyDate"));
@@ -324,6 +326,7 @@ public partial class IssueStock : System.Web.UI.Page
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Not able to insert the data as data is missing!', 'error');", true);
                         return;
                     }
+                    
                     string Invoice = txtInvoice.Text;
                     string custID = CUSTID.Text;
                     string fName = FirstName.Text;
@@ -381,13 +384,14 @@ public partial class IssueStock : System.Web.UI.Page
                         ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Info!', 'Please Upload POD only in PDF!', 'info');", true);
                         return;
                     }
+                    int Amount1 = Convert.ToInt32(txtAmount.Text);
                     int UnitPrice = Convert.ToInt32(Amount.Text);
                     int QTY = Convert.ToInt32(Quantity.Text);
                     try
                     {
 
 
-                        ds = ISS.IssueStock(custID, fName, IMSProductID, Bnch, Sname, Mnumber, POD, Invoice, QTY, IS_UserType, IS_WarrantyDate, loanID, ddlModeOfDisbursement.SelectedItem.Text, UnitPrice, ddlApplicationReceivedStage.SelectedItem.Text);
+                        ds = ISS.IssueStock(custID, fName, IMSProductID, Bnch, Sname, Mnumber, POD, Invoice, QTY, IS_UserType, IS_WarrantyDate, loanID, ddlModeOfDisbursement.SelectedItem.Text, Amount1, ddlApplicationReceivedStage.SelectedItem.Text);
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Product has been Issued!', 'success');", true);
                         gvIssue.DataSource = null;
                         gvIssue.DataBind();
@@ -441,6 +445,7 @@ public partial class IssueStock : System.Web.UI.Page
         RequiredFieldValidator rfvWarrantydate = currentRow.FindControl("rfvWarrantydate") as RequiredFieldValidator;
         RequiredFieldValidator rfc2 = currentRow.FindControl("rfc2") as RequiredFieldValidator;
         RequiredFieldValidator RequiredFieldValidator4 = currentRow.FindControl("RequiredFieldValidator4") as RequiredFieldValidator;
+        RequiredFieldValidator rfvAmount = currentRow.FindControl("rfvAmount") as RequiredFieldValidator;
 
         if (chkAction.Checked)
         {
@@ -451,6 +456,7 @@ public partial class IssueStock : System.Web.UI.Page
             rfvWarrantydate.Enabled = true;
             rfc2.Enabled = true;
             RequiredFieldValidator4.Enabled = true;
+            rfvAmount.Enabled = true;
         }
         else
         {
@@ -461,6 +467,7 @@ public partial class IssueStock : System.Web.UI.Page
             rfvWarrantydate.Enabled = false;
             rfc2.Enabled = false;
             RequiredFieldValidator4.Enabled = false;
+            rfvAmount.Enabled = false;
         }
     }
 

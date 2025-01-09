@@ -203,7 +203,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <label id="warnty" class="col-form-label bold">Warranty Date :</label>
+                                    <label id="warnty" class="col-form-label bold">Handover Date :</label>
                                     <asp:TextBox ID="txtWarrantyDatee" runat="server" CssClass="form-control border border-dark"
                                         placeholder="Enter Warranty Date" TextMode="Date" ValidationGroup="ABC"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="rfvWarrantydatee" Enabled="false" runat="server" ControlToValidate="txtWarrantyDatee" Font-Size="small"
@@ -372,7 +372,7 @@
                                                 ForeColor="red" ErrorMessage="File is required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Product / Inovice Number / Warranty Date">
+                                    <asp:TemplateField HeaderText="Product / Inovice Number / Handover Date">
                                         <ItemTemplate>
                                             <asp:DropDownList ID="Productddl" runat="server" CssClass="form-control border border-dark" ValidationGroup="ABC">
                                             </asp:DropDownList>
@@ -415,6 +415,15 @@
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="ApplicationReceivedStage" ErrorMessage="Kindly Select Application Received Stage" ForeColor="red"
                                                 Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
 
+
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Amount">
+                                        <ItemTemplate>
+                                            <asp:TextBox ID="txtAmount" runat="server" Width="180" CssClass="form-control border border-dark"
+                                                placeholder="Enter Amount" TextMode="SingleLine" ValidationGroup="ABC"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="rfvAmount" Enabled="false" runat="server" ControlToValidate="txtAmount" Font-Size="small"
+                                                ForeColor="red" ErrorMessage="Amount is Required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
 
                                         </ItemTemplate>
                                     </asp:TemplateField>
