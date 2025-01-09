@@ -84,6 +84,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
 
                     //         DateTime Tentative_Delivery_Date = Convert.ToDateTime(Tentative_Delivery.Text);
                     string ddlstatus = dropdownStatus.SelectedValue.ToString();
+                   
 
                     if (approvedQty < vendorStockQuantity)
                     {
@@ -125,7 +126,8 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
                     }
                     else
                     {
-                        ISS.INV_ModifyVendorData(remarks, ID, VendorUserID, "Send to Branch", vendorStockQuantity, VendorImage, Tentative_Delivery_Date, ddlstatus);/*, filePath);*/
+
+                        ISS.INV_ModifyVendorData(remarks, ID, VendorUserID, "Send to Branch", vendorStockQuantity, VendorImage, Tentative_Delivery_Date, dropdownStatus.SelectedValue);/*, filePath);*/
                     }
 
 
