@@ -17,11 +17,12 @@
         a {
             text-decoration: none;
         }
+
         body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden; /* Disable scrollbar */
-    }
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Disable scrollbar */
+        }
 
         /* Additional spacing and styling adjustments */
         .card-header, .card-body, .card-footer {
@@ -82,10 +83,9 @@
             background-color: #fff;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
-
         }
 
-   
+
 
         .card-header, .card-body, .card-footer {
             padding: 1rem;
@@ -140,13 +140,13 @@
             align-items: center;
             text-align: center;
         }
-        #mainGraph{
+
+        #mainGraph {
             justify-content: center;
             align-items: center;
             text-align: center;
             padding-right: 50px;
-          
-/*            margin-top:100px;*/
+            /*            margin-top:100px;*/
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -190,16 +190,23 @@
         </div>
         <div class="row">
 
-            <div id="Region" runat="server" class="col-6">
+            <div id="Region" runat="server" class="col-3">
                 <label id="lblRegion" runat="server" class="col-form-label bold">Region : <span style="color: red">*</span></label>
                 <asp:DropDownList ID="ddlRegion" runat="server" Enabled="true" CssClass="form-control border border-dark" AutoPostBack="true" OnSelectedIndexChanged="ddlRegion_SelectedIndexChanged">
                 </asp:DropDownList>
             </div>
-            <div class="col-6">
+            <div class="col-3">
                 <label id="lblBranch" runat="server" class="col-form-label bold">Branch : <span style="color: red">*</span></label>
                 <asp:DropDownList ID="ddlBranch" runat="server" Enabled="true" CssClass="form-control border border-dark" AutoPostBack="true" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged">
                 </asp:DropDownList><br />
                 <br />
+            </div>
+            <div class="col-3">
+                <label for="Product" class="col-form-label bold">Product : <span style="color: red">*</span></label>
+                <asp:DropDownList ID="ddlProduct" runat="server" Enabled="true" CssClass="form-control border border-dark" ValidationGroup="ABC" AutoPostBack="true" OnSelectedIndexChanged="ddlProduct_SelectedIndexChanged">
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator ID="rfvproduct" runat="server" ControlToValidate="ddlProduct" ErrorMessage="Kindly choose Product" ForeColor="red"
+                    Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
             </div>
         </div>
 
@@ -308,7 +315,7 @@
 
         </div>
         <div class="card-container">
-            
+
 
             <div id="MTDhide" runat="server" class="card border-round1 animationC4" style="background-color: red">
                 <div class="card-header cb-style" style="font-size: larger">
@@ -412,60 +419,60 @@
 
         </div>
 
-              <div class="card-container">
-          
-
-          <div id="Div5" runat="server" class="card border-round1 animationC4" style="background-color: red">
-              <div class="card-header cb-style" style="font-size: larger">
-                  <h4 style="color: oldlace; font-weight: bold">Damaged Stock</h4>
-              </div>
-              <div class="card-body border-round2">
-                  <div class="row">
-                      <div class="col-6">
-                          <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
-                      </div>
-                      <div class="col-6">
-                          <asp:Label runat="server" ID="lblDamagedStockByVendor" Style="color: oldlace; font-size: 30Px;"></asp:Label>
-                      </div>
-                  </div>
-              </div>
-              <div class="card-footer">
-                  <asp:Label runat="server" ID="Label3" Style="color: oldlace; font-size: 14Px;">Damaged stock Received by Vendor</asp:Label>
-              </div>
-          </div>
+        <div class="card-container">
 
 
-          <div id="Div6" runat="server" class="card border-round1 animationC5" style="background-color: #e79505">
-              <div class="card-header cb-style" style="font-size: larger">
-                  <h4 style="color: oldlace; font-weight: bold">Cpp Escalation</h4>
-              </div>
-              <div class="card-body border-round2">
-                  <div class="row">
-                      <div class="col-6">
-                          <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
-                      </div>
-                      <div class="col-6">
-                          <asp:Label runat="server" ID="lblCPPEscalation" Style="color: oldlace; font-size: 30Px;"></asp:Label>
-                      </div>
-                  </div>
-              </div>
-              <div class="card-footer">
-                  <asp:Label runat="server" ID="Label9" Style="color: oldlace; font-size: 14Px;">Action Pending From vendor</asp:Label>
-              </div>
-          </div>
+            <div id="Div5" runat="server" class="card border-round1 animationC4" style="background-color: red">
+                <div class="card-header cb-style" style="font-size: larger">
+                    <h4 style="color: oldlace; font-weight: bold">Damaged Stock</h4>
+                </div>
+                <div class="card-body border-round2">
+                    <div class="row">
+                        <div class="col-6">
+                            <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
+                        </div>
+                        <div class="col-6">
+                            <asp:Label runat="server" ID="lblDamagedStockByVendor" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <asp:Label runat="server" ID="Label3" Style="color: oldlace; font-size: 14Px;">Damaged stock Received by Vendor</asp:Label>
+                </div>
+            </div>
+
+
+            <div id="Div6" runat="server" class="card border-round1 animationC5" style="background-color: #e79505">
+                <div class="card-header cb-style" style="font-size: larger">
+                    <h4 style="color: oldlace; font-weight: bold">Cpp Escalation</h4>
+                </div>
+                <div class="card-body border-round2">
+                    <div class="row">
+                        <div class="col-6">
+                            <i class="fa-solid fa-calendar-day fa-3x" style="color: oldlace;"></i>
+                        </div>
+                        <div class="col-6">
+                            <asp:Label runat="server" ID="lblCPPEscalation" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <asp:Label runat="server" ID="Label9" Style="color: oldlace; font-size: 14Px;">Action Pending From vendor</asp:Label>
+                </div>
+            </div>
 
 
 
-        
 
-      </div>
+
+        </div>
     </div>
 
 
     <%-- POPUP Code--%>
     <!-- Modal Popup1 Total -->
     <div id="mainGraph">
-        <div id="css" runat="server" style=" text-align: center;">
+        <div id="css" runat="server" style="text-align: center;">
             <asp:Chart ID="Chart1" runat="server"
                 BackColor="#000000"
                 BackGradientStyle="Center"
@@ -491,7 +498,7 @@
                         IsValueShownAsLabel="True"
                         LabelFormat="{0} units"
                         Font="Arial, 10pt" />
-                   <%-- <asp:Series Name="Damaged Stock"
+                    <%-- <asp:Series Name="Damaged Stock"
                         ChartType="Column"
                         BorderWidth="2"
                         Color="#00FF00"
@@ -499,7 +506,6 @@
                         IsValueShownAsLabel="True"
                         LabelFormat="{0} units"
                         Font="Arial, 10pt" />--%>
-
                 </Series>
 
                 <ChartAreas>

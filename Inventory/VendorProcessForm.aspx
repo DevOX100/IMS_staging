@@ -2,6 +2,31 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
     <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+     <script type="text/javascript">
+     function OpenNewPopUp(val, id) {
+         // alert('Entered as a ' + val);
+         if (val == '1') {
+             $('#' + id).show();
+             setTimeout(function () {
+                 $('#' + id).show();
+                 $('#' + id).addClass('show');
+                 $('body').css('overflow', 'hidden');
+                 var elem = document.createElement('div');
+                 elem.className = "modal-backdrop show";
+                 //elem.style.cssText = "z-index:9999;";
+                 document.body.appendChild(elem);
+             }, 300);
+         }
+         else {
+             $('#' + id).removeClass('show');
+             $('div[class*="modal-backdrop"]').remove();
+             setTimeout(function () {
+                 $('#' + id).hide();
+                 $('body').css('overflow', 'auto');
+             }, 100);
+         }
+     }
+     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <div class="card">
@@ -86,6 +111,11 @@
                                                 <asp:LinkButton ID="lnkDownload" runat="server" CommandName="Download" CommandArgument='<%# Eval("PO_number") %>'>View </asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="View Details" HeaderStyle-Width="5px">
+    <ItemTemplate>
+        <asp:LinkButton ID="linkView" runat="server" CommandName="View" CommandArgument='<%# Eval("BIS_id") %>'>Details</asp:LinkButton>
+    </ItemTemplate>
+</asp:TemplateField>
                                     </Columns>
                                     <EditRowStyle BackColor="#999999" />
                                     <FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
@@ -107,4 +137,126 @@
             </blockquote>
         </div>
     </div>
+      <div id="divModel_InvoiceDetails" runat="server" visible="false" class="modal fade" role="dialog" clientidmode="Static">
+      <div class="modal-dialog" role="document">
+          <!-- Modal content-->
+          <div class="modal-content">
+
+              <div class="modal-header">
+                  <h5 class="modal-title fw-bold" id="lblModalInvoiceDetails">Details :</h5>
+                  <a href="#" style="text-decoration: none" aria-hidden="true" data-dismiss="modal" aria-label="Close">
+                      <i class="fa fa-times fa-2x alert-danger" aria-hidden="true"></i>
+                  </a>
+              </div>
+
+              <div class="modal-body" style="overflow-y: auto; overflow-x: hidden; height: 450px;">
+                  <table class="table table-bordered table-hover table-striped" style="margin-left: 20px; margin-right: 10px; margin-top: 10px; width: 400px">
+                      <tr>
+                          <td>
+                              <b>Requested Stock</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblRequestedQuantity" runat="server" Text='<%#Eval("BIS_Quantity")%>' Font-Bold="true"></asp:Label>
+                          </td>
+                      </tr>
+
+                      <tr>
+                          <td>
+                              <b>Requestor Remarks</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblRequestorRemarks" runat="server" Text='<%#Eval("BIS_initiator_remarks")%>'></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>Requested Date</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblRequestedDate" runat="server" Text='<%#Eval("BIS_insertDate")%>'></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>RM Stock Acceptance Quanity</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblStockAcceptance" runat="server" Text='<%#Eval("BIS_approved_quantity")%>' Font-Bold="true"></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>RM Stock Acceptance Remarks</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblAcceptorRemarks" runat="server" Text='<%#Eval("BIS_approved_remarks")%>'></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>RM Stock Acceptance Date</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblRMApproveDate" runat="server" Text='<%#Eval("BIS_approve_date")%>'></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>CPP(RO) Approved Quantity</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblCppQuantity" runat="server" Font-Bold="true" Text='<%#Eval("BIS_CPP_approved_quantity") %>'></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>CPP(RO) Remarks</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblcppRemarks" runat="server" Text='<%#Eval("BIS_CPP_Approved_Remarks") %>'></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>CPP(RO) Approved Date</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblCPPApproveDate" runat="server" Text='<%#Eval("BIS_CPP_Approved_Date") %>'></asp:Label>
+                          </td>
+                      </tr>
+
+
+                      <tr>
+                          <td>
+                              <b>HO Approved Quantity</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblHOAprQty" runat="server" Font-Bold="true" Text='<%#Eval("BIS_HO_approved_quantity") %>'></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>HO Remarks</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblHORemarks" runat="server" Text='<%#Eval("BIS_HO_Approved_Remarks") %>'></asp:Label>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <b>HO Approved Date</b>
+                          </td>
+                          <td>
+                              <asp:Label ID="lblHODate" runat="server" Text='<%#Eval("BIS_POGeneratedOn") %>'></asp:Label>
+                          </td>
+                      </tr>
+                  </table>
+
+              </div>
+              <div class="modal-footer">
+                  <asp:Button ID="btnClose" class="btn btn-danger" runat="server" Text="Close" OnClick="btnClose_Click" />
+              </div>
+          </div>
+      </div>
+  </div>
 </asp:Content>

@@ -19,7 +19,7 @@ public partial class Account_Home : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            string HOLogins= Session["RCode"].ToString();
+            string HOLogins = Session["RCode"].ToString();
             string Division = Session["Division"].ToString();
             string Cluster = Session["Cluster"].ToString();
             string[] loginType = { "U", "D", "C" };
@@ -27,24 +27,24 @@ public partial class Account_Home : System.Web.UI.Page
             //string[] HOLogins = { "10000", "01479", "01823", "09917", "08000" };
             //string[] CppHUBWise = { "15020", "12307", "15704", "18269", "18891" };
             //string UserCode = Session["UserCode"].ToString();
-            if (loginType.Contains(Session["loginType"].ToString()) && HOLogins!="R000" && !HOLogins.StartsWith("BH",StringComparison.OrdinalIgnoreCase))
+            if (loginType.Contains(Session["loginType"].ToString()) && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
             {
                 BindBranch();
                 Region.Visible = false;
             }
-          
+
             else
             {
                 Region.Visible = true;
             }
-            
+
             if (Session["loginType"].ToString() == "B")
             {
                 ddlBranch.Visible = false;
                 ddlRegion.Visible = false;
                 lblBranch.Visible = false;
                 lblRegion.Visible = false;
-              
+
 
             }
             else
@@ -73,7 +73,7 @@ public partial class Account_Home : System.Web.UI.Page
 
             }
 
-            
+            BindProduct();
         }
 
 
@@ -81,14 +81,14 @@ public partial class Account_Home : System.Web.UI.Page
     }
     protected void BindRegion()
     {
-        
+
         string HOLogins = Session["RCode"].ToString();
-        if (HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase) )
+        if (HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
         {
-       
+
 
             string CppHub = Session["RegionID"].ToString();
-      
+
             ds = ISS.HUBWiseRegion(CppHub);
             ddlRegion.DataSource = ds;
             ddlRegion.DataTextField = "Cluster_ID";
@@ -98,7 +98,7 @@ public partial class Account_Home : System.Web.UI.Page
         }
         else
         {
-        
+
 
             ds = ISS.RegionDetail();
             ddlRegion.DataSource = ds;
@@ -108,15 +108,34 @@ public partial class Account_Home : System.Web.UI.Page
             ddlRegion.Items.Insert(0, new ListItem("Select", "0"));
         }
     }
-    
+    protected void BindProduct()
+    {
+        string UserCode = Session["UserCode"].ToString();
+        string loginType = Session["loginType"].ToString();
+        string Region = Session["rcode"].ToString();
+        string Division = Session["Division"].ToString();
+        string Cluster = Session["Cluster"].ToString();
+        string branch = ddlBranch.SelectedValue;
+        if (string.IsNullOrEmpty(branch))
+        {
+            branch = "0";
+        }
+
+        ds = ISS.GetProductListforDashBoard(UserCode, loginType, Region, Division, Cluster, branch);
+        ddlProduct.DataSource = ds;
+        ddlProduct.DataTextField = "PM_Description1";
+        ddlProduct.DataValueField = "PM_ItemCode1";
+        ddlProduct.DataBind();
+        ddlProduct.Items.Insert(0, new ListItem("Select", "0"));
+    }
     protected void BindBranch()
     {
         string[] loginType = { "D", "C" };
-       
+
         string HOLogins = Session["RCode"].ToString();
         if (Session["loginType"].ToString() == "U" && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
         {
-           
+
             string clusterID = Session["RegionID"].ToString();
             ds = ISS.BranchDetailsByRegion(clusterID);
             ddlBranch.DataSource = ds;
@@ -149,13 +168,13 @@ public partial class Account_Home : System.Web.UI.Page
             ddlBranch.DataBind();
             ddlBranch.Items.Insert(0, new ListItem("Select", "0"));
         }
-        
+
     }
-  
+
     protected void RegionWiseBind()
     {
-        string vendorLogin=null;
-      
+        string vendorLogin = null;
+
         string userCode;
         string HOLogins = Session["RCode"].ToString();
         if (Session["loginType"].ToString() == "U" && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
@@ -164,10 +183,10 @@ public partial class Account_Home : System.Web.UI.Page
         }
         else
         {
-           
+
             userCode = ddlRegion.SelectedValue;
         }
-             
+
         string branchID = ddlBranch.SelectedValue;
         if (string.IsNullOrEmpty(branchID))
         {
@@ -175,15 +194,20 @@ public partial class Account_Home : System.Web.UI.Page
         }
         if (Session["loginType"].ToString() == "V")
         {
+            string productID = ddlProduct.SelectedValue;
+            if (string.IsNullOrEmpty(productID))
+            {
+                productID = "0";
+            }
             vendorLogin = Session["UserCode"].ToString();
-            ds = ISS.RegionWiseCount(userCode, branchID, vendorLogin);
+            ds = ISS.RegionWiseCount(userCode, branchID, vendorLogin, productID);
             if (ds.Tables[0].Rows.Count > 0)
             {
 
                 string Total = (ds.Tables[0].Rows[0]["Total"]).ToString();
                 string OutStock = (ds.Tables[1].Rows[0]["Out Stock"]).ToString();
                 string stockAdjustment = (ds.Tables[2].Rows[0]["Stock Adjustment"]).ToString();
-                string AvailableStock= (ds.Tables[3].Rows[0]["Available Order"]).ToString();
+                string AvailableStock = (ds.Tables[3].Rows[0]["Available Order"]).ToString();
                 string MTD = (ds.Tables[4].Rows[0]["MTD"]).ToString();
                 string FTD = (ds.Tables[5].Rows[0]["FTD"]).ToString();
                 string CustomerComplaints = (ds.Tables[6].Rows[0]["Customer Return Stock"]).ToString();
@@ -210,8 +234,13 @@ public partial class Account_Home : System.Web.UI.Page
         }
         else
         {
+            string productID=ddlProduct.SelectedValue;
+            if (string.IsNullOrEmpty(productID))
+            {
+                productID = "0";
+            }
 
-            ds = ISS.RegionWiseCount(userCode, branchID, vendorLogin);
+            ds = ISS.RegionWiseCount(userCode, branchID, vendorLogin, productID);
 
 
             if (ds.Tables[0].Rows.Count > 0)
@@ -245,13 +274,13 @@ public partial class Account_Home : System.Web.UI.Page
                 lblCPPEscalation.Text = CppEscalation.ToString();
             }
         }
-        
+
     }
     protected void VendorDataChart()
     {
         int UerCode = Convert.ToInt32(Session["UserCode"].ToString());
-        string RegionID=ddlRegion.SelectedValue;
-        string BranchID=ddlBranch.SelectedValue;
+        string RegionID = ddlRegion.SelectedValue;
+        string BranchID = ddlBranch.SelectedValue;
         if (string.IsNullOrEmpty(BranchID))
         {
             BranchID = "0";
@@ -260,7 +289,7 @@ public partial class Account_Home : System.Web.UI.Page
         {
             RegionID = "0";
         }
-        ds = ISS.BindvendorStatus(UerCode,  BranchID, RegionID);
+        ds = ISS.BindvendorStatus(UerCode, BranchID, RegionID);
         DataTable ChartData = ds.Tables[0];
         var quantity = new Dictionary<string, int>();
         var status = new Dictionary<string, int>();
@@ -276,8 +305,8 @@ public partial class Account_Home : System.Web.UI.Page
             string StatusName = row["Status"].ToString();
 
             int qty = row["quantity"] != DBNull.Value ? Convert.ToInt32(row["quantity"]) : 0;
-            quantity[StatusName]=qty;
-           
+            quantity[StatusName] = qty;
+
         }
         var AllStatus = quantity.Keys.ToArray();
         var availableQuantities = AllStatus.Select(pn => quantity.ContainsKey(pn) ? quantity[pn] : 0).ToArray();
@@ -285,7 +314,7 @@ public partial class Account_Home : System.Web.UI.Page
 
 
         Chart2.Series["Status"].Points.DataBindXY(AllStatus, availableQuantities);
- 
+
         Chart2.Series["Status"].Color = Color.Green;
 
 
@@ -326,15 +355,19 @@ public partial class Account_Home : System.Web.UI.Page
             regionID = "0";
         }
         string UserCode = Session["UserCode"].ToString();
-        string[] loginType = { "D", "C" ,"U"};
-        if (loginType.Contains(Session["loginType"].ToString())  && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
+        string[] loginType = { "D", "C", "U" };
+        if (loginType.Contains(Session["loginType"].ToString()) && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
         {
             regionID = Session["RegionID"].ToString();
         }
-      
-    
 
-        ds = ISS.DashboardCount(UserCode, regionID, branchID);
+        string productID = ddlProduct.SelectedValue;
+        if (string.IsNullOrEmpty(productID))
+        {
+            productID = "0";
+        }
+
+        ds = ISS.DashboardCount(UserCode, regionID, branchID, productID);
         DataTable ChartData = ds.Tables[0];
 
         var availableData = new Dictionary<string, int>();
@@ -386,7 +419,7 @@ public partial class Account_Home : System.Web.UI.Page
 
         //Chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Angle = 0; 
         Chart1.ChartAreas["ChartArea1"].AxisX.Interval = 1;
-  
+
         Chart1.ChartAreas["ChartArea1"].AxisX.LineDashStyle = ChartDashStyle.Solid;
         Chart1.ChartAreas["ChartArea1"].AxisX.LineWidth = 1;
         Chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Font = new Font("Arial", 10f, FontStyle.Regular);
@@ -405,11 +438,12 @@ public partial class Account_Home : System.Web.UI.Page
 
     protected void Data()
     {
-        if (Session["loginType"].ToString()=="V")
+        if (Session["loginType"].ToString() == "V")
         {
             string UserCode = Session["UserCode"].ToString();
             string Region = Session["RCode"].ToString();
-            ds = ISS.DashboardInvoiceCount(UserCode, Region);
+            string productID=ddlProduct.SelectedValue;
+            ds = ISS.DashboardInvoiceCount(UserCode, Region, productID);
             //ds = ISS.DashboardInvoiceCount(UserCode);
             if (ds.Tables[0].Rows.Count > 0)
             {
@@ -448,11 +482,16 @@ public partial class Account_Home : System.Web.UI.Page
             string UserCode = Session["UserCode"].ToString();
 
             string Region = Session["RCode"].ToString();
-            ds = ISS.DashboardInvoiceCount(UserCode, Region);
+            string productID = ddlProduct.SelectedValue;
+            if (string.IsNullOrEmpty(productID))
+            {
+                productID = "0";
+            }
+            ds = ISS.DashboardInvoiceCount(UserCode, Region, productID);
             //ds = ISS.DashboardInvoiceCount(UserCode);
 
             if (ds.Tables[0].Rows.Count > 0)
-        {
+            {
                 string Total = (ds.Tables[0].Rows[0]["Total"]).ToString();
                 string OutStock = (ds.Tables[1].Rows[0]["Out Stock"]).ToString();
                 string StockTransfer = (ds.Tables[2].Rows[0]["Stock Transfer"]).ToString();
@@ -484,7 +523,7 @@ public partial class Account_Home : System.Web.UI.Page
 
     }
 
-   
+
 
 
     protected void ddlRegion_SelectedIndexChanged(object sender, EventArgs e)
@@ -504,6 +543,16 @@ public partial class Account_Home : System.Web.UI.Page
     protected void ddlBranch_SelectedIndexChanged(object sender, EventArgs e)
     {
         //BranchWiseBind();
+        RegionWiseBind();
+        DataChart();
+        BindProduct();
+    }
+
+
+
+    protected void ddlProduct_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
         RegionWiseBind();
         DataChart();
     }

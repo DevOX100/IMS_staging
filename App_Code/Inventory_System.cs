@@ -6,6 +6,8 @@ using System.Drawing;
 using System.IO;
 using DocumentFormat.OpenXml.VariantTypes;
 using DocumentFormat.OpenXml.Bibliography;
+using GemBox.Document.Tracking;
+
 
 
 
@@ -850,11 +852,12 @@ catch (SqlException ex)
 
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_AdjustComplaintTypes", param);
     }
-    public DataSet DashboardInvoiceCount(string UserCode, string Region)
+    public DataSet DashboardInvoiceCount(string UserCode, string Region, string productID)
     {
-        param = new SqlParameter[2];
+        param = new SqlParameter[3];
         param[0] = new SqlParameter("@UserCode", UserCode);
         param[1] = new SqlParameter("@RegionID", Region);
+        param[2] = new SqlParameter("@productID", productID);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_DashboardInvoiceCount", param);
     }
 
@@ -1047,12 +1050,13 @@ public DataSet BindOrderStatus(string Status , string BranchCode, string HOLogin
         param[1] = new SqlParameter("@to", to);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "test_DateWiseCoun", param);
     }
-    public DataSet RegionWiseCount(string UserCode, string branchID, string vendorLogin)
+    public DataSet RegionWiseCount(string UserCode, string branchID, string vendorLogin,string productID)
     {
         param = new SqlParameter[4];
         param[0] = new SqlParameter("@UserCode", UserCode);
         param[1] = new SqlParameter("@branchID", branchID);
         param[2] = new SqlParameter("@vendorLogin", vendorLogin);
+        param[3] = new SqlParameter("@productID", productID);
         //param[2] = new SqlParameter("@from", SqlDbType.DateTime);
         //param[2] = new SqlParameter("@from", from);
         //param[3] = new SqlParameter("@to", SqlDbType.DateTime);
@@ -1069,12 +1073,13 @@ public DataSet BindOrderStatus(string Status , string BranchCode, string HOLogin
 
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "vendorProductsCharts", param);
     }
-    public DataSet DashboardCount(string UserCode, string regionID, string branchID)
+    public DataSet DashboardCount(string UserCode, string regionID, string branchID, string product)
     {
-        param = new SqlParameter[3];
+        param = new SqlParameter[4];
         param[0] = new SqlParameter("@UserCode", UserCode);
         param[1] = new SqlParameter("@regionID", regionID);
         param[2] = new SqlParameter("@branchID", branchID);
+        param[3] = new SqlParameter("@product", product);
 
 
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_DashboardCount", param);
@@ -1474,6 +1479,18 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[6] = new SqlParameter("@Tentative_Delivery_Date", Tentative_Delivery_Date);
         param[7] = new SqlParameter("@BIS_VendorStatus", BIS_VendorStatus);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_BulkVendorData", param);
+    }
+    public DataSet GetProductListforDashBoard(string UserCode, string loginType, string Region, string Division, string Cluster, string branch)
+    {
+        param = new SqlParameter[6];
+        param[0] = new SqlParameter("@UserCode", UserCode);
+        param[1] = new SqlParameter("@loginType", loginType);
+        param[2] = new SqlParameter("@Region", Region);
+        param[3] = new SqlParameter("@Division", Division);
+        param[4] = new SqlParameter("@Cluster", Cluster);
+        param[5] = new SqlParameter("@branch", branch);
+
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "GetProductListforDashBoard", param);
     }
 
 }
