@@ -196,7 +196,7 @@
 
                    <asp:TemplateField  HeaderText="Action">
                       <ItemTemplate>
-                          <asp:LinkButton ID="LinkDelete" runat="server" CommandName="chage" CommandArgument='<%# Eval("PMWB_ID") %>'  Text='<%# Eval("Visible") %>'  OnClientClick="return confirm (&quot;Are you sure want to Change this?? &quot;)"></asp:LinkButton>
+                          <asp:LinkButton ID="LinkDelete" runat="server" CommandName="change" CommandArgument='<%# Eval("PMWB_ID") %>'  Text='<%# Eval("Visible") %>'  OnClientClick="return confirm (&quot;Are you sure want to Change this?? &quot;)"></asp:LinkButton>
                       </ItemTemplate>
                   </asp:TemplateField>
               

@@ -195,8 +195,8 @@ public partial class Inventory_BranchReceivedStock : System.Web.UI.Page
                                     {
                                         string Exten = "." + Path.GetExtension(uploadedFile.FileName);
                                         Guid obj = Guid.NewGuid();  
-                                      //  POD = "pdf1.pdf";
-                                        filePath = Server.MapPath("~\\Upload\\PODBranch\\" + obj + Exten);
+                                       POD = obj.ToString();
+                                        filePath = Server.MapPath("~\\Upload\\PodBranch\\" + POD + Exten);
                                         uploadedFile.SaveAs(filePath);
                                         uploadedFileNames.Add(filePath);
                                     }

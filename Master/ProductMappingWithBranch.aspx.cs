@@ -243,7 +243,7 @@ public partial class Master_ProductMappingWithBranch : System.Web.UI.Page
 
     protected void gvIssue_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        if (e.CommandName == "chage")
+        if (e.CommandName == "change")
         {
             int ID = Convert.ToInt32(e.CommandArgument);
             ISS.ModifyProductMappingData(ID);

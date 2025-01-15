@@ -12,7 +12,7 @@
         <div class="card-body">
             <blockquote class="blockquote mb-0">
 
-              <%--  <div class="form-control" id="box" runat="server">
+                <%--  <div class="form-control" id="box" runat="server">
 
                     <div class="col-6">
                         <label for="Branch" class="col-form-label bold">Select Branch : <span style="color: red"></span></label>
@@ -23,6 +23,22 @@
                 </div>
 
                 <hr />--%>
+                <div class="row">
+
+                    <div id="Region" runat="server" class="col-3">
+                        <label id="lblRegion" runat="server" class="col-form-label bold">Region : <span style="color: red">*</span></label>
+                        <asp:DropDownList ID="ddlRegion" runat="server" Enabled="true" CssClass="form-control border border-dark" AutoPostBack="true" OnSelectedIndexChanged="ddlRegion_SelectedIndexChanged">
+                        </asp:DropDownList>
+                    </div>
+                    <div class="col-3">
+                        <label id="lblBranch" runat="server" class="col-form-label bold">Branch : <span style="color: red">*</span></label>
+                        <asp:DropDownList ID="ddlBranch" runat="server" Enabled="true" CssClass="form-control border border-dark" AutoPostBack="true" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged">
+                        </asp:DropDownList><br />
+                        <br />
+                    </div>
+
+                </div>
+
                 <div class="col-12">
 
 

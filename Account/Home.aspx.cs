@@ -171,111 +171,111 @@ public partial class Account_Home : System.Web.UI.Page
 
     }
 
-    protected void RegionWiseBind()
-    {
-        string vendorLogin = null;
+    //protected void RegionWiseBind()
+    //{
+    //    string vendorLogin = null;
 
-        string userCode;
-        string HOLogins = Session["RCode"].ToString();
-        if (Session["loginType"].ToString() == "U" && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
-        {
-            userCode = Session["RegionID"].ToString();
-        }
-        else
-        {
+    //    string userCode;
+    //    string HOLogins = Session["RCode"].ToString();
+    //    if (Session["loginType"].ToString() == "U" && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
+    //    {
+    //        userCode = Session["RegionID"].ToString();
+    //    }
+    //    else
+    //    {
 
-            userCode = ddlRegion.SelectedValue;
-        }
+    //        userCode = ddlRegion.SelectedValue;
+    //    }
 
-        string branchID = ddlBranch.SelectedValue;
-        if (string.IsNullOrEmpty(branchID))
-        {
-            branchID = "0";
-        }
-        if (Session["loginType"].ToString() == "V")
-        {
-            string productID = ddlProduct.SelectedValue;
-            if (string.IsNullOrEmpty(productID))
-            {
-                productID = "0";
-            }
-            vendorLogin = Session["UserCode"].ToString();
-            ds = ISS.RegionWiseCount(userCode, branchID, vendorLogin, productID);
-            if (ds.Tables[0].Rows.Count > 0)
-            {
+    //    string branchID = ddlBranch.SelectedValue;
+    //    if (string.IsNullOrEmpty(branchID))
+    //    {
+    //        branchID = "0";
+    //    }
+    //    if (Session["loginType"].ToString() == "V")
+    //    {
+    //        string productID = ddlProduct.SelectedValue;
+    //        if (string.IsNullOrEmpty(productID))
+    //        {
+    //            productID = "0";
+    //        }
+    //        vendorLogin = Session["UserCode"].ToString();
+    //        ds = ISS.RegionWiseCount(userCode, branchID, vendorLogin, productID);
+    //        if (ds.Tables[0].Rows.Count > 0)
+    //        {
 
-                string Total = (ds.Tables[0].Rows[0]["Total"]).ToString();
-                string OutStock = (ds.Tables[1].Rows[0]["Out Stock"]).ToString();
-                string stockAdjustment = (ds.Tables[2].Rows[0]["Stock Adjustment"]).ToString();
-                string AvailableStock = (ds.Tables[3].Rows[0]["Available Order"]).ToString();
-                string MTD = (ds.Tables[4].Rows[0]["MTD"]).ToString();
-                string FTD = (ds.Tables[5].Rows[0]["FTD"]).ToString();
-                string CustomerComplaints = (ds.Tables[6].Rows[0]["Customer Return Stock"]).ToString();
-                string Pending = (ds.Tables[7].Rows[0]["Pending Order"]).ToString();
-                string Delivered = (ds.Tables[8].Rows[0]["Delivered Order"]).ToString();
-                string DamagedStockByVendor = (ds.Tables[9].Rows[0]["Damaged Stock by Vendor"]).ToString();
-                string CppEscalation = (ds.Tables[10].Rows[0]["CPP Escalation"]).ToString();
-
-
-
-                lblTotal.Text = Total.ToString();
-                lblPaid.Text = OutStock.ToString();
-                lblStockAdjustment.Text = stockAdjustment.ToString();
-                lblPending.Text = AvailableStock.ToString();
-                lblMonthTillDate.Text = MTD.ToString();
-                lblForTheDay.Text = FTD.ToString();
-                lblCustomerComplaints.Text = CustomerComplaints.ToString();
-                lblNotDelivered.Text = Pending.ToString();
-                lblDeliveredStocks.Text = Delivered.ToString();
-                lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
-                lblCPPEscalation.Text = CppEscalation.ToString();
-            }
-            VendorDataChart();
-        }
-        else
-        {
-            string productID=ddlProduct.SelectedValue;
-            if (string.IsNullOrEmpty(productID))
-            {
-                productID = "0";
-            }
-
-            ds = ISS.RegionWiseCount(userCode, branchID, vendorLogin, productID);
+    //            string Total = (ds.Tables[0].Rows[0]["Total"]).ToString();
+    //            string OutStock = (ds.Tables[1].Rows[0]["Out Stock"]).ToString();
+    //            string stockAdjustment = (ds.Tables[2].Rows[0]["Stock Adjustment"]).ToString();
+    //            string AvailableStock = (ds.Tables[3].Rows[0]["Available Order"]).ToString();
+    //            string MTD = (ds.Tables[4].Rows[0]["MTD"]).ToString();
+    //            string FTD = (ds.Tables[5].Rows[0]["FTD"]).ToString();
+    //            string CustomerComplaints = (ds.Tables[6].Rows[0]["Customer Return Stock"]).ToString();
+    //            string Pending = (ds.Tables[7].Rows[0]["Pending Order"]).ToString();
+    //            string Delivered = (ds.Tables[8].Rows[0]["Delivered Order"]).ToString();
+    //            string DamagedStockByVendor = (ds.Tables[9].Rows[0]["Damaged Stock by Vendor"]).ToString();
+    //            string CppEscalation = (ds.Tables[10].Rows[0]["CPP Escalation"]).ToString();
 
 
-            if (ds.Tables[0].Rows.Count > 0)
-            {
 
-                string Total = (ds.Tables[0].Rows[0]["Total"]).ToString();
-                string OutStock = (ds.Tables[1].Rows[0]["Out Stock"]).ToString();
-                string StockTransfer = (ds.Tables[2].Rows[0]["Stock Transfer"]).ToString();
-                string StockAdjustment = (ds.Tables[3].Rows[0]["Stock Adjustment"]).ToString();
-                string AvailableStock = (ds.Tables[4].Rows[0]["Available Stock"]).ToString();
-                string MTD = (ds.Tables[5].Rows[0]["MTD"]).ToString();
-                string FTD = (ds.Tables[6].Rows[0]["FTD"]).ToString();
-                string CustomerComplaints = (ds.Tables[7].Rows[0]["Customer Return Stock"]).ToString();
-                string Pending = (ds.Tables[8].Rows[0]["Pending Order"]).ToString();
-                string Delivered = (ds.Tables[9].Rows[0]["Delivered Order"]).ToString();
-                string DamagedStockByVendor = (ds.Tables[10].Rows[0]["Damaged Stock by Vendor"]).ToString();
-                string CppEscalation = (ds.Tables[11].Rows[0]["CPP Escalation"]).ToString();
+    //            lblTotal.Text = Total.ToString();
+    //            lblPaid.Text = OutStock.ToString();
+    //            lblStockAdjustment.Text = stockAdjustment.ToString();
+    //            lblPending.Text = AvailableStock.ToString();
+    //            lblMonthTillDate.Text = MTD.ToString();
+    //            lblForTheDay.Text = FTD.ToString();
+    //            lblCustomerComplaints.Text = CustomerComplaints.ToString();
+    //            lblNotDelivered.Text = Pending.ToString();
+    //            lblDeliveredStocks.Text = Delivered.ToString();
+    //            lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
+    //            lblCPPEscalation.Text = CppEscalation.ToString();
+    //        }
+    //        VendorDataChart();
+    //    }
+    //    else
+    //    {
+    //        string productID=ddlProduct.SelectedValue;
+    //        if (string.IsNullOrEmpty(productID))
+    //        {
+    //            productID = "0";
+    //        }
+
+    //        ds = ISS.RegionWiseCount(userCode, branchID, vendorLogin, productID);
 
 
-                lblTotal.Text = Total.ToString();
-                lblPaid.Text = OutStock.ToString();
-                lblStockTransfer.Text = StockTransfer.ToString();
-                lblStockAdjustment.Text = StockAdjustment.ToString();
-                lblPending.Text = AvailableStock.ToString();
-                lblMonthTillDate.Text = MTD.ToString();
-                lblForTheDay.Text = FTD.ToString();
-                lblCustomerComplaints.Text = CustomerComplaints.ToString();
-                lblNotDelivered.Text = Pending.ToString();
-                lblDeliveredStocks.Text = Delivered.ToString();
-                lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
-                lblCPPEscalation.Text = CppEscalation.ToString();
-            }
-        }
+    //        if (ds.Tables[0].Rows.Count > 0)
+    //        {
 
-    }
+    //            string Total = (ds.Tables[0].Rows[0]["Total"]).ToString();
+    //            string OutStock = (ds.Tables[1].Rows[0]["Out Stock"]).ToString();
+    //            string StockTransfer = (ds.Tables[2].Rows[0]["Stock Transfer"]).ToString();
+    //            string StockAdjustment = (ds.Tables[3].Rows[0]["Stock Adjustment"]).ToString();
+    //            string AvailableStock = (ds.Tables[4].Rows[0]["Available Stock"]).ToString();
+    //            string MTD = (ds.Tables[5].Rows[0]["MTD"]).ToString();
+    //            string FTD = (ds.Tables[6].Rows[0]["FTD"]).ToString();
+    //            string CustomerComplaints = (ds.Tables[7].Rows[0]["Customer Return Stock"]).ToString();
+    //            string Pending = (ds.Tables[8].Rows[0]["Pending Order"]).ToString();
+    //            string Delivered = (ds.Tables[9].Rows[0]["Delivered Order"]).ToString();
+    //            string DamagedStockByVendor = (ds.Tables[10].Rows[0]["Damaged Stock by Vendor"]).ToString();
+    //            string CppEscalation = (ds.Tables[11].Rows[0]["CPP Escalation"]).ToString();
+
+
+    //            lblTotal.Text = Total.ToString();
+    //            lblPaid.Text = OutStock.ToString();
+    //            lblStockTransfer.Text = StockTransfer.ToString();
+    //            lblStockAdjustment.Text = StockAdjustment.ToString();
+    //            lblPending.Text = AvailableStock.ToString();
+    //            lblMonthTillDate.Text = MTD.ToString();
+    //            lblForTheDay.Text = FTD.ToString();
+    //            lblCustomerComplaints.Text = CustomerComplaints.ToString();
+    //            lblNotDelivered.Text = Pending.ToString();
+    //            lblDeliveredStocks.Text = Delivered.ToString();
+    //            lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
+    //            lblCPPEscalation.Text = CppEscalation.ToString();
+    //        }
+    //    }
+
+    //}
     protected void VendorDataChart()
     {
         int UerCode = Convert.ToInt32(Session["UserCode"].ToString());
@@ -289,7 +289,12 @@ public partial class Account_Home : System.Web.UI.Page
         {
             RegionID = "0";
         }
-        ds = ISS.BindvendorStatus(UerCode, BranchID, RegionID);
+        string productID = ddlProduct.SelectedValue;
+        if (string.IsNullOrEmpty(productID))
+        {
+            productID = "0";
+        }
+        ds = ISS.BindvendorStatus(UerCode, BranchID, RegionID, productID);
         DataTable ChartData = ds.Tables[0];
         var quantity = new Dictionary<string, int>();
         var status = new Dictionary<string, int>();
@@ -438,12 +443,39 @@ public partial class Account_Home : System.Web.UI.Page
 
     protected void Data()
     {
+        
+        string RegionName;
+        string HOLogins = Session["RCode"].ToString();
+        //string[] logins = { "U", "D", "C"};
+        //if (logins.Contains(Session["loginType"].ToString()) && HOLogins != "R000" && !HOLogins.StartsWith("BH", StringComparison.OrdinalIgnoreCase))
+        //{
+        //    RegionName = Session["RegionID"].ToString();
+        //}
+        //else
+        //{
+
+            RegionName = ddlRegion.SelectedValue;
+            if (string.IsNullOrEmpty(RegionName))
+            {
+                RegionName = "0";
+            }
+        //}
+
+        string branchID = ddlBranch.SelectedValue;
+        if (string.IsNullOrEmpty(branchID))
+        {
+            branchID = "0";
+        }
         if (Session["loginType"].ToString() == "V")
         {
             string UserCode = Session["UserCode"].ToString();
             string Region = Session["RCode"].ToString();
             string productID=ddlProduct.SelectedValue;
-            ds = ISS.DashboardInvoiceCount(UserCode, Region, productID);
+            if (string.IsNullOrEmpty(productID))
+            {
+                productID = "0";
+            }
+            ds = ISS.DashboardInvoiceCount(UserCode, Region, productID, branchID, RegionName);
             //ds = ISS.DashboardInvoiceCount(UserCode);
             if (ds.Tables[0].Rows.Count > 0)
             {
@@ -476,18 +508,21 @@ public partial class Account_Home : System.Web.UI.Page
                 lblCPPEscalation.Text = CppEscalation.ToString();
 
             }
+            VendorDataChart();
         }
         else
         {
+
             string UserCode = Session["UserCode"].ToString();
 
             string Region = Session["RCode"].ToString();
             string productID = ddlProduct.SelectedValue;
+           
             if (string.IsNullOrEmpty(productID))
             {
                 productID = "0";
             }
-            ds = ISS.DashboardInvoiceCount(UserCode, Region, productID);
+            ds = ISS.DashboardInvoiceCount(UserCode, Region, productID,branchID,RegionName);
             //ds = ISS.DashboardInvoiceCount(UserCode);
 
             if (ds.Tables[0].Rows.Count > 0)
@@ -529,21 +564,23 @@ public partial class Account_Home : System.Web.UI.Page
     protected void ddlRegion_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindBranch();
-        if (ddlRegion.SelectedValue != "0")
-        {
-            RegionWiseBind();
-            DataChart();
-        }
-        else
-        {
-            Data();
-        }
+        //if (ddlRegion.SelectedValue != "0")
+        //{
+        //    RegionWiseBind();
+        //    DataChart();
+        //}
+        //else
+        //{
+        //    Data();
+        //}
+        Data();
+        DataChart();
     }
 
     protected void ddlBranch_SelectedIndexChanged(object sender, EventArgs e)
     {
         //BranchWiseBind();
-        RegionWiseBind();
+       Data();
         DataChart();
         BindProduct();
     }
@@ -552,8 +589,7 @@ public partial class Account_Home : System.Web.UI.Page
 
     protected void ddlProduct_SelectedIndexChanged(object sender, EventArgs e)
     {
-
-        RegionWiseBind();
+       Data();
         DataChart();
     }
 }

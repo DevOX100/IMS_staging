@@ -123,6 +123,18 @@ public partial class IssueStock : System.Web.UI.Page
         string IS_SpouseName = txtSpouse.Text;
         string IS_InvoiceNO = txtInvoiceNO.Text;
         DateTime IS_WarrantyDate = Convert.ToDateTime(txtWarrantyDatee.Text);
+        if (IS_WarrantyDate > DateTime.Now)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Kindly Enter Valid Date', 'error');", true);
+            return;
+        }
+
+       else if (IS_WarrantyDate < DateTime.Now.AddDays(-7))
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Date shouldn't be lesser than a week', 'error');", true);
+            return;
+
+        }
         int IS_Quantity = Convert.ToInt32(txtQuantity.Text);
         string IS_PaymentMode = ddlPaymentMode.SelectedItem.Text;
         string Is_ApplicationReceivedStage = ApplicationReceivedStage.SelectedItem.Text;
@@ -347,6 +359,18 @@ public partial class IssueStock : System.Web.UI.Page
                     else
                     {
                         IS_WarrantyDate = Convert.ToDateTime(WarrantyDate.Text);
+                        if (IS_WarrantyDate > DateTime.Now)
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Kindly Enter Valid Date', 'error');", true);
+                            return;
+                        }
+
+                       else if (IS_WarrantyDate < DateTime.Now.AddDays(-7))
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Date shouldn't be lesser than 7 days ', 'error');", true);
+                            return;
+
+                        }
                     }
 
 

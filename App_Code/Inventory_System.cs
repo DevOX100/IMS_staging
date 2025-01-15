@@ -10,7 +10,6 @@ using GemBox.Document.Tracking;
 
 
 
-
 public class Inventory_System : db
 {
     DataSet ds;
@@ -634,7 +633,7 @@ public class Inventory_System : db
         return ds;
     }
      public DataSet IssueStock(string IS_CustID, string IS_Name, string IS_Product, string IS_Branch, string IS_SpouseName, string IS_MobileNO, string POD, string IS_InvoiceNO,
-   int IS_Quantity, string IS_UserType, DateTime? IS_WarrantyDate, string IS_LoanID, string IS_PaymentMode, int IS_Amount,string IS_ApplicationReceivedStage)
+   int IS_Quantity, string IS_UserType, DateTime? HandoverDate, string IS_LoanID, string IS_PaymentMode, int IS_Amount,string IS_ApplicationReceivedStage)
  {
      param = new SqlParameter[15];
      param[0] = new SqlParameter("@IS_CustID", IS_CustID);
@@ -647,7 +646,7 @@ public class Inventory_System : db
      param[7] = new SqlParameter("@IS_InvoiceNO", IS_InvoiceNO);
      param[8] = new SqlParameter("@IS_Quantity", IS_Quantity);
      param[9] = new SqlParameter("@IS_UserType", IS_UserType);
-     param[10] = new SqlParameter("@IS_WarrantyDate", IS_WarrantyDate);
+     param[10] = new SqlParameter("@HandoverDate", HandoverDate);
      param[11] = new SqlParameter("@IS_LoanID", IS_LoanID);
      param[12] = new SqlParameter("@IS_PaymentMode", IS_PaymentMode);
      param[13] = new SqlParameter("@IS_Amount", IS_Amount);
@@ -852,12 +851,14 @@ catch (SqlException ex)
 
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_AdjustComplaintTypes", param);
     }
-    public DataSet DashboardInvoiceCount(string UserCode, string Region, string productID)
+    public DataSet DashboardInvoiceCount(string UserCode, string Region, string productID,string branchid,string RegionName)
     {
-        param = new SqlParameter[3];
+        param = new SqlParameter[5];
         param[0] = new SqlParameter("@UserCode", UserCode);
         param[1] = new SqlParameter("@RegionID", Region);
         param[2] = new SqlParameter("@productID", productID);
+        param[3] = new SqlParameter("@branchid", branchid);
+        param[4] = new SqlParameter("@RegionName", RegionName);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_DashboardInvoiceCount", param);
     }
 
@@ -1033,10 +1034,12 @@ public DataSet BindOrderStatus(string Status , string BranchCode, string HOLogin
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_ModifyRecTransfer", param);
     }
 
-    public DataSet usp_StockTransferDetails(string RecBranchCode)
+    public DataSet usp_StockTransferDetails(string RecBranchCode, string RegionID, string branchID)
     {
-        param = new SqlParameter[1];
+        param = new SqlParameter[3];
         param[0] = new SqlParameter("@RecBranchCode", RecBranchCode);
+        param[1] = new SqlParameter("@RegionID", RegionID);
+        param[2] = new SqlParameter("@branchID", branchID);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_StockTransferDetails", param);
     }
 
@@ -1063,13 +1066,14 @@ public DataSet BindOrderStatus(string Status , string BranchCode, string HOLogin
         //param[3] = new SqlParameter("@to", to);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "test_RegionWiseCount", param);
     }
-    public DataSet BindvendorStatus(int UserCode,  string branchID, string regionID)
+    public DataSet BindvendorStatus(int UserCode,  string branchID, string regionID, string product)
     {
-        param = new SqlParameter[3];
+        param = new SqlParameter[4];
 
         param[0] = new SqlParameter("@UserCode", UserCode);
         param[1] = new SqlParameter("@branchID", branchID);
         param[2] = new SqlParameter("@regionID", regionID);
+        param[3] = new SqlParameter("@product", product);
 
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "vendorProductsCharts", param);
     }

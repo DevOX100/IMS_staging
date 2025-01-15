@@ -350,7 +350,7 @@
                                         <FooterTemplate>
                                             <asp:UpdatePanel ID="UpdatePO" runat="server">
                                                 <ContentTemplate>
-                                                    <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Approved</asp:LinkButton>
+                                                    <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server"  CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Approved</asp:LinkButton>
                                                 </ContentTemplate>
                                                 <Triggers>
                                                     <asp:PostBackTrigger ControlID="lnkApprove" />
@@ -400,8 +400,8 @@
                                                 <asp:ListItem Text="Cash" Value="3" />
 
 
-                                            </asp:DropDownList>
-                                            <asp:RequiredFieldValidator ID="rfc2" runat="server" ControlToValidate="ModeOfDisbursement" ErrorMessage="Kindly Select Mode of Disbursement" ForeColor="red"
+                                            </asp:DropDownList> 
+                                            <asp:RequiredFieldValidator ID="rfc2" Enabled="false"  runat="server" ControlToValidate="ModeOfDisbursement" ErrorMessage="Kindly Select Mode of Disbursement" ForeColor="red"
                                                 Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                             <br />
                                             <asp:DropDownList ID="ApplicationReceivedStage" CssClass="form-control border border-dark" runat="server" ValidationGroup="ABC">
@@ -412,7 +412,7 @@
 
 
                                             </asp:DropDownList>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="ApplicationReceivedStage" ErrorMessage="Kindly Select Application Received Stage" ForeColor="red"
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" Enabled="false"  runat="server" ControlToValidate="ApplicationReceivedStage" ErrorMessage="Kindly Select Application Received Stage" ForeColor="red"
                                                 Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
 
 
