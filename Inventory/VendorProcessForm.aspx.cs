@@ -34,10 +34,57 @@ public partial class Inventory_VendorProcessForm : System.Web.UI.Page
         VendorApproval.DataBind();
     }
 
-    
+    protected void btnClose_Click(object sender, EventArgs e)
+    {
+        divModel_InvoiceDetails.Visible = false;
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "open_Invoice", "setTimeout(function () {OpenNewPopUp('0','divModel_InvoiceDetails')}, 300);", true);
+    }
 
     protected void VendorApproval_RowCommand(object sender, GridViewCommandEventArgs e)
     {
+        if (e.CommandName == "View")
+        {
+            //string userCode = Session["UserCode"].ToString();
+            string ID = (e.CommandArgument.ToString());
+            if (ID != "")
+            {
+                ds = ISS.GetBIStockData_ForRM(ID);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    int ReqQuantity = Convert.ToInt32(ds.Tables[0].Rows[0]["BIS_Quantity"].ToString());
+                    string InitiatorRemarks = (ds.Tables[0].Rows[0]["BIS_initiator_remarks"].ToString());
+                    int ApprovedQuantity = Convert.ToInt32(ds.Tables[0].Rows[0]["BIS_approved_quantity"].ToString());
+
+                    string ApprovedRemarks = (ds.Tables[0].Rows[0]["BIS_approved_remarks"]).ToString();
+                    int CPPQuantity = Convert.ToInt32(ds.Tables[0].Rows[0]["BIS_CPP_approved_quantity"]);
+                    string CPPRemarks = (ds.Tables[0].Rows[0]["BIS_CPP_Approved_Remarks"].ToString());
+                    DateTime RequestedDate = Convert.ToDateTime((ds.Tables[0].Rows[0]["BIS_insertDate"].ToString()));
+                    DateTime RMApproveDate = Convert.ToDateTime((ds.Tables[0].Rows[0]["BIS_approve_date"].ToString()));
+                    DateTime CPPApproveDate = Convert.ToDateTime((ds.Tables[0].Rows[0]["BIS_CPP_Approved_Date"].ToString()));
+                    int HOQuantity = Convert.ToInt32(ds.Tables[0].Rows[0]["BIS_HO_approved_quantity"]);
+                    string HORemarks = (ds.Tables[0].Rows[0]["BIS_HO_Approved_Remarks"].ToString());
+                    string HODate = (ds.Tables[0].Rows[0]["BIS_POGeneratedOn"].ToString());
+
+                    lblRequestedQuantity.Text = ReqQuantity.ToString();
+                    lblRequestorRemarks.Text = InitiatorRemarks.ToString();
+                    lblStockAcceptance.Text = ApprovedQuantity.ToString();
+                    lblAcceptorRemarks.Text = ApprovedRemarks.ToString();
+                    lblCppQuantity.Text = CPPQuantity.ToString();
+                    lblcppRemarks.Text = CPPRemarks.ToString();
+                    lblRequestedDate.Text = RequestedDate.ToString();
+                    lblRMApproveDate.Text = RMApproveDate.ToString();
+                    lblCPPApproveDate.Text = CPPApproveDate.ToString();
+                    lblHOAprQty.Text = HOQuantity.ToString();
+                    lblHORemarks.Text = HORemarks.ToString();
+                    lblHODate.Text = HODate.ToString();
+                    divModel_InvoiceDetails.Visible = true;
+
+
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "open_Invoice", "setTimeout(function () {OpenNewPopUp('1','divModel_InvoiceDetails')}, 300);", true);
+                    return;
+                }
+            }
+        }
         if (e.CommandName == "Download")
         {
             string PONumber = e.CommandArgument.ToString();

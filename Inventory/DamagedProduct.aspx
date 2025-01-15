@@ -87,7 +87,7 @@
         }
 
         #PhotoDiv {
-            display:none;
+            display: none;
         }
     </style>
     <script type="text/javascript">
@@ -198,6 +198,11 @@
                                         <asp:Label ID="lblWarrantyDate" runat="server" Text='<%# Eval("IS_WarrantyDate") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Stock Handover Date">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblHandoverDate" runat="server" Text='<%# Eval("Handover Date") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
 
 
                                 <asp:TemplateField HeaderText="Enter Damaged Quantity">
@@ -270,12 +275,12 @@
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:PostBackTrigger ControlID="lnkApprove" />
-                                             
+
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </FooterTemplate>
                                 </asp:TemplateField>
-                              
+
                             </Columns>
 
                             <EditRowStyle BackColor="#999999" />
@@ -301,7 +306,7 @@
             <ContentTemplate>
                 <div class="col-6">
 
-                    <asp:FileUpload ID="fupImage"  runat="server" CssClass="form-control border border-dark" />
+                    <asp:FileUpload ID="fupImage" runat="server" CssClass="form-control border border-dark" />
                     <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="fupImage" ErrorMessage="Kindly upload the Image" ForeColor="red"
          Display="Dynamic" ValidationGroup="ABC"></asp:RequiredFieldValidator>--%>
                 </div>

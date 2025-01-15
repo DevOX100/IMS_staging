@@ -58,11 +58,11 @@ public partial class Inventory_Inv_Report : System.Web.UI.Page
 
         }
 
-        if (Convert.ToInt32(ddlReport.SelectedValue) == 5)
-        {
-            dt = ISS.ReportsOrder(dtFrom, dtTo, BranchID, LoginType);
+        //if (Convert.ToInt32(ddlReport.SelectedValue) == 5)
+        //{
+        //    dt = ISS.ReportsOrder(dtFrom, dtTo, BranchID, LoginType);
 
-        }
+        //}
 
         if (Convert.ToInt32(ddlReport.SelectedValue) == 6)
         {
@@ -128,6 +128,11 @@ public partial class Inventory_Inv_Report : System.Web.UI.Page
             {
                 dt = ISS.stockAdjustment(dtFrom, dtTo, BranchID, LoginType);
             }
+            if (Convert.ToInt32(ddlReport.SelectedValue) == 5)
+            {
+                dt = ISS.ReportsOrder(dtFrom, dtTo, BranchID, LoginType);
+
+            }
             string ToName = dtTo.ToShortDateString();
             string FileName = ddlReport.SelectedItem.ToString() + " From " + dtFrom.ToShortDateString() + " To " + ToName;
             string[] ColName = new string[1];
@@ -158,6 +163,12 @@ public partial class Inventory_Inv_Report : System.Web.UI.Page
                         worksheet.Cell(1, 1).InsertTable(dt);
                         ColName[0] = "Image Code";
                     }
+                    else if (Convert.ToInt32(ddlReport.SelectedValue) == 5)
+                    {
+                        worksheet = wb.Worksheets.Add("ReportsOrder");
+                        worksheet.Cell(1, 1).InsertTable(dt);
+                        ColName[0] = "Image Code";
+                    }
 
 
                     int pdfColumnIndex = dt.Columns.Count + 1;
@@ -182,8 +193,8 @@ public partial class Inventory_Inv_Report : System.Web.UI.Page
                             }
                             else
                             {
-                                physicalFilePath = Server.MapPath("~/Upload/PodBranch/" + podFileName + fileExtension);
-                                filePath = fileurl + "PodBranch/" + podFileName + fileExtension;
+                                physicalFilePath = Server.MapPath("~/Upload/PodBranch/" + podFileName + "."+fileExtension);
+                                filePath = fileurl + "PODBranch/" + podFileName + fileExtension;
                             }
 
                             if (File.Exists(physicalFilePath))
@@ -236,7 +247,7 @@ public partial class Inventory_Inv_Report : System.Web.UI.Page
     {
         string Search = ddlReport.SelectedValue.ToString();
 
-        if (Search == "1" ||  Search == "6" || Search == "7")
+        if (Search == "1" ||  Search == "6" || Search == "7" || Search == "5")
         {
             divFromDate.Visible = true;
             divToDate.Visible = true;
@@ -245,7 +256,7 @@ public partial class Inventory_Inv_Report : System.Web.UI.Page
 
 
         }
-        else if(Search == "2" || Search == "3" || Search == "4" || Search == "5")
+        else if(Search == "2" || Search == "3" || Search == "4" )
         {
             divFromDate.Visible = true;
             divToDate.Visible = true;

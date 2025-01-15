@@ -53,13 +53,13 @@
                     <div class="row">
                         <div class="col-6">
                             <label id="Region" class="col-form-label bold">Region :</label>
-                            <asp:DropDownList ID="ddlRegion" runat="server" CssClass="form-control border border-dark" 
+                            <asp:DropDownList ID="ddlRegion" runat="server" CssClass="form-control border border-dark"
                                 AutoPostBack="true" OnSelectedIndexChanged="ddlRegion_SelectedIndexChanged">
                             </asp:DropDownList>
                         </div>
                         <div class="col-6">
                             <label id="lblBranch" class="col-form-label bold">Branch:</label>
-                            <asp:DropDownList ID="ddlBranch" CssClass="form-control border border-dark" 
+                            <asp:DropDownList ID="ddlBranch" CssClass="form-control border border-dark"
                                 runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlBranch_SelectedIndexChanged">
                             </asp:DropDownList>
                         </div>
@@ -69,16 +69,16 @@
                 </div>
             </blockquote>
 
-            <asp:GridView ID="GVEscalations" runat="server" 
+            <asp:GridView ID="GVEscalations" runat="server"
                 CssClass="table table-bordered table-hover"
-                AutoGenerateColumns="False" 
-                GridLines="None" 
-                Font-Size="Medium" 
-                ForeColor="#333333" 
-                ShowFooter="true" 
+                AutoGenerateColumns="False"
+                GridLines="None"
+                Font-Size="Medium"
+                ForeColor="#333333"
+                ShowFooter="true"
                 Width="100%"
-                DataKeyNames="Issued_ID" 
-                OnRowCommand="GVEscalations_RowCommand" 
+                DataKeyNames="Issued_ID"
+                OnRowCommand="GVEscalations_RowCommand"
                 OnRowDataBound="GVEscalations_RowDataBound">
 
                 <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
@@ -89,23 +89,23 @@
                             <asp:CheckBox ID="chkSelectAll" runat="server" onclick="SelectAllCheckboxes(this);" />
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:CheckBox ID="chkAction" runat="server" AutoPostBack="true" 
+                            <asp:CheckBox ID="chkAction" runat="server" AutoPostBack="true"
                                 OnCheckedChanged="chkAction_CheckedChanged" />
                         </ItemTemplate>
                         <FooterTemplate>
-                            <asp:LinkButton ID="lnkApprove" 
-                                ForeColor="White" 
-                                runat="server" 
+                            <asp:LinkButton ID="lnkApprove"
+                                ForeColor="White"
+                                runat="server"
                                 CssClass="btn btn-sm btn-success"
-                                ValidationGroup="ABC" 
+                                ValidationGroup="ABC"
                                 CommandName="Submit">Approve</asp:LinkButton>
 
-                            <asp:LinkButton ID="lnkReject" 
-                                Style="margin-top: 20px" 
-                                ForeColor="White" 
-                                runat="server" 
+                            <asp:LinkButton ID="lnkReject"
+                                Style="margin-top: 20px"
+                                ForeColor="White"
+                                runat="server"
                                 CssClass="btn btn-sm btn-danger"
-                                ValidationGroup="ABC" 
+                                ValidationGroup="ABC"
                                 CommandName="Reject">Reject</asp:LinkButton>
                         </FooterTemplate>
                     </asp:TemplateField>
@@ -183,25 +183,30 @@
                         <ItemTemplate>
                             <asp:Label ID="AvailabilityInBranch" runat="server" Text='<%#Eval("IS_AvailableStockInBranch")%>'></asp:Label>
                         </ItemTemplate>
-                    </asp:TemplateField>  
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Product Warranty Date">
                         <ItemTemplate>
                             <asp:Label ID="WarrantyDate" runat="server" Text='<%#Eval("IS_WarrantyDate")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                     <asp:TemplateField HeaderText="View Damage Image">
-     <ItemTemplate>
-         <asp:UpdatePanel ID="UpdateAtt" runat="server">
+                    <asp:TemplateField HeaderText="Product Handover Date">
+                        <ItemTemplate>
+                            <asp:Label ID="HandoverDate" runat="server" Text='<%#Eval("HandoverDate")%>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="View Damage Image">
+                        <ItemTemplate>
+                            <asp:UpdatePanel ID="UpdateAtt" runat="server">
 
-             <ContentTemplate>
-                 <asp:LinkButton ID="lnkDamagedImage" runat="server" CommandName="VIEWDamagedImage" CommandArgument='<%# Eval("IS_Damage_Image") %>'>View</asp:LinkButton>
-             </ContentTemplate>
-             <Triggers>
-                 <asp:PostBackTrigger ControlID="lnkDamagedImage" />
-             </Triggers>
-         </asp:UpdatePanel>
-     </ItemTemplate>
- </asp:TemplateField>
+                                <ContentTemplate>
+                                    <asp:LinkButton ID="lnkDamagedImage" runat="server" CommandName="VIEWDamagedImage" CommandArgument='<%# Eval("IS_Damage_Image") %>'>View</asp:LinkButton>
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:PostBackTrigger ControlID="lnkDamagedImage" />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Remarks">
                         <ItemTemplate>
                             <asp:DropDownList ID="ddlComplaintsbyHO" runat="server" CssClass="form-control border border-dark">
@@ -212,29 +217,29 @@
                                 <asp:ListItem Value="4" Text="Product is not Available"></asp:ListItem>
                                 <asp:ListItem Value="5" Text="Escalating to vendor"></asp:ListItem>
                             </asp:DropDownList>
-                            <asp:RequiredFieldValidator ID="rfvComplaintType" 
-                                Enabled="false" 
-                                runat="server" 
-                                ControlToValidate="ddlComplaintsbyHO" 
-                                ErrorMessage="Kindly select the Complaint" 
+                            <asp:RequiredFieldValidator ID="rfvComplaintType"
+                                Enabled="false"
+                                runat="server"
+                                ControlToValidate="ddlComplaintsbyHO"
+                                ErrorMessage="Kindly select the Complaint"
                                 ForeColor="red"
-                                Display="Dynamic" 
-                                ValidationGroup="ABC" 
+                                Display="Dynamic"
+                                ValidationGroup="ABC"
                                 InitialValue="0"></asp:RequiredFieldValidator>
                             <br />
-                            <asp:TextBox ID="txtRemarks" 
-                                CssClass="form-control border border-dark" 
-                                runat="server" 
-                                placeholder="Enter Remarks" 
-                                Width="100px" 
+                            <asp:TextBox ID="txtRemarks"
+                                CssClass="form-control border border-dark"
+                                runat="server"
+                                placeholder="Enter Remarks"
+                                Width="100px"
                                 ValidationGroup="validation"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="rfvRemarks" 
-                                Enabled="false" 
-                                runat="server" 
-                                ControlToValidate="txtRemarks" 
-                                ErrorMessage="Remarks Required" 
+                            <asp:RequiredFieldValidator ID="rfvRemarks"
+                                Enabled="false"
+                                runat="server"
+                                ControlToValidate="txtRemarks"
+                                ErrorMessage="Remarks Required"
                                 ForeColor="red"
-                                Display="Dynamic" 
+                                Display="Dynamic"
                                 ValidationGroup="ABC"></asp:RequiredFieldValidator>
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -249,26 +254,26 @@
             </asp:GridView>
         </div>
     </div>
-      <div id="Div_View_Image" runat="server" visible="false" class="modal fade" role="dialog" clientidmode="static">
-      <div class="modal-dialog-scrollable" role="document">
-          <!-- Modal content-->
-          <div class="modal-content">
+    <div id="Div_View_Image" runat="server" visible="false" class="modal fade" role="dialog" clientidmode="static">
+        <div class="modal-dialog-scrollable" role="document">
+            <!-- Modal content-->
+            <div class="modal-content">
 
-              <div class="modal-header">
-                  <h5 class="modal-title fw-bold" id="lblModalInvoiceDetailss">Image Attatchment : </h5>
-                  <a href="#" style="text-decoration: none" aria-hidden="true" data-dismiss="modal" aria-label="Close">
-                      <i class="fa fa-times fa-2x alert-danger" aria-hidden="true"></i>
-                  </a>
-              </div>
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="lblModalInvoiceDetailss">Image Attatchment : </h5>
+                    <a href="#" style="text-decoration: none" aria-hidden="true" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times fa-2x alert-danger" aria-hidden="true"></i>
+                    </a>
+                </div>
 
-              <div class="modal-body">
-                  <asp:Literal ID="lvImage" runat="server" />
-              </div>
+                <div class="modal-body">
+                    <asp:Literal ID="lvImage" runat="server" />
+                </div>
 
-              <div class="modal-footer">
-                  <asp:Button ID="btnClosed" class="btn btn-danger" runat="server" Text="Close" OnClick="btnClosed_Click" />
-              </div>
-          </div>
-      </div>
-  </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnClosed" class="btn btn-danger" runat="server" Text="Close" OnClick="btnClosed_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>

@@ -154,7 +154,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
         RequiredFieldValidator rfvRemarks = currentRow.FindControl("ers") as RequiredFieldValidator;
         RequiredFieldValidator rfvQuantity = currentRow.FindControl("RequiredFieldValidator1") as RequiredFieldValidator;
         RequiredFieldValidator rfvTentDelDate = currentRow.FindControl("rfvTentDelDate") as RequiredFieldValidator;
-        RequiredFieldValidator rfvFileupload = currentRow.FindControl("rfvFileupload") as RequiredFieldValidator;
+        //RequiredFieldValidator rfvFileupload = currentRow.FindControl("rfvFileupload") as RequiredFieldValidator;
         RequiredFieldValidator rfvddlStatus = currentRow.FindControl("rfvddlStatus") as RequiredFieldValidator;
         GridViewRow row = (GridViewRow)chkAction.NamingContainer;
         DropDownList ddlStatus = (DropDownList)row.FindControl("ddlStatus");
@@ -166,7 +166,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
             rfvRemarks.Enabled = true;
             rfvQuantity.Enabled = true;
             rfvTentDelDate.Enabled = true;
-            rfvFileupload.Enabled = true;
+            //rfvFileupload.Enabled = true;
             rfvddlStatus.Enabled = true;
         }
 
@@ -175,7 +175,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
             rfvRemarks.Enabled = true;
             rfvQuantity.Enabled = false;
             rfvTentDelDate.Enabled = false;
-            rfvFileupload.Enabled = false;
+            //rfvFileupload.Enabled = false;
             rfvddlStatus.Enabled = false;
         }
 
@@ -184,7 +184,7 @@ public partial class Inventory_POVendorForrm : System.Web.UI.Page
             rfvRemarks.Enabled = false;
             rfvQuantity.Enabled = false;
             rfvTentDelDate.Enabled = false;
-            rfvFileupload.Enabled = false;
+            //rfvFileupload.Enabled = false;
             rfvddlStatus.Enabled = false;
         }
     }
