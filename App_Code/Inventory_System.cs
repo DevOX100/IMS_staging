@@ -1496,5 +1496,34 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
 
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "GetProductListforDashBoard", param);
     }
+    public DataSet ProductMappingwithCOs(string ID)
+    {
+        param = new SqlParameter[1];
 
+        param[0] = new SqlParameter("@ID", ID);
+
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "ProductMappingwithCOs", param);
+    }
+    public DataSet INV_CenterOfficer(string ID)
+    {
+        param = new SqlParameter[1];
+
+        param[0] = new SqlParameter("@BranchID", ID);
+
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_CenterOfficer", param);
+    }
+
+    public DataSet INV_insertINProductMappingWIthCO(string PMC_COID, string PMC_ProductID, string PMC_BranchID, int PMC_BQuantity, string PMC_MappedBy)
+    {
+        param = new SqlParameter[6];
+
+        param[0] = new SqlParameter("@PMC_COID", PMC_COID);
+        param[1] = new SqlParameter("@PMC_ProductID", PMC_ProductID);
+        param[2] = new SqlParameter("@PMC_BranchID", PMC_BranchID);
+        param[3] = new SqlParameter("@PMC_BQuantity", PMC_BQuantity);
+
+        param[4] = new SqlParameter("@PMC_MappedBy", PMC_MappedBy);
+
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_insertINProductMappingWIthCO", param);
+    }
 }
