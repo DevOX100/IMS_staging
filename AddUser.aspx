@@ -154,6 +154,7 @@
                                 <asp:ListItem Text="User Login" Value="U"></asp:ListItem>
                                 <asp:ListItem Text="Division" Value="D"></asp:ListItem>
                                 <asp:ListItem Text="Cluster" Value="C"></asp:ListItem>
+                                <asp:ListItem Text="Center Office" Value="CO"></asp:ListItem>
                             </asp:DropDownList>
 
                             <asp:RequiredFieldValidator ControlToValidate="ddlLoginType" ForeColor="red" Display="Dynamic"

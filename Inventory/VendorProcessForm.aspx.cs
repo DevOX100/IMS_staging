@@ -42,13 +42,14 @@ public partial class Inventory_VendorProcessForm : System.Web.UI.Page
 
     protected void VendorApproval_RowCommand(object sender, GridViewCommandEventArgs e)
     {
+        bool HasError = false;
         if (e.CommandName == "View")
         {
             //string userCode = Session["UserCode"].ToString();
-            string ID = (e.CommandArgument.ToString());
-            if (ID != "")
+            string IDs = (e.CommandArgument.ToString());
+            if (IDs != "")
             {
-                ds = ISS.GetBIStockData_ForRM(ID);
+                ds = ISS.GetBIStockData_ForRM(IDs);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     int ReqQuantity = Convert.ToInt32(ds.Tables[0].Rows[0]["BIS_Quantity"].ToString());
@@ -93,38 +94,80 @@ public partial class Inventory_VendorProcessForm : System.Web.UI.Page
                 Response.Redirect(string.Format("POForm.aspx?PONumber={0}", HttpUtility.UrlEncode(ec.Encrypt(PONumber))));
             }
         }
-        else if (e.CommandName == "Submit")
+        int checkedCount = 0;
+        string VendorStatus=null;
+        int? ID = null;
+        for (int i = 0; i < VendorApproval.Rows.Count; i++)
         {
-            int checkedCount = 0;
+            CheckBox chkAction = VendorApproval.Rows[i].FindControl("chkAction") as CheckBox;
 
-            for (int i = 0; i < VendorApproval.Rows.Count; i++)
+            if (chkAction != null && chkAction.Checked)
             {
-                CheckBox chkAction = VendorApproval.Rows[i].FindControl("chkAction") as CheckBox;
+                checkedCount++;
 
-                if (chkAction != null && chkAction.Checked)
-                {
-                    checkedCount++;
+                // Assign value to ID (reuse the outer variable)
+                ID = Convert.ToInt32(VendorApproval.DataKeys[i]["BIS_ID"]);
 
-                    int ID = Convert.ToInt32(VendorApproval.DataKeys[i]["BIS_ID"]);
-                    DropDownList Status = VendorApproval.Rows[i].FindControl("ddlStatus") as DropDownList;
+                DropDownList Status = VendorApproval.Rows[i].FindControl("ddlStatus") as DropDownList;
 
-                    string VendorStatus = Status.SelectedValue;
-
-
-                    ISS.INV_ModifyVendorStatusData(ID, VendorStatus);/*, filePath);*/
-                }
-            }
-
-            if (checkedCount == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No One Checked!', 'Please choose at least one!', 'error');", true);
-            }
-            else
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
-                BindGrid();
+                VendorStatus = Status.SelectedValue;
             }
         }
+
+        if (e.CommandName == "Submit" )
+        {
+            try
+            {
+                if (ID.HasValue && VendorStatus != "7") // Ensure ID has a value before using it
+                {
+                    ISS.INV_ModifyVendorStatusData(ID.Value, VendorStatus); // Pass the value of ID
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('wrong status select!', 'Please select any other status!', 'error');", true);
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                HasError = true;
+            }
+        }
+        else if (e.CommandName == "StockCancel")
+        {
+            try
+            {
+                if (ID.HasValue && VendorStatus== "7") // Ensure ID has a value before using it
+                {
+                    ISS.INV_ModifyVendorStatusData(ID.Value, VendorStatus); // Pass the value of ID
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Check Error!', 'Kindly select Cancel from dropdown', 'error');", true);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                HasError = true;
+            }
+        }
+
+        if (checkedCount == 0)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('No One Checked!', 'Please choose at least one!', 'error');", true);
+        }
+        else if (HasError)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Error!', 'Wrong entry!', 'error');", true);
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
+            BindGrid();
+        }
+
     }
 
 
