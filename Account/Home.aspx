@@ -212,6 +212,7 @@
 
 
         <br />
+        <div id="Hidden1" runat="server">
         <div class="card-container">
 
             <div id="TS" runat="server" class="card border-round1 animationC1" style="background-color: #0a4a71">
@@ -465,8 +466,50 @@
 
 
 
+        </div> </div>
+    <div class="card-container" id="CODashBoard">
+
+      <div id="Div10" runat="server" class="card border-round1 animationC1" style="background-color: #0a4a71">
+          <div class="card-header cb-style" style="font-size: larger">
+              <h4 style="color: oldlace; font-weight: bold">CO Available Stock</h4>
+          </div>
+          <div class="card-body border-round2">
+              <div class="row">
+                  <div class="col-6">
+                      <i class="fa-solid fa-box fa-rotate-45 fa-3x" style="color: oldlace;"></i>
+                  </div>
+                  <div class="col-6">
+                      <asp:Label runat="server" ID="lblCoAvailableStock" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                  </div>
+              </div>
+          </div>
+          <div class="card-footer">
+              <asp:Label runat="server" ID="Label7" Style="color: oldlace; font-size: 14Px;">CO Available stock in the inventory</asp:Label>
+          </div>
+      </div>
+
+
+      <div id="Div11" runat="server" class="card border-round1 animationC2" style="background-color: #188162">
+          <div class="card-header cb-style" style="font-size: larger">
+              <h4 style="color: oldlace; font-weight: bold">Branch Available Stock</h4>
+          </div>
+          <div class="card-body border-round2">
+              <div class="row">
+                  <div class="col-6">
+                      <i class='fa-solid fa-truck-loading fa-3x' style="color: oldlace;"></i>
+                      <!-- Updated icon -->
+                  </div>
+                  <div class="col-6">
+                      <asp:Label runat="server" ID="lblBranchAvailableStock" Style="color: oldlace; font-size: 30Px;"></asp:Label>
+                  </div>
+              </div>
+          </div>
+          <div class="card-footer">
+              <asp:Label runat="server" ID="Label13" Style="color: oldlace; font-size: 14Px;">Branch Available stock </asp:Label>
+          </div>
+      </div>
+  </div>
         </div>
-    </div>
 
 
     <%-- POPUP Code--%>
