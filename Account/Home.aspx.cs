@@ -11,6 +11,7 @@ using Org.BouncyCastle.Pqc.Crypto.Lms;
 
 
 
+
 public partial class Account_Home : System.Web.UI.Page
 {
     DataSet ds = new DataSet();
@@ -37,8 +38,8 @@ public partial class Account_Home : System.Web.UI.Page
             {
                 Region.Visible = true;
             }
-
-            if (Session["loginType"].ToString() == "B")
+            string[] LowerlevelType = { "B", "CO" };
+            if (LowerlevelType.Contains(Session["loginType"].ToString()))
             {
                 ddlBranch.Visible = false;
                 ddlRegion.Visible = false;
@@ -55,6 +56,7 @@ public partial class Account_Home : System.Web.UI.Page
                 lblRegion.Visible = true;
             }
             Data();
+          
             BindRegion();
             if (Session["loginType"].ToString() == "V")
             {
@@ -509,6 +511,27 @@ public partial class Account_Home : System.Web.UI.Page
 
             }
             VendorDataChart();
+        }
+        else if (Session["loginType"].ToString() == "CO")
+        {
+            Hidden1.Visible = false;
+            string UserCode = Session["UserCode"].ToString();
+
+            string Region = Session["RCode"].ToString();
+            string productID = ddlProduct.SelectedValue;
+
+            if (string.IsNullOrEmpty(productID))
+            {
+                productID = "0";
+            }
+            ds = ISS.DashboardInvoiceCount(UserCode, Region, productID, branchID, RegionName);
+           if(ds.Tables[0].Rows.Count > 0)
+            {
+                string COAvailable = (ds.Tables[0].Rows[0]["CO Available Quantity"]).ToString();
+                string BranchAvailableStock = (ds.Tables[1].Rows[0]["Branch Available Stock"]).ToString();
+                lblCoAvailableStock.Text=COAvailable.ToString();
+                lblBranchAvailableStock.Text=BranchAvailableStock.ToString();
+            }
         }
         else
         {
