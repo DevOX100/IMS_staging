@@ -470,6 +470,7 @@ public partial class Account_Home : System.Web.UI.Page
         }
         if (Session["loginType"].ToString() == "V")
         {
+            Div11.Visible = false;
             string UserCode = Session["UserCode"].ToString();
             string Region = Session["RCode"].ToString();
             string productID=ddlProduct.SelectedValue;
@@ -493,6 +494,9 @@ public partial class Account_Home : System.Web.UI.Page
                 string Delivered = (ds.Tables[8].Rows[0]["Delivered Order"]).ToString();
                 string DamagedStockByVendor = (ds.Tables[9].Rows[0]["Damaged Stock by Vendor"]).ToString();
                 string CppEscalation = (ds.Tables[10].Rows[0]["CPP Escalation"]).ToString();
+                string COAvailable = (ds.Tables.Count > 11 && ds.Tables[11].Rows.Count > 0 && ds.Tables[11].Rows[0]["CO Available Quantity"] != DBNull.Value)
+         ? ds.Tables[11].Rows[0]["CO Available Quantity"].ToString()
+         : "0";
 
 
 
@@ -508,6 +512,7 @@ public partial class Account_Home : System.Web.UI.Page
                 lblDeliveredStocks.Text = Delivered.ToString();
                 lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
                 lblCPPEscalation.Text = CppEscalation.ToString();
+                lblCoAvailableStock.Text = COAvailable.ToString();
 
             }
             VendorDataChart();
@@ -515,6 +520,8 @@ public partial class Account_Home : System.Web.UI.Page
         else if (Session["loginType"].ToString() == "CO")
         {
             Hidden1.Visible = false;
+            Div6.Visible = false;
+            Div5.Visible = false;
             string UserCode = Session["UserCode"].ToString();
 
             string Region = Session["RCode"].ToString();
@@ -527,7 +534,10 @@ public partial class Account_Home : System.Web.UI.Page
             ds = ISS.DashboardInvoiceCount(UserCode, Region, productID, branchID, RegionName);
            if(ds.Tables[0].Rows.Count > 0)
             {
-                string COAvailable = (ds.Tables[0].Rows[0]["CO Available Quantity"]).ToString();
+                string COAvailable = (ds.Tables.Count > 11 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["CO Available Quantity"] != DBNull.Value)
+         ? ds.Tables[0].Rows[0]["CO Available Quantity"].ToString()
+         : "0";
+
                 string BranchAvailableStock = (ds.Tables[1].Rows[0]["Branch Available Stock"]).ToString();
                 lblCoAvailableStock.Text=COAvailable.ToString();
                 lblBranchAvailableStock.Text=BranchAvailableStock.ToString();
@@ -535,7 +545,7 @@ public partial class Account_Home : System.Web.UI.Page
         }
         else
         {
-
+            Div11.Visible = false;
             string UserCode = Session["UserCode"].ToString();
 
             string Region = Session["RCode"].ToString();
@@ -562,6 +572,9 @@ public partial class Account_Home : System.Web.UI.Page
                 string Delivered = (ds.Tables[9].Rows[0]["Delivered Order"]).ToString();
                 string DamagedStockByVendor = (ds.Tables[10].Rows[0]["Damaged Stock by Vendor"]).ToString();
                 string CppEscalation = (ds.Tables[11].Rows[0]["CPP Escalation"]).ToString();
+                string COAvailable = (ds.Tables.Count > 12 && ds.Tables[12].Rows.Count > 0 && ds.Tables[12].Rows[0]["CO Available Quantity"] != DBNull.Value)
+  ? ds.Tables[12].Rows[0]["CO Available Quantity"].ToString()
+  : "0";
 
 
                 lblTotal.Text = Total.ToString();
@@ -576,6 +589,7 @@ public partial class Account_Home : System.Web.UI.Page
                 lblDeliveredStocks.Text = Delivered.ToString();
                 lblDamagedStockByVendor.Text = DamagedStockByVendor.ToString();
                 lblCPPEscalation.Text = CppEscalation.ToString();
+                lblCoAvailableStock.Text = COAvailable.ToString();
             }
         }
 

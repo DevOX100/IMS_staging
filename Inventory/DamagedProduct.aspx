@@ -187,7 +187,7 @@
                                         <asp:Label ID="lblLoanID" runat="server" Text='<%# Eval("LOAN_ID") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Stock Handover Date">
+                                <asp:TemplateField HeaderText="Stock Entry Date">
                                     <ItemTemplate>
                                         <asp:Label ID="lblcreationDate" runat="server" Text='<%# Eval("IS_CreationDate") %>'></asp:Label>
                                     </ItemTemplate>
@@ -200,7 +200,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Stock Handover Date">
                                     <ItemTemplate>
-                                        <asp:Label ID="lblHandoverDate" runat="server" Text='<%# Eval("Handover Date") %>'></asp:Label>
+                                        <asp:Label ID="lblHandoverDate" runat="server" Text='<%# Eval("handoverDate") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
