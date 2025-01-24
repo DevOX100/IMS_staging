@@ -7,6 +7,10 @@ using gsmClasses;
 using QiHe.CodeLib;
 using DeveloperUtilz;
 using Org.BouncyCastle.Tls.Crypto;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Linq;
+
 public partial class IssueStock : System.Web.UI.Page
 {
     Inventory_System ISS = new Inventory_System();
@@ -408,7 +412,21 @@ public partial class IssueStock : System.Web.UI.Page
                         ClientScript.RegisterStartupScript(this.GetType(), "SweetAlert", "swal('Info!', 'Please Upload POD only in PDF!', 'info');", true);
                         return;
                     }
-                    int Amount1 = Convert.ToInt32(txtAmount.Text);
+                    int Amount1=0;
+                    if (string.IsNullOrEmpty(txtAmount.Text) )
+                    {
+                        txtAmount.Text = "0";
+                    }
+                    else if(gvIssue.Columns[4].Visible == false)
+                    {
+                        txtAmount.Text = "0";
+                    }
+                    else
+                    {
+                         Amount1 = Convert.ToInt32(txtAmount.Text);
+
+                    }
+                
                     int UnitPrice = Convert.ToInt32(Amount.Text);
                     int QTY = Convert.ToInt32(Quantity.Text);
                     try
@@ -435,10 +453,7 @@ public partial class IssueStock : System.Web.UI.Page
 
     }
 
-    //protected void ddlProduct_SelectedIndexChanged(object sender, EventArgs e)
-    //{
 
-    //}
 
 
 
@@ -545,24 +560,29 @@ public partial class IssueStock : System.Web.UI.Page
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            // Find the DropDownList in the current row
+            // Bind DropDownList
+           
             DropDownList prdctddl = (DropDownList)e.Row.FindControl("Productddl");
-
-            if (prdctddl != null)
+            if (prdctddl != null && prdctddl.Items.Count == 0)
             {
                 DataSet dsProducts = ISS.GetProductList(Session["UserCode"].ToString());
-
-                // Bind the data to the DropDownList
-                prdctddl.DataSource = dsProducts;
-                prdctddl.DataTextField = "PM_Description1"; // Change "product" to your actual column name for display text
-                prdctddl.DataValueField = "PM_ItemCode1"; // Change "PM_ItemCode1" to your actual column name for value
-                prdctddl.DataBind();
-
-                // Optionally, add a default "Select" item at the first position
-                prdctddl.Items.Insert(0, new ListItem("Select", "0"));
+                if (dsProducts != null && dsProducts.Tables.Count > 0)
+                {
+                    prdctddl.DataSource = dsProducts;
+                    prdctddl.DataTextField = "PM_Description1";
+                    prdctddl.DataValueField = "PM_ItemCode1";
+                    prdctddl.DataBind();
+                    prdctddl.Items.Insert(0, new ListItem("Select", "0"));
+                }
             }
+          
+
+
         }
+        gvIssue.Columns[4].Visible = false;
+
     }
+
 
     protected void rblGroupID_CheckedChanged(object sender, EventArgs e)
     {
@@ -618,6 +638,149 @@ public partial class IssueStock : System.Web.UI.Page
         {
             BindGrid();
         }
+    }
+
+
+    protected void Productddl_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        // Cast the sender to DropDownList
+        DropDownList productDropDown = (DropDownList)sender;
+
+        // Get the current GridViewRow
+        GridViewRow row = (GridViewRow)productDropDown.NamingContainer;
+
+        // Find the Label and TextBox in the current row
+        Label Amount = (Label)row.FindControl("lblUnitAmount");
+        TextBox EnterAmount = (TextBox)row.FindControl("txtAmount");
+
+        if (Amount != null && EnterAmount != null)
+        {
+            string selectedProductCode = productDropDown.SelectedValue;
+
+            // Query the database to fetch the price
+            string connectionString = ConfigurationManager.ConnectionStrings["Mydatabaseconnection"].ConnectionString;
+            DataTable productData = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "select PM_UnitPrice from ProductMaster where PM_ItemCode1 = @ProductCode";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ProductCode", selectedProductCode);
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        adapter.Fill(productData); // Fill DataTable with results
+                    }
+                }
+            }
+
+            // Ensure the DataTable has rows before using LINQ
+            if (productData.Rows.Count > 0)
+            {
+                // Convert DataTable to IEnumerable<DataRow>
+                var productRows = productData.AsEnumerable();
+
+                // Use LINQ to query the DataTable rows
+                var productPrice = productData.Rows.Cast<DataRow>()
+                      .Select(rowData => rowData["PM_UnitPrice"])
+                      .FirstOrDefault();
+
+
+                // Set default value if price is null
+                int price = productPrice != null ? Convert.ToInt32(productPrice) : 0;
+
+                // Update Label and TextBox
+                Amount.Text = price.ToString("0");
+                EnterAmount.Text = Amount.Text;
+            }
+            else
+            {
+                // No data found, fallback to default values
+                Amount.Text = "0.00";
+                EnterAmount.Text = "0.00";
+            }
+        }
+
+    }
+
+
+
+    protected void ModeOfDisbursement_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DropDownList ddlModeOfDisbursement = (DropDownList)sender;
+        GridViewRow row = (GridViewRow)ddlModeOfDisbursement.NamingContainer;
+        DropDownList ddlModeOfDisbursement1 = (DropDownList)row.FindControl("ModeOfDisbursement");
+        if (ddlModeOfDisbursement1.SelectedValue == "3")
+        {
+            gvIssue.Columns[4].Visible = true;
+        }
+        else
+        {
+            gvIssue.Columns[4].Visible = false;
+        }
+      
+    }
+
+    protected void txtAmount_TextChanged(object sender, EventArgs e)
+    {  // Cast the sender to DropDownList
+        //DropDownList productDropDown = (DropDownList)sender;
+
+        //// Get the current GridViewRow
+        //GridViewRow row = (GridViewRow)productDropDown.NamingContainer;
+
+        //// Find the Label and TextBox in the current row
+        //Label Amount = (Label)row.FindControl("lblUnitAmount");
+        //TextBox EnterAmount = (TextBox)row.FindControl("txtAmount");
+
+        //if (Amount != null && EnterAmount != null)
+        //{
+        //    string selectedProductCode = productDropDown.SelectedValue;
+
+        //    // Query the database to fetch the price
+        //    string connectionString = ConfigurationManager.ConnectionStrings["Mydatabaseconnection"].ConnectionString;
+        //    DataTable productData = new DataTable();
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        string query = "select PM_UnitPrice from ProductMaster where PM_ItemCode1 = @ProductCode";
+        //        using (SqlCommand command = new SqlCommand(query, connection))
+        //        {
+        //            command.Parameters.AddWithValue("@ProductCode", selectedProductCode);
+        //            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+        //            {
+        //                adapter.Fill(productData); // Fill DataTable with results
+        //            }
+        //        }
+        //    }
+
+        //    // Ensure the DataTable has rows before using LINQ
+        //    if (productData.Rows.Count > 0)
+        //    {
+        //        // Convert DataTable to IEnumerable<DataRow>
+        //        var productRows = productData.AsEnumerable();
+
+        //        // Use LINQ to query the DataTable rows
+        //        var productPrice = productData.Rows.Cast<DataRow>()
+        //              .Select(rowData => rowData["PM_UnitPrice"])
+        //              .FirstOrDefault();
+
+
+        //        // Set default value if price is null
+        //        decimal price = productPrice != null ? Convert.ToDecimal(productPrice) : 0;
+
+        //        // Update Label and TextBox
+        //        Amount.Text = price.ToString("0.00");
+        //        EnterAmount.Text = Amount.Text;
+        //    }
+        //    else
+        //    {
+        //        // No data found, fallback to default values
+        //        Amount.Text = "0.00";
+        //        EnterAmount.Text = "0.00";
+        //    }
+        //}
+
+
     }
 }
 
