@@ -374,7 +374,8 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Product / Inovice Number / Handover Date">
                                         <ItemTemplate>
-                                            <asp:DropDownList ID="Productddl" runat="server" CssClass="form-control border border-dark" ValidationGroup="ABC">
+                                              <asp:Label id="lblUnitAmount" runat="server" Visible="false" Text='<%#Eval("PM_UnitPrice") %>'></asp:Label>
+                                            <asp:DropDownList ID="Productddl" OnSelectedIndexChanged="Productddl_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="form-control border border-dark" ValidationGroup="ABC">
                                             </asp:DropDownList>
                                             <asp:RequiredFieldValidator ID="ProdDropDWN" runat="server" ControlToValidate="Productddl" ErrorMessage="Kindly select Product" Font-Bold="true" Font-Size="small" ForeColor="red"
                                                 Display="Dynamic" ValidationGroup="ABC" Enabled="false" InitialValue="0"></asp:RequiredFieldValidator>
@@ -393,7 +394,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Mode of disbursement/Application Received Stage">
                                         <ItemTemplate>
-                                            <asp:DropDownList ID="ModeOfDisbursement" CssClass="form-control border border-dark" runat="server" ValidationGroup="ABC">
+                                            <asp:DropDownList ID="ModeOfDisbursement" AutoPostBack="true" OnSelectedIndexChanged="ModeOfDisbursement_SelectedIndexChanged" CssClass="form-control border border-dark" runat="server" ValidationGroup="ABC">
                                                 <asp:ListItem Text="Select Mode Of Disbursement" Value="0" />
                                                 <asp:ListItem Text="Loan" Value="1" />
                                                 <asp:ListItem Text="QR Code" Value="2" />
@@ -420,7 +421,8 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Amount">
                                         <ItemTemplate>
-                                            <asp:TextBox ID="txtAmount" runat="server" Width="180" CssClass="form-control border border-dark"
+                                          
+                                            <asp:TextBox ID="txtAmount" OnTextChanged="txtAmount_TextChanged" runat="server" Width="180"  CssClass="form-control border border-dark"
                                                 placeholder="Enter Amount" TextMode="SingleLine" ValidationGroup="ABC"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="rfvAmount" Enabled="false" runat="server" ControlToValidate="txtAmount" Font-Size="small"
                                                 ForeColor="red" ErrorMessage="Amount is Required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
