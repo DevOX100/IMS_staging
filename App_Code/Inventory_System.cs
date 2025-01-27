@@ -1541,4 +1541,21 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[3] = new SqlParameter("@usercode", usercode);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_ModifyCODetails", param);
     }
+    public DataSet GetProductMappingWithCODetails(string COID)
+    {
+        param = new SqlParameter[1];
+        param[0] = new SqlParameter("@COID", COID);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_GetProductMappingWithCODetails", param);
+    }
+
+    public DataSet ProductMappingWithCO(int ID, int CRecQuantity, string CRecBy, string Remarks)
+    {
+        param = new SqlParameter[4];
+        param[0] = new SqlParameter("@ID", ID);
+        param[1] = new SqlParameter("@CRecQuantity", CRecQuantity);
+        param[2] = new SqlParameter("@CRecBy", CRecBy);
+        param[3] = new SqlParameter("@Remarks", Remarks);
+        ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_ProductMappingWithCO", param);
+        return ds;
+    }
 }
