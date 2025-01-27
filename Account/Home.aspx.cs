@@ -534,7 +534,7 @@ public partial class Account_Home : System.Web.UI.Page
             ds = ISS.DashboardInvoiceCount(UserCode, Region, productID, branchID, RegionName);
            if(ds.Tables[0].Rows.Count > 0)
             {
-                string COAvailable = (ds.Tables.Count > 11 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["CO Available Quantity"] != DBNull.Value)
+                string COAvailable = (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0]["CO Available Quantity"] != DBNull.Value)
          ? ds.Tables[0].Rows[0]["CO Available Quantity"].ToString()
          : "0";
 
