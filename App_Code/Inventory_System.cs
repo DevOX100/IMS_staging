@@ -633,9 +633,9 @@ public class Inventory_System : db
         return ds;
     }
      public DataSet IssueStock(string IS_CustID, string IS_Name, string IS_Product, string IS_Branch, string IS_SpouseName, string IS_MobileNO, string POD, string IS_InvoiceNO,
-   int IS_Quantity, string IS_UserType, DateTime? HandoverDate, string IS_LoanID, string IS_PaymentMode, int IS_Amount,string IS_ApplicationReceivedStage)
+   int IS_Quantity, string IS_UserType, DateTime? HandoverDate, string IS_LoanID, string IS_PaymentMode, int IS_Amount,string IS_ApplicationReceivedStage,string UserCode)
  {
-     param = new SqlParameter[15];
+     param = new SqlParameter[16];
      param[0] = new SqlParameter("@IS_CustID", IS_CustID);
      param[1] = new SqlParameter("@IS_Name", IS_Name);
      param[2] = new SqlParameter("@IS_Product", IS_Product);
@@ -652,6 +652,7 @@ public class Inventory_System : db
      param[13] = new SqlParameter("@IS_Amount", IS_Amount);
      //param[14] = new SqlParameter("@IS_ModeOfDisburseMent", IS_ModeOfDisburseMent);
      param[14] = new SqlParameter("@IS_ApplicationReceivedStage", IS_ApplicationReceivedStage);
+     param[15] = new SqlParameter("@UserCode", UserCode);
      try
      {
 

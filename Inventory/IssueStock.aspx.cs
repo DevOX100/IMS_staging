@@ -47,7 +47,7 @@ public partial class IssueStock : System.Web.UI.Page
     }
     protected void BindGrid()
     {
-        string branchID = Session["UserCode"].ToString();
+        string branchID = Session["BranchID"].ToString();
         string IS_CustID = txtSearch.Text;
         string LoanID = txtLoanID.Text;
         string CenterID = txtCenter.Text;
@@ -144,6 +144,7 @@ public partial class IssueStock : System.Web.UI.Page
         string Is_ApplicationReceivedStage = ApplicationReceivedStage.SelectedItem.Text;
         int IS_Amount = Convert.ToInt32(textAmount.Text);
         string POD = " ";
+        string usercode = Session["UserCode"].ToString();
         if (fupImage.HasFile)
         {
             if (ff.GetFileSizeWithExtention(fupImage.FileName, Convert.ToDouble(fupImage.FileBytes.LongLength), 1048576, "pdf"))
@@ -181,7 +182,7 @@ public partial class IssueStock : System.Web.UI.Page
         {
 
 
-            ds = ISS.IssueStock(IS_CustID, IS_Name, IS_Product, IS_Branch, IS_SpouseName, IS_MobileNO, POD, IS_InvoiceNO, IS_Quantity, IS_UserType, IS_WarrantyDate, IS_LoanID, IS_PaymentMode, IS_Amount, Is_ApplicationReceivedStage);
+            ds = ISS.IssueStock(IS_CustID, IS_Name, IS_Product, IS_Branch, IS_SpouseName, IS_MobileNO, POD, IS_InvoiceNO, IS_Quantity, IS_UserType, IS_WarrantyDate, IS_LoanID, IS_PaymentMode, IS_Amount, Is_ApplicationReceivedStage, usercode);
             ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Product has been saved!', 'success');", true);
             cleardata();
         }
@@ -429,11 +430,12 @@ public partial class IssueStock : System.Web.UI.Page
                 
                     int UnitPrice = Convert.ToInt32(Amount.Text);
                     int QTY = Convert.ToInt32(Quantity.Text);
+                    string usercode = Session["UserCode"].ToString();
                     try
                     {
 
 
-                        ds = ISS.IssueStock(custID, fName, IMSProductID, Bnch, Sname, Mnumber, POD, Invoice, QTY, IS_UserType, IS_WarrantyDate, loanID, ddlModeOfDisbursement.SelectedItem.Text, Amount1, ddlApplicationReceivedStage.SelectedItem.Text);
+                        ds = ISS.IssueStock(custID, fName, IMSProductID, Bnch, Sname, Mnumber, POD, Invoice, QTY, IS_UserType, IS_WarrantyDate, loanID, ddlModeOfDisbursement.SelectedItem.Text, Amount1, ddlApplicationReceivedStage.SelectedItem.Text,usercode);
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Product has been Issued!', 'success');", true);
                         gvIssue.DataSource = null;
                         gvIssue.DataBind();
@@ -459,7 +461,7 @@ public partial class IssueStock : System.Web.UI.Page
 
     protected void btnSearch_Click(object sender, EventArgs e)
     {
-        string BranchID = Session["UserCode"].ToString();
+        string BranchID = Session["BranchID"].ToString();
         ds = ISS.usp_FinpageCustExistOrNot(txtSearch.Text, "null", "null", "null", BranchID);
         if (ds.Tables[0].Rows.Count == 0)
         {
