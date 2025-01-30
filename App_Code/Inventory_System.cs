@@ -1524,8 +1524,17 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         param[3] = new SqlParameter("@PMC_BQuantity", PMC_BQuantity);
 
         param[4] = new SqlParameter("@PMC_MappedBy", PMC_MappedBy);
+        try
+        {
 
-        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_insertINProductMappingWIthCO", param);
+            return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "INV_insertINProductMappingWIthCO", param);
+        }
+        catch (SqlException ex)
+        {
+            throw new Exception("Please check the Data as: " + ex.Message);
+        }
+
+        
     }
     public DataSet INV_TransferCO(string UserCode)
     {
@@ -1549,14 +1558,34 @@ public DataTable stockAdjustment(DateTime FromDate, DateTime ToDate, string Bran
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_GetProductMappingWithCODetails", param);
     }
 
-    public DataSet ProductMappingWithCO(int ID, int CRecQuantity, string CRecBy, string Remarks)
+    public DataSet ProductMappingWithCO(int ID, int CRecQuantity, string CRecBy, string Remarks, string branch_id, int product_id)
     {
-        param = new SqlParameter[4];
+        param = new SqlParameter[6];
         param[0] = new SqlParameter("@ID", ID);
         param[1] = new SqlParameter("@CRecQuantity", CRecQuantity);
         param[2] = new SqlParameter("@CRecBy", CRecBy);
         param[3] = new SqlParameter("@Remarks", Remarks);
+        param[4] = new SqlParameter("@branch_id", branch_id);
+        param[5] = new SqlParameter("@product_id", product_id);
         ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_ProductMappingWithCO", param);
         return ds;
+    }
+    public DataSet returnProductByCO(string COID)
+    {
+        param = new SqlParameter[1];
+        param[0] = new SqlParameter("@COID", COID);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_returnProductByCO", param);
+    }
+
+    public DataSet ModifyProductStockByCO(int ID, int ReturnStock, string ReturnRemarks, string ReturnBy, string branch_id, int product_id)
+    {
+        param = new SqlParameter[6];
+        param[0] = new SqlParameter("@ID", ID);
+        param[1] = new SqlParameter("@ReturnStock", ReturnStock);
+        param[2] = new SqlParameter("@ReturnRemarks", ReturnRemarks);
+        param[3] = new SqlParameter("@ReturnBy", ReturnBy);
+        param[4] = new SqlParameter("@branch_id", branch_id);
+        param[5] = new SqlParameter("@product_id", product_id);
+        return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_ModifyProductStockByCO", param);
     }
 }

@@ -58,6 +58,8 @@ public partial class COProcess_COStockReceivingConfirmation : System.Web.UI.Page
                         TextBox CORecQuantity = ((TextBox)gvCORecStock.Rows[i].FindControl("txtRecQuantity"));
                         TextBox VRemarks = ((TextBox)gvCORecStock.Rows[i].FindControl("txtRecRemarks"));
                         Label BranchSendQty = ((Label)gvCORecStock.Rows[i].FindControl("lblBQty"));
+                        Label BranchID = ((Label)gvCORecStock.Rows[i].FindControl("lblBranchID"));
+                        Label ProductID = ((Label)gvCORecStock.Rows[i].FindControl("lblProductID"));
 
 
                         if (CORecQuantity.Text == null || CORecQuantity.Text == "")
@@ -69,21 +71,25 @@ public partial class COProcess_COStockReceivingConfirmation : System.Web.UI.Page
                         int CRecQuantity = Convert.ToInt32(CORecQuantity.Text);
                         string Remarks = VRemarks.Text;
                         int BSendQty = Convert.ToInt32(BranchSendQty.Text);
+                        string branch_id = BranchID.Text;
+                        int product_id = Convert.ToInt32(ProductID.Text);
 
 
                         if (CRecQuantity > BSendQty)
                         {
-                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Info!', 'You can not receive quantity more than Branch mapped stock', 'info');", true);
+                            ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Info!', 'You can not receive quantity more than Branch Mapped stock', 'info');", true);
                             return;
                         }
                         else
                         {
-                            ISS.ProductMappingWithCO(ID, CRecQuantity, CRecBy, Remarks);
+                            ISS.ProductMappingWithCO(ID, CRecQuantity, CRecBy, Remarks, branch_id, product_id);
                         }
                         ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Submitted', 'success');", true);
-                        BindGrid();
+                      
                     }
                 }
+
+                BindGrid();
             }
 
         }
@@ -91,7 +97,7 @@ public partial class COProcess_COStockReceivingConfirmation : System.Web.UI.Page
 
     protected void chkAction_CheckedChanged(object sender, EventArgs e)
     {
-        System.Web.UI.WebControls.CheckBox chkAction = sender as System.Web.UI.WebControls.CheckBox;
+        CheckBox chkAction = sender as CheckBox;
         GridViewRow currentRow = chkAction.NamingContainer as GridViewRow;
         RequiredFieldValidator rfvQnty = gvCORecStock.Rows[currentRow.RowIndex].FindControl("rfvQnty") as RequiredFieldValidator;
         RequiredFieldValidator frvRmrks = gvCORecStock.Rows[currentRow.RowIndex].FindControl("frvRmrks") as RequiredFieldValidator;
