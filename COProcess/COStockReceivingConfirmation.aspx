@@ -3,8 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
-    <br />
-
     <div class="card">
         <div class="card-header bold h4 text-white" style="background-color: #3a4f63">
             CO Stock Receiving Confirmation

@@ -100,7 +100,16 @@ public partial class COProcess_StockMappingToCo : System.Web.UI.Page
                 if (!string.IsNullOrEmpty(bcode))
                 {
                    
-                    ds = ISS.INV_insertINProductMappingWIthCO(branchID, productType, bcode, quantity, userCode);
+                   
+                    try
+                    {
+
+                        ds = ISS.INV_insertINProductMappingWIthCO(branchID, productType, bcode, quantity, userCode);
+                    }
+                    catch (Exception ex)
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Invalid!', '" + ex.Message.Replace("'", "\\'") + "', 'error');", true);
+                    }
                 }
             }
             ScriptManager.RegisterStartupScript(this, GetType(), "SweetAlert", "swal('Done!', 'Product is added in the product list!', 'success');", true);
