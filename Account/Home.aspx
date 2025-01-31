@@ -381,7 +381,7 @@
 
             <div id="DivAvailable" runat="server" class="card border-round1 animationC5" style="background-color: #42ae5a">
                 <div class="card-header cb-style" style="font-size: larger">
-                    <h4 style="color: oldlace; font-weight: bold">Not Delivered Stocks</h4>
+                    <h4 style="color: oldlace; font-weight: bold">Pending orders yet to delivered</h4>
                 </div>
                 <div class="card-body border-round2">
                     <div class="row">
@@ -425,7 +425,7 @@
 
             <div id="Div5" runat="server" class="card border-round1 animationC4" style="background-color: red">
                 <div class="card-header cb-style" style="font-size: larger">
-                    <h4 style="color: oldlace; font-weight: bold">Damaged Stock</h4>
+                    <h4 style="color: oldlace; font-weight: bold">Damaged Stock on Arrival</h4>
                 </div>
                 <div class="card-body border-round2">
                     <div class="row">

@@ -365,8 +365,9 @@ Packages/
 env.config
 Upload/
 Bin/
-
-
+ Bin/HarfBuzzSharp.xml
+ Bin/SkiaSharp.xml
+ Bin/System.Interactive.xml
 
 
 
