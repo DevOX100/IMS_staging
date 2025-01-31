@@ -87,14 +87,14 @@
 
     <div class="card">
         <div class="card-header bold h4 text-white" style="background-color: #3a4f63">
-            Issue stock 
+            Handover stock 
         </div>
         <div class="card-body">
             <blockquote class="blockquote mb-0">
                 <div class="form">
                     <label>
                         <asp:RadioButton ID="RadioButton" runat="server" GroupName="customer" AutoPostBack="true" OnCheckedChanged="RadioButton_CheckedChanged" />
-                        <span>New Customer</span>
+                        <span>Walking Customer</span>
                     </label>
                     <label>
                         <asp:RadioButton ID="RadioButton2" runat="server" GroupName="customer" AutoPostBack="true" OnCheckedChanged="RadioButton2_CheckedChanged" />
@@ -137,9 +137,10 @@
                                     <label for="Application" class="col-form-label bold">Application Received Stage : <span style="color: red">*</span></label>
                                     <asp:DropDownList ID="ApplicationReceivedStage" CssClass="form-control border border-dark" runat="server" ValidationGroup="ABC">
                                         <asp:ListItem Text="Select Application Received Stage" Value="0" />
-                                        <asp:ListItem Text="GFM/GRT" Value="1" />
-                                        <asp:ListItem Text="Disbursement of Business loan" Value="2" />
-                                        <asp:ListItem Text="Centre meeting" Value="3" />
+                                        <asp:ListItem Text="GFM/CGT Stage" Value="1" />
+                                        <asp:ListItem Text="GRET Stage" Value="2" />
+                                        <asp:ListItem Text="Disbursement process Stage" Value="3" />
+                                        <asp:ListItem Text="Centre meeting stage" Value="4" />
 
 
                                     </asp:DropDownList>
@@ -350,7 +351,7 @@
                                         <FooterTemplate>
                                             <asp:UpdatePanel ID="UpdatePO" runat="server">
                                                 <ContentTemplate>
-                                                    <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server"  CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Approved</asp:LinkButton>
+                                                    <asp:LinkButton ID="lnkApprove" ForeColor="White" runat="server" CssClass="btn btn-sm btn-success" ValidationGroup="ABC" CommandName="Submit" CommandArgument='<%# Eval("CUST_ID") %>'>Approved</asp:LinkButton>
                                                 </ContentTemplate>
                                                 <Triggers>
                                                     <asp:PostBackTrigger ControlID="lnkApprove" />
@@ -374,7 +375,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Product / Inovice Number / Handover Date">
                                         <ItemTemplate>
-                                              <asp:Label id="lblUnitAmount" runat="server" Visible="false" Text='<%#Eval("PM_UnitPrice") %>'></asp:Label>
+                                            <asp:Label ID="lblUnitAmount" runat="server" Visible="false" Text='<%#Eval("PM_UnitPrice") %>'></asp:Label>
                                             <asp:DropDownList ID="Productddl" OnSelectedIndexChanged="Productddl_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="form-control border border-dark" ValidationGroup="ABC">
                                             </asp:DropDownList>
                                             <asp:RequiredFieldValidator ID="ProdDropDWN" runat="server" ControlToValidate="Productddl" ErrorMessage="Kindly select Product" Font-Bold="true" Font-Size="small" ForeColor="red"
@@ -401,19 +402,20 @@
                                                 <asp:ListItem Text="Cash" Value="3" />
 
 
-                                            </asp:DropDownList> 
-                                            <asp:RequiredFieldValidator ID="rfc2" Enabled="false"  runat="server" ControlToValidate="ModeOfDisbursement" ErrorMessage="Kindly Select Mode of Disbursement" ForeColor="red"
+                                            </asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="rfc2" Enabled="false" runat="server" ControlToValidate="ModeOfDisbursement" ErrorMessage="Kindly Select Mode of Disbursement" ForeColor="red"
                                                 Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
                                             <br />
                                             <asp:DropDownList ID="ApplicationReceivedStage" CssClass="form-control border border-dark" runat="server" ValidationGroup="ABC">
                                                 <asp:ListItem Text="Select Application Received Stage" Value="0" />
-                                                <asp:ListItem Text="GFM/GRT" Value="1" />
-                                                <asp:ListItem Text="Disbursement of Business loan" Value="2" />
-                                                <asp:ListItem Text="Centre meeting" Value="3" />
+                                                <asp:ListItem Text="GFM/CGT Stage" Value="1" />
+                                                <asp:ListItem Text="GRET Stage" Value="2" />
+                                                <asp:ListItem Text="Disbursement process Stage" Value="3" />
+                                                <asp:ListItem Text="Centre meeting stage" Value="4" />
 
 
                                             </asp:DropDownList>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" Enabled="false"  runat="server" ControlToValidate="ApplicationReceivedStage" ErrorMessage="Kindly Select Application Received Stage" ForeColor="red"
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" Enabled="false" runat="server" ControlToValidate="ApplicationReceivedStage" ErrorMessage="Kindly Select Application Received Stage" ForeColor="red"
                                                 Display="Dynamic" ValidationGroup="ABC" InitialValue="0"></asp:RequiredFieldValidator>
 
 
@@ -421,8 +423,8 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Amount">
                                         <ItemTemplate>
-                                          
-                                            <asp:TextBox ID="txtAmount" OnTextChanged="txtAmount_TextChanged" runat="server" Width="180"  CssClass="form-control border border-dark"
+
+                                            <asp:TextBox ID="txtAmount" OnTextChanged="txtAmount_TextChanged" runat="server" Width="180" CssClass="form-control border border-dark"
                                                 placeholder="Enter Amount" TextMode="SingleLine" ValidationGroup="ABC"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="rfvAmount" Enabled="false" runat="server" ControlToValidate="txtAmount" Font-Size="small"
                                                 ForeColor="red" ErrorMessage="Amount is Required." Display="Dynamic" ValidationGroup="ABC" Font-Bold="true"></asp:RequiredFieldValidator>
