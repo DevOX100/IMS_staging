@@ -163,6 +163,8 @@
                                     <ItemTemplate>
                                         <asp:Label ID="RemainingSsock" runat="server" Text='<%#Eval("DamageQuantity")%>'></asp:Label><br />
                                         <asp:Label ID="Rremarks" runat="server" Text='<%#Eval("bis_damageStock_Remarks")%>'></asp:Label>
+                                        <br />
+                                        <asp:Label ID="lblDamageValue" runat="server" Text='<%#Eval("BIS_DamageReceiveStockValue")%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Received Stock/Remarks">
@@ -210,6 +212,20 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Damage Quantity/Remarks">
                                     <ItemTemplate>
+                                                <asp:DropDownList ID="ddlDamageStockValue" CssClass="form-control border border-dark" runat="server" ValidationGroup="Branch">
+            <asp:ListItem Text="Select Damage Values" Value="0" />
+            <asp:ListItem Text="Master box Damaged" Value="1" />
+            <asp:ListItem Text="Wet Condition" Value="2" />
+            <asp:ListItem Text="POD & Physically count mismatch" Value="3" />
+            <asp:ListItem Text="Master belt & tape break" Value="4" />
+            <asp:ListItem Text="Physically damaged" Value="5" />
+            <asp:ListItem Text="Missing unit" Value="6" />
+    
+
+
+        </asp:DropDownList>
+     
+<br />
                                         <asp:TextBox ID="txtDamageQuantity" runat="server" CssClass="form-control border border-dark" MaxLength="3" OnTextChanged="txtDamageQuantity_TextChanged" placeholder="Damaged Quantity" Width="180px" ></asp:TextBox><br />
                                         <br />
                                         <asp:TextBox ID="txtDamageRemarks" runat="server" CssClass="form-control border border-dark" placeholder="Enter Remarks" Width="180px" TextMode="MultiLine"></asp:TextBox>

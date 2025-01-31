@@ -134,7 +134,12 @@ public partial class Inventory_BranchReceivedStock : System.Web.UI.Page
                         Label PrdctID = ((Label)gvBranchRecStock.Rows[i].FindControl("lblProductID"));
                         Label VendorSendQty = ((Label)gvBranchRecStock.Rows[i].FindControl("lblVSendQty"));
                         Label RecStock = ((Label)gvBranchRecStock.Rows[i].FindControl("RecStock"));
-                        
+                        DropDownList ddlDamageType = ((DropDownList)gvBranchRecStock.Rows[i].FindControl("ddlDamageStockValue"));
+                        string DamageType = ddlDamageType.SelectedItem.Text;
+                        if (string.IsNullOrEmpty(DamageType))
+                        {
+                            DamageType="No Value Selected";
+                        }
                         if(RecStock.Text == null || RecStock.Text == "")
                         {
                             RecStock.Text = "0";
@@ -222,7 +227,7 @@ public partial class Inventory_BranchReceivedStock : System.Web.UI.Page
                                 {
                                     pdf = MergePDFs(uploadedFileNames);
                                     ISS.usp_ModifyBranchReceiveStock(stock_receivedBY, stock_received_quantity, receiver_remarks, ID, ProductID,
-                                    VendorCode, BranchID, DamageStockRemarks, DamageQuantity, IsPartial, IsClosed, pdf);
+                                    VendorCode, BranchID, DamageStockRemarks, DamageQuantity, IsPartial, IsClosed, pdf, DamageType);
                                     foreach (string file in uploadedFileNames)
                                     {
                                         if (file != pdf)
@@ -234,7 +239,7 @@ public partial class Inventory_BranchReceivedStock : System.Web.UI.Page
                                 else
                                 {
                                     ISS.usp_ModifyBranchReceiveStock(stock_receivedBY, stock_received_quantity, receiver_remarks, ID, ProductID,
-                                    VendorCode, BranchID, DamageStockRemarks, DamageQuantity, IsPartial, IsClosed, POD);
+                                    VendorCode, BranchID, DamageStockRemarks, DamageQuantity, IsPartial, IsClosed, POD, DamageType);
 
                                 }
 

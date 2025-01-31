@@ -517,9 +517,9 @@ public class Inventory_System : db
 
     public DataSet usp_ModifyBranchReceiveStock(string stock_receivedBY, int stock_received_quantity,
       string receiver_remarks, int ID, string ProductID, string VendorCode, string BranchID, string DamageStockRemarks, int DamageQuantity, bool IsPartial,
-      bool IsClosed, string BIS_BranchPOD)
+      bool IsClosed, string BIS_BranchPOD,string BIS_DamageReceiveStockValue)
     {
-        param = new SqlParameter[12];
+        param = new SqlParameter[13];
         param[0] = new SqlParameter("@stock_receivedBY", stock_receivedBY);
         param[1] = new SqlParameter("@stock_received_quantity", stock_received_quantity);
         param[2] = new SqlParameter("@receiver_remarks", receiver_remarks);
@@ -532,6 +532,7 @@ public class Inventory_System : db
         param[9] = new SqlParameter("@IsPartial", IsPartial);
         param[10] = new SqlParameter("@IsClosed", IsClosed);
         param[11] = new SqlParameter("@BIS_BranchPOD", BIS_BranchPOD);
+        param[12] = new SqlParameter("@BIS_DamageReceiveStockValue", BIS_DamageReceiveStockValue);
         return ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "usp_ModifyBranchReceiveStock", param);
     }
 
