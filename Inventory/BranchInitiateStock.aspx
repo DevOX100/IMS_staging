@@ -86,7 +86,7 @@
                           <%--<asp:BoundField DataField="Stock_status" HeaderText="Stock Status" />--%>
 
 
-                          <asp:TemplateField HeaderText="Request New Stock">
+                          <asp:TemplateField HeaderText="Request New Stock (In figures)">
                               <ItemTemplate>
                                   </br>
 <asp:TextBox ID="txtQuantityBIS" runat="server" CssClass="form-control border border-dark" placeholder="Enter Quantity" Width="180px" MaxLength="3" ValidationGroup="BISS"></asp:TextBox>
